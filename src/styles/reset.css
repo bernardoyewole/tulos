@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+* {
+    margin: 0; 
+    padding: 0;
+    outline: 0;
+    border-style: none;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    font: inherit;   
+}
+
+html, body {
+    height: 100vh;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Montserrat", "sans-serif", Arial, sans-serif;
+    line-height: 1.4;
+    font-weight: 500;
+    color: #2a2a2a;
+}
+
+#root {
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1, h2, h3, h4 {
+    text-wrap: balance;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input {
+    -webkit-appearance: none;
+}
+
+input:focus {
+    outline: none;
+}
