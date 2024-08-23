@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import HeroBanner from "./components/HeroBanner";
 import NewArrival from "./components/NewArrival";
+import NewStore from "./components/NewStore";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <HeroBanner />
       <NewArrival />
+      <NewStore />
     </div>
   );
 }

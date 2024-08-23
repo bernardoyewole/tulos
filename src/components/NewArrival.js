@@ -107,9 +107,9 @@ function NewArrival() {
     }, []);
 
     return (
-        <section>
+        <section className='pt-20'>
             <h2 className='text-center text-4xl'>NEW ARRIVALS</h2>
-            <p className='text-sm text-gray-400 text-center pb-10'>Our latest collection, where classic and contemporary styles converge in perfect harmony</p>
+            <p className='text-sm text-gray-600 text-center pt-2 pb-10'>Our latest collection, where classic and contemporary styles converge in perfect harmony</p>
             <div className='my-container grid grid-cols-5 gap-4'>
                 {newArrivals.map((arrival) => (
                     <div key={arrival.code}>
@@ -121,6 +121,9 @@ function NewArrival() {
                         <p>${arrival.price.value}</p>
                     </div>
                 ))}
+            </div>
+            <div className='flex justify-center pt-6'>
+                <button className='text-white bg-black py-3 px-10 text-[13px] rounded-full'>Shop Now</button>
             </div>
         </section>
     )
