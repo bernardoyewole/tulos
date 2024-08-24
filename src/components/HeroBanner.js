@@ -1,8 +1,8 @@
 function HeroBanner() {
     return (
         <section className="h-[calc(100%-95px)]">
-            <div className="bg-[url('../images/hero-dark.jpg')] bg-cover h-full">
-                <div className="bg-black/30 h-full flex items-end px-6 py-10">
+            <div className="bg-[url('../images/hero-light.jpg')] bg-cover h-full">
+                <div className="bg-black/20 h-full flex items-end px-6 py-10">
                     <div className="my-container flex flex-col">
                         <h1 className="text-white text-[62px]">TULOS SPRING COLLECTION</h1>
                         <div className="flex justify-between items-center">
