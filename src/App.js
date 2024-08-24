@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header";
-import HeroBanner from "./components/HeroBanner";
-import NewArrival from "./components/NewArrival";
-import NewStore from "./components/NewStore";
-import Featured from './components/Featured';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import Product from './pages/Product';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -16,7 +15,7 @@ function App() {
 
   const options = {
     method: 'GET',
-    url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
+    url: process.env.REACT_APP_API_URL,
     params: {
       country: 'us',
       lang: 'en',
@@ -24,8 +23,8 @@ function App() {
       pagesize: '30',
     },
     headers: {
-      'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-      'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+      'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+      'x-rapidapi-host': process.env.REACT_APP_API_HOST
     }
   };
 
@@ -34,12 +33,11 @@ function App() {
       try {
         const response = await axios.request(options);
         const baseApparel = [...response.data.results];
-        console.log(baseApparel.length);
         setBaseApparel(baseApparel);
 
-        setMenApparel(baseApparel.find(x => x.categoryName === 'Men'));
-        setWomenApparel(baseApparel.find(x => x.categoryName === 'Ladies'));
-        setKidsApparel(baseApparel.find(x => x.categoryName === 'Kids'));
+        // setMenApparel(baseApparel.find(x => x.categoryName === 'Men'));
+        // setWomenApparel(baseApparel.find(x => x.categoryName === 'Ladies'));
+        // setKidsApparel(baseApparel.find(x => x.categoryName === 'Kids'));
 
         updateNewArrivals(baseApparel);
       }
@@ -79,14 +77,14 @@ function App() {
   }, []);
 
   return (
-    <div className="h-full">
+    <Router>
       <Header />
-      <HeroBanner />
-      <NewArrival newArrivals={newArrivals} />
-      <NewStore />
-      <Featured />
+      <Routes>
+        <Route path='/' element={<Home newArrivals={newArrivals} />} />
+        <Route path='/product/:id' element={<Product />} />
+      </Routes>
       <Footer />
-    </div>
+    </Router>
   );
 }
 

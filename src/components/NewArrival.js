@@ -1,6 +1,13 @@
 import { LiaHeart } from "react-icons/lia";
+import { useNavigate } from "react-router-dom";
 
 function NewArrival({ newArrivals }) {
+    const navigate = useNavigate();
+
+    const handleNavigation = (code) => {
+        navigate(`/product/${code}`);
+    }
+
     return (
         <section className='pt-20'>
             <h2 className='text-center text-4xl'>NEW ARRIVALS</h2>
@@ -8,7 +15,7 @@ function NewArrival({ newArrivals }) {
             <div className='my-container grid grid-cols-5 gap-4'>
                 {newArrivals.map((arrival) => (
                     <div key={arrival.code}>
-                        <div className='relative cursor-pointer'>
+                        <div className='relative cursor-pointer' onClick={() => handleNavigation(arrival.articles[0].code)}>
                             <img src={arrival.images[0].baseUrl} alt={arrival.name} />
                             <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
                         </div>
