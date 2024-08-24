@@ -5,6 +5,7 @@ import HeroBanner from "./components/HeroBanner";
 import NewArrival from "./components/NewArrival";
 import NewStore from "./components/NewStore";
 import Featured from './components/Featured';
+import Footer from './components/Footer';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -84,6 +85,7 @@ function App() {
       <NewArrival newArrivals={newArrivals} />
       <NewStore />
       <Featured />
+      <Footer />
     </div>
   );
 }
