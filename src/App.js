@@ -17,7 +17,7 @@ function App() {
     method: 'GET',
     url: process.env.REACT_APP_API_URL,
     params: {
-      country: 'us',
+      country: 'ca',
       lang: 'en',
       currentpage: '0',
       pagesize: '30',
@@ -81,7 +81,7 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home newArrivals={newArrivals} />} />
-        <Route path='/product/:id' element={<Product />} />
+        <Route path='/product/:productCode' element={<Product />} />
       </Routes>
       <Footer />
     </Router>

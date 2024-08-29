@@ -6,10 +6,9 @@ import Gallery from "../components/Gallery"
 
 function Product() {
     const [product, setProduct] = useState(null);
-    const [articleImages, setArticleImages] = useState(null);
+    const [currentArticle, setCurrentArticle] = useState(null);
 
-    const { id } = useParams();
-    // console.log(id);
+    const { productCode } = useParams();
 
     const options = {
         method: 'GET',
@@ -17,7 +16,7 @@ function Product() {
         params: {
             lang: 'en',
             country: 'us',
-            productcode: id
+            productcode: productCode
         },
         headers: {
             'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
@@ -29,19 +28,9 @@ function Product() {
         const fetchProduct = async () => {
             try {
                 const response = await axios.request(options);
-                // console.log(response.data.product.articlesList);
+                const articles = response.data.product.articlesList;
 
-                const articlesList = response.data.product.articlesList;
-
-                const filteredArticles = articlesList.map(article => {
-                    return {
-                        code: article.code,
-                        galleryDetails: article.galleryDetails,
-                        fabricSwatchThumbnails: article.fabricSwatchThumbnails
-                    }
-                });
-
-                setArticleImages(filteredArticles);
+                setCurrentArticle(articles.find(x => x.code === productCode));
                 setProduct(response.data.product);
             } catch (error) {
                 console.error(error);
@@ -51,12 +40,27 @@ function Product() {
         fetchProduct();
     }, []);
 
+    const changeArticle = (code) => {
+        const article = product.articlesList.find(art => art.code === code);
+
+        if (article !== undefined) {
+            setCurrentArticle(article);
+        }
+    }
+
     return (
         <section>
+            {product &&
+                <div className="my-container leading-[1] py-6">
+                    <p>
+                        <span className="text-sm text-gray-700">{product.customerGroup} / </span>
+                        <span className="text-sm text-gray-700">{product.presentationTypes} / </span>
+                        <span className="text-[15px] text-red-600">{product.name}</span>
+                    </p>
+                </div>}
             <div className="my-container flex gap-10">
-                {/* {product category title} */}
-                {articleImages && <Gallery articles={articleImages} />}
-                {product && articleImages && <Detail product={product} articles={articleImages} />}
+                {currentArticle && <Gallery gallery={currentArticle.galleryDetails} />}
+                {product && currentArticle && <Detail product={product} currentArticle={currentArticle} changeArticle={changeArticle} />}
             </div>
         </section>
     )

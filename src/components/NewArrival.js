@@ -2,6 +2,8 @@ import { LiaHeart } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
 
 function NewArrival({ newArrivals }) {
+    console.log(newArrivals);
+
     const navigate = useNavigate();
 
     const handleNavigation = (code) => {
