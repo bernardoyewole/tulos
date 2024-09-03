@@ -6,3 +6,29 @@
     width: min(100% - 30px, 1380px);
     margin-inline: auto;
 }
+
+/* .slick-prev {
+left: -40px !important;
+}
+
+.slick-next {
+right: -40px !important;
+}
+
+.slick-next:before,
+.slick-prev:before {
+content: "" !important;
+} */
+
+.next-slick-arrow,
+.prev-slick-arrow {
+color: #000000;
+font-size: 45px;
+}
+
+.slick-slide > div {
+  margin: 0 4px;
+}
+.slick-list {
+  margin: 0 -4px;
+}

@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TfiHeart } from "react-icons/tfi";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
 
-function Detail({ product, currentArticle, changeArticle }) {
+function Detail({ product, currentArticle, changeArticle, handleHeight }) {
+    const detailRef = useRef(null);
+
     const [expandedSection, setExpandedSection] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [selectedThumbnailCode, setSelectedThumbnailCode] = useState(null);
@@ -34,8 +36,13 @@ function Detail({ product, currentArticle, changeArticle }) {
         }
 
         tempThumbnails.length > 12 ? setThumbnails(tempThumbnails.splice(0, 12)) : setThumbnails(tempThumbnails);
-        console.log('remounted');
+
+        updateHeight();
     }, []);
+
+    const updateHeight = () => {
+        handleHeight(detailRef.current.clientHeight);
+    }
 
     const handleArticleChange = (code) => {
         changeArticle(code);
@@ -49,7 +56,7 @@ function Detail({ product, currentArticle, changeArticle }) {
     }
 
     return (
-        <div className="w-[40%]">
+        <div className="w-[40%]" ref={detailRef}>
             <div className="flex justify-between items-center">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
                 <TfiHeart className='text-gray-700 text-2xl' />
