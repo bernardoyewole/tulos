@@ -6,8 +6,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-function StyleWith({ styleWithList }) {
-    // console.log(styleWithList);
+function OthersBought({ OthersBought }) {
     const navigate = useNavigate();
 
     const handleNavigation = (code) => {
@@ -21,7 +20,6 @@ function StyleWith({ styleWithList }) {
         slidesToShow: 4,
         slidesToScroll: 4,
         swipeToSlide: true,
-        draggable: false,
         nextArrow: (
             <div>
                 <div className="prev-slick-arrow"><PiArrowRightLight /></div>
@@ -61,29 +59,21 @@ function StyleWith({ styleWithList }) {
 
     return (
         <section className="my-container my-20">
-            <h2 className="font-semibold text-lg pb-4">Style With</h2>
+            <h2 className="font-semibold text-lg pb-4">Others Also Bought</h2>
             <Slider {...settings}>
-                {styleWithList.map((style) => {
-                    if (!style) return null;
-                    return (
-                        <div key={style.code}>
-                            <div className='relative cursor-pointer' onClick={() => handleNavigation(style.code)}>
-                                {style.articlesList && style.articlesList.length > 0 && style.articlesList[0].fabricSwatchThumbnails.length > 0 && (
-                                    <img
-                                        src={style.articlesList.find(x => x.code === style.code).fabricSwatchThumbnails[0].baseUrl}
-                                        alt={style.name}
-                                    />
-                                )}
-                                <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
-                            </div>
-                            <p className='pt-2 text-[13px]'>{style.name}</p>
-                            <p>${style.whitePrice?.price}</p>
+                {OthersBought.map((item) => (
+                    <div key={item.code}>
+                        <div className='relative cursor-pointer' onClick={() => handleNavigation(item.defaultArticle.code)}>
+                            <img src={item.defaultArticle.images[0].baseUrl} alt={item.name} />
+                            <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
                         </div>
-                    );
-                })}
+                        <p className='pt-2 text-[13px]'>{item.name}</p>
+                        <p>${item.whitePrice.value}</p>
+                    </div>
+                ))}
             </Slider>
         </section>
     )
 }
 
-export default StyleWith
+export default OthersBought

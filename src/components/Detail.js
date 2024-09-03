@@ -38,7 +38,7 @@ function Detail({ product, currentArticle, changeArticle, handleHeight }) {
         tempThumbnails.length > 12 ? setThumbnails(tempThumbnails.splice(0, 12)) : setThumbnails(tempThumbnails);
 
         updateHeight();
-    }, []);
+    }, [product]);
 
     const updateHeight = () => {
         handleHeight(detailRef.current.clientHeight);
@@ -47,8 +47,8 @@ function Detail({ product, currentArticle, changeArticle, handleHeight }) {
     const handleArticleChange = (code) => {
         changeArticle(code);
         setSelectedThumbnailCode(code);
-        console.log(currentArticle);
-        console.log(product);
+        // console.log(currentArticle);
+        // console.log(product);
     }
 
     const handleSizeChange = (name) => {

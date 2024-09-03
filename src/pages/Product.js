@@ -5,12 +5,14 @@ import Bottleneck from "bottleneck";
 import Detail from "../components/Detail";
 import Gallery from "../components/Gallery";
 import StyleWith from "../components/StyleWith";
+import OthersBought from "../components/OthersBought";
 
 function Product() {
     const [product, setProduct] = useState(null);
     const [currentArticle, setCurrentArticle] = useState(null);
     const [sectionHeight, setSectionHeight] = useState(null);
     const [styleWithProducts, setStyleWithProducts] = useState([]);
+    const [OthersBoughtList, setOthersBoughtList] = useState([]);
 
     const { productCode } = useParams();
 
@@ -85,10 +87,38 @@ function Product() {
             }
         };
 
+        const fetchOthersBought = async () => {
+            try {
+                console.log(product.mainCategory.code)
+                const response = await axios.request({
+                    method: 'GET',
+                    url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
+                    params: {
+                        country: 'us',
+                        lang: 'en',
+                        currentpage: '0',
+                        pagesize: '10',
+                        categories: product.mainCategory.code
+                    },
+                    headers: {
+                        'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
+                        'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+                    }
+                });
+                console.log(response.data.results);
+                setOthersBoughtList(response.data.results);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         fetchStyleWithProducts();
+        fetchOthersBought();
     }, [product]);
 
-    // Change article based on the selected code
+    useEffect(() => {
+    }, [OthersBoughtList, styleWithProducts]);
+
     const changeArticle = (code) => {
         const article = product.articlesList.find(art => art.code === code);
         if (article !== undefined) {
@@ -129,6 +159,7 @@ function Product() {
                 )}
             </div>
             {styleWithProducts.length > 0 && <StyleWith styleWithList={styleWithProducts} />}
+            {OthersBought.length > 0 && <OthersBought OthersBought={OthersBoughtList} />}
         </section>
     );
 }
