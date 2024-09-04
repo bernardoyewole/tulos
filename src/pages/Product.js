@@ -2,17 +2,20 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Bottleneck from "bottleneck";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import Detail from "../components/Detail";
 import Gallery from "../components/Gallery";
 import StyleWith from "../components/StyleWith";
 import OthersBought from "../components/OthersBought";
+import { motion } from 'framer-motion';
 
 function Product() {
     const [product, setProduct] = useState(null);
     const [currentArticle, setCurrentArticle] = useState(null);
-    const [sectionHeight, setSectionHeight] = useState(null);
     const [styleWithProducts, setStyleWithProducts] = useState([]);
     const [OthersBoughtList, setOthersBoughtList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const { productCode } = useParams();
 
@@ -30,7 +33,6 @@ function Product() {
         }
     };
 
-    // Setup Bottleneck limiter
     const limiter = new Bottleneck({
         maxConcurrent: 5, // Max 5 requests running at the same time
         minTime: 200 // Minimum time between each request (200ms for approx 5 requests per second)
@@ -80,7 +82,6 @@ function Product() {
                     .filter(result => result.status === 'fulfilled')
                     .map(result => result.value.data.product);
 
-                // Set the fetched styleWith products in the state
                 setStyleWithProducts(products);
             } catch (error) {
                 console.error(error);
@@ -89,7 +90,6 @@ function Product() {
 
         const fetchOthersBought = async () => {
             try {
-                console.log(product.mainCategory.code)
                 const response = await axios.request({
                     method: 'GET',
                     url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
@@ -105,7 +105,7 @@ function Product() {
                         'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
                     }
                 });
-                console.log(response.data.results);
+
                 setOthersBoughtList(response.data.results);
             } catch (error) {
                 console.error(error);
@@ -114,10 +114,15 @@ function Product() {
 
         fetchStyleWithProducts();
         fetchOthersBought();
+        console.log(currentArticle, styleWithProducts);
     }, [product]);
 
+
     useEffect(() => {
-    }, [OthersBoughtList, styleWithProducts]);
+        if (product && currentArticle && styleWithProducts.length > 0 && OthersBoughtList.length > 0) {
+            setIsLoading(false);
+        }
+    }, [product, currentArticle, styleWithProducts, OthersBoughtList]);
 
     const changeArticle = (code) => {
         const article = product.articlesList.find(art => art.code === code);
@@ -126,40 +131,124 @@ function Product() {
         }
     };
 
-    // Update the section height
-    const handleHeight = (detailSectionHeight) => {
-        setSectionHeight(detailSectionHeight);
-    };
-
-    // React to section height changes
-    useEffect(() => {
-        handleHeight(sectionHeight);
-    }, [sectionHeight]);
-
     return (
         <section>
-            {product && (
-                <div className="my-container leading-[1] py-6">
-                    <p>
-                        <span className="text-sm text-gray-700">{product.customerGroup} / </span>
-                        <span className="text-sm text-gray-700">{product.presentationTypes} / </span>
-                        <span className="text-[15px] text-red-600">{product.name}</span>
-                    </p>
+            {isLoading ? (
+                <div className="my-container leading-[1] py-6 flex gap-2">
+                    <Skeleton width={90} height={20} className="inline-block" />
+                    <Skeleton width={90} height={20} className="inline-block" />
+                    <Skeleton width={90} height={20} className="inline-block text-red-600" />
                 </div>
+            ) : (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }} // Duration of the fade-in effect
+                >
+                    <div className="my-container leading-[1] py-6">
+                        <p>
+                            <span className="text-sm text-gray-700">{product.customerGroup} / </span>
+                            <span className="text-sm text-gray-700">{product.presentationTypes} / </span>
+                            <span className="text-[15px] text-red-600">{product.name}</span>
+                        </p>
+                    </div>
+                </motion.div>
             )}
-            <div className="my-container flex gap-10">
-                {currentArticle && <Gallery gallery={currentArticle.galleryDetails} height={sectionHeight} />}
-                {product && currentArticle && (
-                    <Detail
-                        product={product}
-                        currentArticle={currentArticle}
-                        changeArticle={changeArticle}
-                        handleHeight={handleHeight}
-                    />
+
+            <div className="my-container flex gap-10 w-full">
+                {isLoading ? (
+                    <Skeleton height={500} containerClassName="w-[60%]" />
+                ) : (
+                    product && currentArticle && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1 }}
+                            className="w-[60%]"
+                        >
+                            <Gallery gallery={currentArticle.galleryDetails} />
+                        </motion.div>
+                    )
+                )}
+
+                {isLoading ? (
+                    <Skeleton height={500} containerClassName="w-[40%]" />
+                ) : (
+                    product && currentArticle && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1 }}
+                            className="w-[40%]"
+                        >
+                            <Detail
+                                product={product}
+                                currentArticle={currentArticle}
+                                changeArticle={changeArticle}
+                            />
+                        </motion.div>
+                    )
                 )}
             </div>
-            {styleWithProducts.length > 0 && <StyleWith styleWithList={styleWithProducts} />}
-            {OthersBought.length > 0 && <OthersBought OthersBought={OthersBoughtList} />}
+
+            {/* <div className="my-container flex gap-10">
+                {isLoading ? (
+                    <Skeleton height={500} containerClassName="w-[50%]" />
+                ) : (
+                    currentArticle && <Gallery gallery={currentArticle.galleryDetails} />
+                )}
+
+                {isLoading ? (
+                    <Skeleton height={500} containerClassName="w-[50%]" />
+                ) : (
+                    product && currentArticle && (
+                        <Detail
+                            product={product}
+                            currentArticle={currentArticle}
+                            changeArticle={changeArticle}
+                        />
+                    )
+                )}
+            </div> */}
+            {isLoading ? (
+                <div className="my-container grid grid-cols-5 gap-4 pt-10">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <div key={`styleWith-skeleton-${index}`}>
+                            <Skeleton height={300} width="100%" className="rounded" />
+                            <Skeleton width={100} height={20} className="mt-2" />
+                            <Skeleton width={50} height={20} />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                >
+                    {styleWithProducts.length > 0 && <StyleWith styleWithList={styleWithProducts} />}
+                </motion.div>
+            )}
+
+            {isLoading ? (
+                <div className="my-container grid grid-cols-5 gap-4 pt-10">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <div key={`othersBought-skeleton-${index}`}>
+                            <Skeleton height={300} width="100%" className="rounded" />
+                            <Skeleton width={100} height={20} className="mt-2" />
+                            <Skeleton width={50} height={20} />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                >
+                    {OthersBoughtList.length > 0 && <OthersBought OthersBought={OthersBoughtList} />}
+                </motion.div>
+            )}
         </section>
     );
 }

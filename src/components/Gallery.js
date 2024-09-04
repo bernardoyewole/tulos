@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react"
+import { AsyncImage } from 'loadable-image'
 
 function Gallery({ gallery }) {
     return (
-        <div className='grid grid-cols-2 gap-1 w-[60%]'>
+        <div className='grid grid-cols-2 gap-1'>
             {gallery && gallery.map((gallery, index) => (
                 <div key={gallery.id}>
-                    <img src={gallery.baseUrl} />
+                    <AsyncImage
+                        src={gallery.baseUrl}
+                        style={{ width: '100%', height: "auto", aspectRatio: 9 / 16 }}
+                        loader={<div style={{ background: '#ededed' }} />}
+                    />
                 </div>
             ))}
         </div>

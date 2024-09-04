@@ -14,7 +14,6 @@ function Home({ newArrivals }) {
         <>
             <HeroBanner />
             {isLoading ? (
-                // Show loading skeletons while waiting for newArrivals
                 <section className="pt-20">
                     <h2 className="text-center text-4xl">
                         <Skeleton width={200} />

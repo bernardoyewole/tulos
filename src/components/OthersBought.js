@@ -11,6 +11,11 @@ function OthersBought({ OthersBought }) {
 
     const handleNavigation = (code) => {
         navigate(`/product/${code}`);
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
 
     const settings = {

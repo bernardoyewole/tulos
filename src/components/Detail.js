@@ -3,15 +3,14 @@ import { TfiHeart } from "react-icons/tfi";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
+import { AsyncImage } from 'loadable-image'
+import { Blur, Grow, Slide } from 'transitions-kit'
 
-function Detail({ product, currentArticle, changeArticle, handleHeight }) {
-    const detailRef = useRef(null);
-
+function Detail({ product, currentArticle, changeArticle }) {
     const [expandedSection, setExpandedSection] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [selectedThumbnailCode, setSelectedThumbnailCode] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
-
     const toggleExpand = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
     };
@@ -37,12 +36,7 @@ function Detail({ product, currentArticle, changeArticle, handleHeight }) {
 
         tempThumbnails.length > 12 ? setThumbnails(tempThumbnails.splice(0, 12)) : setThumbnails(tempThumbnails);
 
-        updateHeight();
     }, [product]);
-
-    const updateHeight = () => {
-        handleHeight(detailRef.current.clientHeight);
-    }
 
     const handleArticleChange = (code) => {
         changeArticle(code);
@@ -56,7 +50,7 @@ function Detail({ product, currentArticle, changeArticle, handleHeight }) {
     }
 
     return (
-        <div className="w-[40%]" ref={detailRef}>
+        <div>
             <div className="flex justify-between items-center">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
                 <TfiHeart className='text-gray-700 text-2xl' />
@@ -69,10 +63,12 @@ function Detail({ product, currentArticle, changeArticle, handleHeight }) {
                 <div className="flex mt-4 gap-2 flex-wrap">
                     {thumbnails && thumbnails.length > 0 &&
                         thumbnails.map(thumbnail => (
-                            <img
+                            <AsyncImage
                                 key={thumbnail.id}
                                 src={thumbnail.baseUrl}
-                                className={`w-16 border cursor-pointer ${selectedThumbnailCode === thumbnail.code ? 'border-black' : 'border'}`}
+                                style={{ width: '64px', height: "auto", aspectRatio: 9 / 16 }}
+                                loader={<div style={{ background: '#ededed' }} />}
+                                className={`border cursor-pointer ${selectedThumbnailCode === thumbnail.code ? 'border-black' : 'border'}`}
                                 onClick={() => handleArticleChange(thumbnail.code)}
                             />
                         ))

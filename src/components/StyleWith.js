@@ -7,11 +7,15 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 function StyleWith({ styleWithList }) {
-    // console.log(styleWithList);
     const navigate = useNavigate();
 
     const handleNavigation = (code) => {
         navigate(`/product/${code}`);
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
 
     const settings = {
