@@ -143,7 +143,7 @@ function Product() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }} // Duration of the fade-in effect
+                    transition={{ duration: 1 }}
                 >
                     <div className="my-container leading-[1] py-6">
                         <p>
@@ -191,25 +191,6 @@ function Product() {
                 )}
             </div>
 
-            {/* <div className="my-container flex gap-10">
-                {isLoading ? (
-                    <Skeleton height={500} containerClassName="w-[50%]" />
-                ) : (
-                    currentArticle && <Gallery gallery={currentArticle.galleryDetails} />
-                )}
-
-                {isLoading ? (
-                    <Skeleton height={500} containerClassName="w-[50%]" />
-                ) : (
-                    product && currentArticle && (
-                        <Detail
-                            product={product}
-                            currentArticle={currentArticle}
-                            changeArticle={changeArticle}
-                        />
-                    )
-                )}
-            </div> */}
             {isLoading ? (
                 <div className="my-container grid grid-cols-5 gap-4 pt-10">
                     {Array.from({ length: 5 }).map((_, index) => (

@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header";
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Product from './pages/Product';
+import Explore from './pages/Explore'
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
-  const [menApparel, setMenApparel] = useState(null);
-  const [womenApparel, setWomenApparel] = useState(null);
-  const [kidsApparel, setKidsApparel] = useState(null);
+  const [categories, setCategories] = useState([]);
 
-  const options = {
+  const optionsBaseApparel = {
     method: 'GET',
     url: process.env.REACT_APP_API_URL,
     params: {
@@ -28,18 +28,38 @@ function App() {
     }
   };
 
+  const optionsCategory = {
+    method: 'GET',
+    url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/categories/list',
+    params: {
+      lang: 'en',
+      country: 'us'
+    },
+    headers: {
+      'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
+      'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+    }
+  };
+
   useEffect(() => {
     const fetchBaseApparel = async () => {
       try {
-        const response = await axios.request(options);
+        const response = await axios.request(optionsBaseApparel);
         const baseApparel = [...response.data.results];
         setBaseApparel(baseApparel);
-
-        // setMenApparel(baseApparel.find(x => x.categoryName === 'Men'));
-        // setWomenApparel(baseApparel.find(x => x.categoryName === 'Ladies'));
-        // setKidsApparel(baseApparel.find(x => x.categoryName === 'Kids'));
-
         updateNewArrivals(baseApparel);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.request(optionsCategory);
+        const categories = [...response.data];
+        const filteredCategories = categories.filter(cat => cat.tagCodes.length > 0).filter(cat => cat.CatName !== 'Divided' && cat.CatName !== 'Beauty' && cat.CatName !== 'Sport')
+        setCategories(filteredCategories);
       }
       catch (error) {
         console.error(error);
@@ -73,17 +93,22 @@ function App() {
       setNewArrivals(validNewArrivals);
     }
 
+
     fetchBaseApparel();
+    fetchCategories();
   }, []);
 
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home newArrivals={newArrivals} />} />
-        <Route path='/product/:productCode' element={<Product />} />
-      </Routes>
-      <Footer />
+      <ScrollToTop>
+        <Header categories={categories} />
+        <Routes>
+          <Route path='/' element={<Home newArrivals={newArrivals} />} />
+          <Route path='/product/:productCode' element={<Product />} />
+          <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
+        </Routes>
+        <Footer />
+      </ScrollToTop>
     </Router>
   );
 }

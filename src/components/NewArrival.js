@@ -1,15 +1,7 @@
 import { LiaHeart } from "react-icons/lia";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function NewArrival({ newArrivals }) {
-    console.log(newArrivals);
-
-    const navigate = useNavigate();
-
-    const handleNavigation = (code) => {
-        navigate(`/product/${code}`);
-    }
-
     return (
         <section className='pt-20'>
             <h2 className='text-center text-4xl'>NEW ARRIVALS</h2>
@@ -17,10 +9,10 @@ function NewArrival({ newArrivals }) {
             <div className='my-container grid grid-cols-5 gap-4'>
                 {newArrivals.map((arrival) => (
                     <div key={arrival.code}>
-                        <div className='relative cursor-pointer' onClick={() => handleNavigation(arrival.articles[0].code)}>
-                            <img src={arrival.images[0].baseUrl} alt={arrival.name} />
+                        <Link to={`/product/${arrival.articles[0].code}`} className='relative block'>
+                            <img src={arrival.images[0].baseUrl} alt={arrival.name} className="cursor-pointer" />
                             <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
-                        </div>
+                        </Link>
                         <p className='pt-2 text-[13px]'>{arrival.name}</p>
                         <p>${arrival.price.value}</p>
                     </div>
@@ -30,7 +22,7 @@ function NewArrival({ newArrivals }) {
                 <button className='text-white bg-black py-3 px-10 text-[13px] rounded-full'>Shop Now</button>
             </div>
         </section>
-    )
+    );
 }
 
 export default NewArrival;
