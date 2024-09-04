@@ -25,9 +25,8 @@ function Header({ categories }) {
                         <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Kids')}>Kids</a></li>
                         <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Home')}>Home</a></li>
 
-                        <div className="dropdown-content absolute top-[60px] p-10 hidden backdrop-blur-sm bg-black/50 text-white shadow-lg dropdown-container z-10 group-hover:block transition-all ease-in-out duration-300">
+                        <div className="dropdown-content absolute top-[60px] p-10 hidden backdrop-blur-sm bg-black/60 text-white shadow-lg dropdown-container z-10 group-hover:block transition-all ease-in-out duration-300">
                             <div className="flex gap-16">
-                                {/* {console.log(categories.length > 0 && categories.find(cat => cat.CatName === currentMenu).CategoriesArray)} */}
                                 {categories.length > 0 && categories.find(cat => cat.CatName === currentMenu).CategoriesArray.map(category => (
                                     category.CategoriesArray?.length > 0 &&
                                     <div key={uuidv4()}>
