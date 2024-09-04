@@ -25,3 +25,12 @@ font-size: 45px;
     width: min(100vw - 30px, 1380px);
     margin-inline: auto;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

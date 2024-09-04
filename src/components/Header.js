@@ -35,7 +35,7 @@ function Header({ categories }) {
                                         <ul className="flex flex-col gap-3">
                                             {category.CategoriesArray?.map(subcategory => (
                                                 <li key={uuidv4()} className="text-sm capitalize">
-                                                    <Link to={`explore/${currentMenu}/${category.CatName}/${subcategory.tagCodes[0]}`}>{subcategory.CatName}</Link>
+                                                    <Link to={`explore/${currentMenu}/${category.CatName}/${subcategory.CatName}`}>{subcategory.CatName}</Link>
                                                 </li>
                                             ))}
                                         </ul>
