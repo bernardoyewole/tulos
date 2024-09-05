@@ -14,19 +14,20 @@ function Explore({ categories }) {
     const [relatedClasses, setRelatedClasses] = useState([]);
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [currentPage, setCurrentPage] = useState(0);
+    const [maxProducts, setMaxProducts] = useState(null);
+    const [progress, setProgress] = useState(null);
     const { menu, category, subcategory } = useParams();
     const navigate = useNavigate();
 
-    // Fetch products based on class code
     const fetchProducts = async (classCode) => {
         try {
             const response = await axios.get('https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list', {
                 params: {
                     country: 'us',
                     lang: 'en',
-                    currentpage: '0',
-                    pagesize: '32',
+                    currentpage: currentPage,
+                    pagesize: '30',
                     categories: classCode
                 },
                 headers: {
@@ -34,7 +35,11 @@ function Explore({ categories }) {
                     'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
                 }
             });
-            setProducts(response.data.results);
+
+            setMaxProducts(response.data.pagination.totalNumberOfResults);
+
+            let results = response.data.results;
+            setProducts([...products, ...results]);
         } catch (error) {
             console.error(error);
         }
@@ -66,7 +71,7 @@ function Explore({ categories }) {
         if (currentClass && currentClass.tagCodes.length > 0) {
             fetchProducts(currentClass.tagCodes[0]);
         }
-    }, [currentClass]);
+    }, [currentClass, currentPage]);
 
     useEffect(() => {
         if (currentClass && products.length > 0) {
@@ -86,6 +91,14 @@ function Explore({ categories }) {
             behavior: 'smooth'
         });
     }
+
+    const handleLoadMore = () => {
+        setCurrentPage(prevPage => prevPage + 1);
+    }
+
+    useEffect(() => {
+        setProgress((products.length / maxProducts) * 100);
+    }, [products, maxProducts])
 
     return (
         <section className="my-container">
@@ -156,6 +169,13 @@ function Explore({ categories }) {
                                             src={product.defaultArticle.logoPicture[0].baseUrl}
                                             style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                             loader={<div style={{ background: '#ededed' }} />}
+                                            error={
+                                                <AsyncImage
+                                                    src={product.defaultArticle.images[0].baseUrl}
+                                                    style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                                    loader={<div style={{ background: '#ededed' }} />}
+                                                />
+                                            }
                                         />
                                         <LiaHeart className='absolute top-3 right-4 text-gray-600 text-2xl ' />
                                     </div>
@@ -167,6 +187,16 @@ function Explore({ categories }) {
                     </motion.div>
                 )
             )}
+            <div className="text-center mt-8">
+                <p className="mb-4 text-sm text-red-600">You've viewed {products.length} of {maxProducts} products</p>
+                <div className="w-[40%] bg-gray-200 h-1 mb-5 mx-auto">
+                    <div className="bg-red-600 h-1" style={{ width: `${progress}%` }}></div>
+                </div>
+                <button className="bg-black text-white py-4 px-8 hover:bg-gray-800 transition-colors" onClick={handleLoadMore}>
+                    LOAD MORE
+                </button>
+            </div>
+
         </section>
     );
 }
