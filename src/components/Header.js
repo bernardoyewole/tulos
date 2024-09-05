@@ -7,7 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 function Header({ categories }) {
     const navigate = useNavigate();
 
-    const [currentMenu, setCurrentMenu] = useState('Women');
+    const [currentMenu, setCurrentMenu] = useState('');
+
+    const handleMouseLeave = () => {
+        setCurrentMenu('');
+    };
 
     return (
         <>
@@ -18,22 +22,30 @@ function Header({ categories }) {
             </div>
             <div className="my-container">
                 <nav className="flex justify-between items-center h-[60px] leading-[60px]">
-                    <ul className="flex gap-4 group relative">
-                        <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Women')}>Women</a></li>
-                        <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Men')}>Men</a></li>
-                        <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Baby')}>Baby</a></li>
-                        <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Kids')}>Kids</a></li>
-                        <li><a className="inline-block" onMouseOver={() => setCurrentMenu('Home')}>Home</a></li>
+                    <ul className="flex gap-4 group relative" onMouseLeave={handleMouseLeave}>
+                        {['Women', 'Men', 'Baby', 'Kids', 'Home'].map(menu => (
+                            <li key={menu}>
+                                <a
+                                    className={`inline-block hover:underline underline-offset-4 ${currentMenu === menu && 'underline'}`}
+                                    onMouseOver={() => setCurrentMenu(menu)}
+                                >
+                                    {menu}
+                                </a>
+                            </li>
+                        ))}
 
-                        <div className="dropdown-content absolute top-[60px] p-10 hidden backdrop-blur-sm bg-black/60 text-white shadow-lg dropdown-container z-10 group-hover:block transition-all ease-in-out duration-300">
+                        <div
+                            className="dropdown-content absolute top-[60px] p-10 hidden backdrop-blur-sm bg-black/60 text-white shadow-lg dropdown-container z-10 group-hover:block transition-all ease-in-out duration-300"
+                            onMouseLeave={handleMouseLeave}
+                        >
                             <div className="flex gap-16">
-                                {categories.length > 0 && categories.find(cat => cat.CatName === currentMenu).CategoriesArray.map(category => (
+                                {categories.length > 0 && categories.find(cat => cat.CatName === currentMenu)?.CategoriesArray.map(category => (
                                     category.CategoriesArray?.length > 0 &&
                                     <div key={uuidv4()}>
                                         <h2>{category.CatName}</h2>
                                         <ul className="flex flex-col gap-3">
                                             {category.CategoriesArray?.map(subcategory => (
-                                                <li key={uuidv4()} className="text-sm capitalize">
+                                                <li key={uuidv4()} className="text-sm capitalize" onClick={handleMouseLeave}>
                                                     <Link to={`explore/${currentMenu}/${category.CatName}/${subcategory.CatName}`}>{subcategory.CatName}</Link>
                                                 </li>
                                             ))}
@@ -54,8 +66,7 @@ function Header({ categories }) {
                 </nav>
             </div>
         </>
-
-    )
+    );
 }
 
-export default Header
+export default Header;
