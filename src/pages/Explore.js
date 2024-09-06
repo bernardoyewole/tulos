@@ -93,7 +93,9 @@ function Explore({ categories }) {
     }
 
     const handleLoadMore = () => {
-        setCurrentPage(prevPage => prevPage + 1);
+        if (products.length < maxProducts) {
+            setCurrentPage(prevPage => prevPage + 1);
+        }
     }
 
     useEffect(() => {
@@ -174,6 +176,13 @@ function Explore({ categories }) {
                                                     src={product.defaultArticle.images[0].baseUrl}
                                                     style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                     loader={<div style={{ background: '#ededed' }} />}
+                                                    error={
+                                                        <AsyncImage
+                                                            src={product.galleryImages[0].baseUrl}
+                                                            style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                                            loader={<div style={{ background: '#ededed' }} />}
+                                                        />
+                                                    }
                                                 />
                                             }
                                         />
@@ -192,7 +201,14 @@ function Explore({ categories }) {
                 <div className="w-[40%] bg-gray-200 h-1 mb-5 mx-auto">
                     <div className="bg-red-600 h-1" style={{ width: `${progress}%` }}></div>
                 </div>
-                <button className="bg-black text-white py-4 px-8 hover:bg-gray-800 transition-colors" onClick={handleLoadMore}>
+                <button
+                    className={`bg-black text-white py-4 px-8 transition-colors ${products.length > maxProducts
+                        ? 'cursor-not-allowed opacity-70'
+                        : 'hover:bg-gray-800'
+                        }`}
+                    onClick={handleLoadMore}
+                    disabled={products.length > maxProducts}
+                >
                     LOAD MORE
                 </button>
             </div>

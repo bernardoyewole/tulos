@@ -5,6 +5,7 @@ import { PiArrowRightLight } from "react-icons/pi";
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { AsyncImage } from 'loadable-image';
 
 function OthersBought({ OthersBought }) {
     const navigate = useNavigate();
@@ -69,7 +70,18 @@ function OthersBought({ OthersBought }) {
                 {OthersBought.map((item) => (
                     <div key={item.code}>
                         <div className='relative cursor-pointer' onClick={() => handleNavigation(item.defaultArticle.code)}>
-                            <img src={item.defaultArticle.images[0].baseUrl} alt={item.name} />
+                            <AsyncImage
+                                src={item.defaultArticle.images[0].baseUrl} alt={item.name}
+                                style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                loader={<div style={{ background: '#ededed' }} />}
+                                error={
+                                    <AsyncImage
+                                        src={item.galleryImages[0].baseUrl}
+                                        style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                        loader={<div style={{ background: '#ededed' }} />}
+                                    />
+                                }
+                            />
                             <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
                         </div>
                         <p className='pt-2 text-[13px]'>{item.name}</p>

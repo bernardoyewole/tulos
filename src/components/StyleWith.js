@@ -5,6 +5,7 @@ import { PiArrowRightLight } from "react-icons/pi";
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { AsyncImage } from 'loadable-image';
 
 function StyleWith({ styleWithList }) {
     const navigate = useNavigate();
@@ -73,9 +74,24 @@ function StyleWith({ styleWithList }) {
                         <div key={style.code}>
                             <div className='relative cursor-pointer' onClick={() => handleNavigation(style.code)}>
                                 {style.articlesList && style.articlesList.length > 0 && style.articlesList[0].fabricSwatchThumbnails.length > 0 && (
-                                    <img
+                                    <AsyncImage
                                         src={style.articlesList.find(x => x.code === style.code).fabricSwatchThumbnails[0].baseUrl}
-                                        alt={style.name}
+                                        style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                        loader={<div style={{ background: '#ededed' }} />}
+                                        error={
+                                            <AsyncImage
+                                                src={style.articlesList.find(x => x.code === style.code).galleryDetails[0].baseUrl}
+                                                style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                                loader={<div style={{ background: '#ededed' }} />}
+                                                error={
+                                                    <AsyncImage
+                                                        src={style.articlesList.find(x => x.code === style.code).galleryDetails[1].baseUrl}
+                                                        style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                                        loader={<div style={{ background: '#ededed' }} />}
+                                                    />
+                                                }
+                                            />
+                                        }
                                     />
                                 )}
                                 <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
