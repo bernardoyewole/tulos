@@ -13,14 +13,16 @@ function Explore({ categories }) {
     const [currentClass, setCurrentClass] = useState(null);
     const [relatedClasses, setRelatedClasses] = useState([]);
     const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isPageLoading, setIsPageLoading] = useState(true);
+    const [isProductsLoading, setIsProductsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [maxProducts, setMaxProducts] = useState(null);
     const [progress, setProgress] = useState(null);
+
     const { menu, category, subcategory } = useParams();
     const navigate = useNavigate();
 
-    const fetchProducts = async (classCode) => {
+    const fetchProducts = async (classCode, reset = false) => {
         try {
             const response = await axios.get('https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list', {
                 params: {
@@ -39,7 +41,7 @@ function Explore({ categories }) {
             setMaxProducts(response.data.pagination.totalNumberOfResults);
 
             let results = response.data.results;
-            setProducts([...products, ...results]);
+            setProducts(reset ? results : [...products, ...results]);
         } catch (error) {
             console.error(error);
         }
@@ -48,6 +50,8 @@ function Explore({ categories }) {
     // Update states based on URL parameters
     useEffect(() => {
         if (categories.length > 0) {
+            resetPage();
+
             let currentCategory = categories.find(c => c.CatName === menu);
             let currentSubcategory = currentCategory?.CategoriesArray?.find(c => c.CatName === category);
             let subcategoryClass = currentSubcategory?.CategoriesArray?.find(c => c.CatName === subcategory);
@@ -56,7 +60,7 @@ function Explore({ categories }) {
                 setBaseClass(subcategoryClass);
                 setRelatedClasses(subcategoryClass.CategoriesArray || []);
                 setCurrentClass(subcategoryClass);
-                fetchProducts(subcategoryClass.tagCodes[0]);
+                fetchProducts(subcategoryClass.tagCodes[0], true);
 
                 if (subcategoryClass.CategoryValue === 'view-all') {
                     let related = currentSubcategory.CategoriesArray.filter(subCat => subCat.CategoryValue !== 'view-all') || [];
@@ -75,13 +79,30 @@ function Explore({ categories }) {
 
     useEffect(() => {
         if (currentClass && products.length > 0) {
-            setIsLoading(false);
+            setIsPageLoading(false);
+            setIsProductsLoading(false);
         }
+        // else if (currentClass && products.length === 0) {
+        //     let validTagCode = currentClass.tagCodes.find(x => x.includes(`${currentClass.CatName.toLowerCase()}`));
+        //     fetchProducts(validTagCode);
+        // }
     }, [currentClass, products]);
 
+    useEffect(() => {
+        setProgress((products.length / maxProducts) * 100);
+        // console.log(products);
+    }, [products, maxProducts]);
+
     const handleClassChange = (classObj) => {
+        resetPage();
         setCurrentClass(classObj);
     };
+
+    const resetPage = () => {
+        setIsProductsLoading(true);
+        setCurrentPage(0);
+        setProducts([]);
+    }
 
     const handleNavigation = (code) => {
         navigate(`/product/${code}`);
@@ -98,13 +119,9 @@ function Explore({ categories }) {
         }
     }
 
-    useEffect(() => {
-        setProgress((products.length / maxProducts) * 100);
-    }, [products, maxProducts])
-
     return (
         <section className="my-container">
-            {isLoading ? (
+            {isPageLoading ? (
                 <div>
                     <Skeleton width={300} height={36} className="mb-4" />
                     <div className="flex gap-2">
@@ -146,7 +163,7 @@ function Explore({ categories }) {
                 )
             )}
 
-            {isLoading ? (
+            {(isPageLoading || isProductsLoading) ? (
                 <div className="grid grid-cols-4 gap-x-4 gap-y-12 mt-6">
                     {Array.from({ length: 8 }).map((_, index) => (
                         <div key={index} className="flex flex-col items-start">
@@ -176,13 +193,13 @@ function Explore({ categories }) {
                                                     src={product.defaultArticle.images[0].baseUrl}
                                                     style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                     loader={<div style={{ background: '#ededed' }} />}
-                                                    error={
-                                                        <AsyncImage
-                                                            src={product.galleryImages[0].baseUrl}
-                                                            style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                                            loader={<div style={{ background: '#ededed' }} />}
-                                                        />
-                                                    }
+                                                // error={
+                                                //     <AsyncImage
+                                                //         src={product.galleryImages[0].baseUrl}
+                                                //         style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                                //         loader={<div style={{ background: '#ededed' }} />}
+                                                //     />
+                                                // }
                                                 />
                                             }
                                         />
@@ -190,6 +207,29 @@ function Explore({ categories }) {
                                     </div>
                                     <p className='pt-2 text-[13px]'>{product.name}</p>
                                     <p>${product.whitePrice.value}</p>
+                                    {product.rgbColors && product.rgbColors.length > 0 && (
+                                        <div className="flex items-center space-x-1 h-4">
+                                            {product.rgbColors.length <= 3 ? (
+                                                product.rgbColors.map(color => (
+                                                    <div
+                                                        key={uuidv4()}
+                                                        className="h-2 w-2 border border-black"
+                                                        style={{ backgroundColor: `${color}` }}
+                                                    ></div>
+                                                ))
+                                            ) : (
+                                                <>
+                                                    {product.rgbColors.slice(0, 3).map(color => (
+                                                        <div
+                                                            key={uuidv4()}
+                                                            className="h-2 w-2 border border-black"
+                                                            style={{ backgroundColor: `${color}` }}                                                        ></div>
+                                                    ))}
+                                                    <span className="text-[13px] leading-[1]">{`+${product.rgbColors.length - 3}`}</span>
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -202,12 +242,12 @@ function Explore({ categories }) {
                     <div className="bg-red-600 h-1" style={{ width: `${progress}%` }}></div>
                 </div>
                 <button
-                    className={`bg-black text-white py-4 px-8 transition-colors ${products.length > maxProducts
+                    className={`bg-black text-white py-4 px-8 transition-colors ${products.length === maxProducts
                         ? 'cursor-not-allowed opacity-70'
                         : 'hover:bg-gray-800'
                         }`}
                     onClick={handleLoadMore}
-                    disabled={products.length > maxProducts}
+                    disabled={products.length === maxProducts}
                 >
                     LOAD MORE
                 </button>

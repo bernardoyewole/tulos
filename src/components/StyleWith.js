@@ -83,13 +83,13 @@ function StyleWith({ styleWithList }) {
                                                 src={style.articlesList.find(x => x.code === style.code).galleryDetails[0].baseUrl}
                                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                 loader={<div style={{ background: '#ededed' }} />}
-                                                error={
-                                                    <AsyncImage
-                                                        src={style.articlesList.find(x => x.code === style.code).galleryDetails[1].baseUrl}
-                                                        style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                                        loader={<div style={{ background: '#ededed' }} />}
-                                                    />
-                                                }
+                                            // error={
+                                            //     <AsyncImage
+                                            //         src={style.articlesList.find(x => x.code === style.code).galleryDetails[1].baseUrl}
+                                            //         style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                            //         loader={<div style={{ background: '#ededed' }} />}
+                                            //     />
+                                            // }
                                             />
                                         }
                                     />
