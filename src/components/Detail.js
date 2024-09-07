@@ -71,7 +71,7 @@ function Detail({ product, currentArticle, changeArticle }) {
                                 error={
                                     <AsyncImage
                                         key={thumbnail.id}
-                                        src={product.articlesList.find(x => x.code === thumbnail.code).galleryDetails[1].baseUrl}
+                                        src={product.articlesList.find(x => x.code === currentArticle.code).galleryDetails[1].baseUrl}
                                         style={{ width: '64px', height: "auto", aspectRatio: 9 / 16 }}
                                         loader={<div style={{ background: '#ededed' }} />}
                                         className={`border cursor-pointer ${selectedThumbnailCode === thumbnail.code ? 'border-black' : 'border'}`}

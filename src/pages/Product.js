@@ -59,8 +59,12 @@ function Product() {
 
         const fetchStyleWithProducts = async () => {
             try {
+                let validArticle = product.articlesList.find(article => article.styleWith.every(style => style.code !== currentArticle.code) && article.styleWith.length > 0);
+
+                if (validArticle === undefined) return
+
                 // Prepare requests with Bottleneck
-                const requests = product.articlesList[0].styleWith.map((style) =>
+                const requests = validArticle?.styleWith.map((style) =>
                     limiter.schedule(() => axios.request({
                         method: 'GET',
                         url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/detail',
@@ -114,15 +118,14 @@ function Product() {
 
         fetchStyleWithProducts();
         fetchOthersBought();
-        console.log(currentArticle, styleWithProducts);
     }, [product]);
 
 
     useEffect(() => {
-        if (product && currentArticle && styleWithProducts.length > 0 && OthersBoughtList.length > 0) {
+        if (product && currentArticle) {
             setIsLoading(false);
         }
-    }, [product, currentArticle, styleWithProducts, OthersBoughtList]);
+    }, [product, currentArticle]);
 
     const changeArticle = (code) => {
         const article = product.articlesList.find(art => art.code === code);
@@ -207,7 +210,7 @@ function Product() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    {styleWithProducts.length > 0 && <StyleWith styleWithList={styleWithProducts} />}
+                    {styleWithProducts.length > 1 && <StyleWith styleWithList={styleWithProducts} />}
                 </motion.div>
             )}
 

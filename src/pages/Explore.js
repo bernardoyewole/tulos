@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { LiaHeart } from "react-icons/lia";
 import { AsyncImage } from 'loadable-image';
@@ -38,10 +38,16 @@ function Explore({ categories }) {
                 }
             });
 
-            setMaxProducts(response.data.pagination.totalNumberOfResults);
-
             let results = response.data.results;
-            setProducts(reset ? results : [...products, ...results]);
+
+            if (results.length > 0) {
+                setProducts(reset ? results : [...products, ...results]);
+                setMaxProducts(response.data.pagination.totalNumberOfResults);
+            }
+            else {
+                let validTagCode = currentClass.tagCodes.find(x => x.includes(`${currentClass.CatName.toLowerCase()}`));
+                fetchProducts(validTagCode);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -82,15 +88,10 @@ function Explore({ categories }) {
             setIsPageLoading(false);
             setIsProductsLoading(false);
         }
-        // else if (currentClass && products.length === 0) {
-        //     let validTagCode = currentClass.tagCodes.find(x => x.includes(`${currentClass.CatName.toLowerCase()}`));
-        //     fetchProducts(validTagCode);
-        // }
     }, [currentClass, products]);
 
     useEffect(() => {
         setProgress((products.length / maxProducts) * 100);
-        // console.log(products);
     }, [products, maxProducts]);
 
     const handleClassChange = (classObj) => {
@@ -102,15 +103,6 @@ function Explore({ categories }) {
         setIsProductsLoading(true);
         setCurrentPage(0);
         setProducts([]);
-    }
-
-    const handleNavigation = (code) => {
-        navigate(`/product/${code}`);
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
     }
 
     const handleLoadMore = () => {
@@ -183,7 +175,7 @@ function Explore({ categories }) {
                         <div className="grid grid-cols-4 gap-x-4 gap-y-12 mt-6">
                             {products.map(product => (
                                 <div key={product.code}>
-                                    <div className='relative cursor-pointer' onClick={() => handleNavigation(product.defaultArticle.code)}>
+                                    <Link to={`/product/${product.defaultArticle.code}`} className='relative cursor-pointer'>
                                         <AsyncImage
                                             src={product.defaultArticle.logoPicture[0].baseUrl}
                                             style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
@@ -193,37 +185,40 @@ function Explore({ categories }) {
                                                     src={product.defaultArticle.images[0].baseUrl}
                                                     style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                     loader={<div style={{ background: '#ededed' }} />}
-                                                // error={
-                                                //     <AsyncImage
-                                                //         src={product.galleryImages[0].baseUrl}
-                                                //         style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                                //         loader={<div style={{ background: '#ededed' }} />}
-                                                //     />
-                                                // }
+                                                    error={
+                                                        <AsyncImage
+                                                            src={product.galleryImages.length > 0 && product.galleryImages[0].baseUrl}
+                                                            style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                                            loader={<div style={{ background: '#ededed' }} />}
+                                                        />
+                                                    }
                                                 />
                                             }
                                         />
                                         <LiaHeart className='absolute top-3 right-4 text-gray-600 text-2xl ' />
-                                    </div>
-                                    <p className='pt-2 text-[13px]'>{product.name}</p>
+                                        <p className='pt-2 text-[13px]'>{product.name}</p>
+                                    </Link>
                                     <p>${product.whitePrice.value}</p>
                                     {product.rgbColors && product.rgbColors.length > 0 && (
                                         <div className="flex items-center space-x-1 h-4">
                                             {product.rgbColors.length <= 3 ? (
-                                                product.rgbColors.map(color => (
+                                                product.rgbColors.map((color, index) => (
                                                     <div
                                                         key={uuidv4()}
                                                         className="h-2 w-2 border border-black"
                                                         style={{ backgroundColor: `${color}` }}
+                                                        title={product.articleColorNames[index]}
                                                     ></div>
                                                 ))
                                             ) : (
                                                 <>
-                                                    {product.rgbColors.slice(0, 3).map(color => (
+                                                    {product.rgbColors.slice(0, 3).map((color, index) => (
                                                         <div
                                                             key={uuidv4()}
                                                             className="h-2 w-2 border border-black"
-                                                            style={{ backgroundColor: `${color}` }}                                                        ></div>
+                                                            style={{ backgroundColor: `${color}` }}
+                                                            title={product.articleColorNames[index]}
+                                                        ></div>
                                                     ))}
                                                     <span className="text-[13px] leading-[1]">{`+${product.rgbColors.length - 3}`}</span>
                                                 </>
@@ -252,7 +247,6 @@ function Explore({ categories }) {
                     LOAD MORE
                 </button>
             </div>
-
         </section>
     );
 }
