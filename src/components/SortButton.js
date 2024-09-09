@@ -43,7 +43,7 @@ function SortButton({ sortChange, isSortMenuOpen, selectedSortType, handleSortMe
                     aria-labelledby="menu-button"
                     tabIndex="-1"
                 >
-                    <div className="py-1 text-sm" role="none">
+                    <div className="py-1 text-[13px]" role="none">
                         <label className="flex items-center space-x-2 py-2.5 cursor-pointer">
                             <input
                                 type="radio"

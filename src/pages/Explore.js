@@ -1,14 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
-import { LiaHeart } from "react-icons/lia";
-import { AsyncImage } from 'loadable-image';
+import { useParams } from "react-router-dom";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { motion } from 'framer-motion';
 import SortButton from "../components/SortButton";
 import CurrentClassButtons from "../components/CurrentClassButtons";
+import ExploreProducts from "../components/ExploreProducts";
 
 function Explore({ categories }) {
     const [baseClass, setBaseClass] = useState(null);
@@ -209,68 +206,7 @@ function Explore({ categories }) {
                 </div>
             ) : (
                 products.length > 0 && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1 }}
-                    >
-                        <div className="grid grid-cols-4 gap-x-4 gap-y-12">
-                            {displayedProducts.map(product => (
-                                <div key={product.code}>
-                                    <Link to={`/product/${product.defaultArticle.code}`} className='relative cursor-pointer'>
-                                        <AsyncImage
-                                            src={product.defaultArticle.logoPicture[0].baseUrl}
-                                            style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                            loader={<div style={{ background: '#ededed' }} />}
-                                            error={
-                                                <AsyncImage
-                                                    src={product.defaultArticle.images[0].baseUrl}
-                                                    style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                                    loader={<div style={{ background: '#ededed' }} />}
-                                                    error={
-                                                        <AsyncImage
-                                                            src={product.galleryImages && product.galleryImages.length > 0 && product.galleryImages[0].baseUrl}
-                                                            style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                                            loader={<div style={{ background: '#ededed' }} />}
-                                                        />
-                                                    }
-                                                />
-                                            }
-                                        />
-                                        <LiaHeart className='absolute top-3 right-4 text-gray-600 text-2xl ' />
-                                        <p className='pt-2 text-[13px]'>{product.name}</p>
-                                    </Link>
-                                    <p>${product.whitePrice.value}</p>
-                                    {product.rgbColors && product.rgbColors.length > 0 && (
-                                        <div className="flex items-center space-x-1 h-4">
-                                            {product.rgbColors.length <= 3 ? (
-                                                product.rgbColors.map((color, index) => (
-                                                    <div
-                                                        key={uuidv4()}
-                                                        className="h-2 w-2 border border-black"
-                                                        style={{ backgroundColor: `${color}` }}
-                                                        title={product.articleColorNames[index]}
-                                                    ></div>
-                                                ))
-                                            ) : (
-                                                <>
-                                                    {product.rgbColors.slice(0, 3).map((color, index) => (
-                                                        <div
-                                                            key={uuidv4()}
-                                                            className="h-2 w-2 border border-black"
-                                                            style={{ backgroundColor: `${color}` }}
-                                                            title={product.articleColorNames[index]}
-                                                        ></div>
-                                                    ))}
-                                                    <span className="text-[13px] leading-[1]">{`+${product.rgbColors.length - 3}`}</span>
-                                                </>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
+                    <ExploreProducts products={displayedProducts} />
                 )
             )}
             <div className="text-center">
