@@ -6,18 +6,73 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Header({ categories }) {
     const navigate = useNavigate();
-
     const [currentMenu, setCurrentMenu] = useState('');
+    const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    const [season, setSeason] = useState('');
 
     const handleMouseLeave = () => {
         setCurrentMenu('');
     };
 
+    useEffect(() => {
+        // Define end dates for each season
+        const seasons = {
+            Summer: new Date('2024-09-30T23:59:59'), // Example: Summer ends on September 30
+            Fall: new Date('2024-12-21T23:59:59'),   // Example: Fall ends on December 21
+            Winter: new Date('2025-03-19T23:59:59'), // Example: Winter ends on March 19
+        };
+
+        // Determine the current season based on the current date
+        const determineSeason = () => {
+            const now = new Date();
+
+            if (now <= seasons.Summer) {
+                return 'Summer';
+            } else if (now <= seasons.Fall) {
+                return 'Fall';
+            } else if (now <= seasons.Winter) {
+                return 'Winter';
+            } else {
+                return 'Summer'; // Reset to next Summer (for next cycle)
+            }
+        };
+
+        // Set the initial season
+        const initialSeason = determineSeason();
+        setSeason(initialSeason);
+
+        // Function to update the time left
+        const updateTimeLeft = () => {
+            const now = new Date();
+            const seasonEndDate = seasons[initialSeason];
+            const difference = seasonEndDate - now;
+
+            if (difference > 0) {
+                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+                const minutes = Math.floor((difference / (1000 * 60)) % 60).toString().padStart(2, '0');
+                const seconds = Math.floor((difference / 1000) % 60).toString().padStart(2, '0');
+
+                setTimeLeft({ hours, minutes, seconds });
+            } else {
+                setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+            }
+        };
+
+        const timerId = setInterval(updateTimeLeft, 1000);
+
+        updateTimeLeft();
+
+        return () => clearInterval(timerId);
+    }, [season]);
+
     return (
         <>
             <div className="bg-[#151515] h-[35px] grid place-content-center">
                 <p className="text-white text-sm">
-                    Get 25% Off This Summer Sale. Grab It Fast!! <span>15H : 45M : 37S</span>
+                    Get 25% Off This {season} Sale. Grab It Fast!!
+                    <span className="inline-block w-32 text-center">
+                        {`${timeLeft.hours}H : ${timeLeft.minutes}M : ${timeLeft.seconds}S`}
+                    </span>
                 </p>
             </div>
             <div className="my-container">
