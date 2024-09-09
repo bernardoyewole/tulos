@@ -1,26 +1,29 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { LiaHeart } from "react-icons/lia";
 import { AsyncImage } from 'loadable-image';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { motion } from 'framer-motion';
+import SortButton from "../components/SortButton";
 
 function Explore({ categories }) {
     const [baseClass, setBaseClass] = useState(null);
     const [currentClass, setCurrentClass] = useState(null);
     const [relatedClasses, setRelatedClasses] = useState([]);
     const [products, setProducts] = useState([]);
+    const [displayedProducts, setDisplayedProducts] = useState([]);
     const [isPageLoading, setIsPageLoading] = useState(true);
     const [isProductsLoading, setIsProductsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [maxProducts, setMaxProducts] = useState(null);
     const [progress, setProgress] = useState(null);
+    const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
+    const [selectedSortType, setSelectedSortType] = useState('recommended');
 
     const { menu, category, subcategory } = useParams();
-    const navigate = useNavigate();
 
     const fetchProducts = async (classCode, reset = false) => {
         try {
@@ -40,8 +43,8 @@ function Explore({ categories }) {
 
             let results = response.data.results;
             if (results.length > 0) {
-                console.log(results);
                 setProducts(reset ? results : [...products, ...results]);
+                setDisplayedProducts(products);
                 setMaxProducts(response.data.pagination.totalNumberOfResults);
             }
             else {
@@ -97,6 +100,36 @@ function Explore({ categories }) {
         setProgress((products.length / maxProducts) * 100);
     }, [products, maxProducts]);
 
+    useEffect(() => {
+        if (products.length > 0) {
+            // Sort logic based on selected type
+            switch (selectedSortType) {
+                case 'newest':
+                    setDisplayedProducts([...products].sort((a, b) => {
+                        const aIsNewArrival = a.hasOwnProperty('sellingAttributes') && a.sellingAttributes.includes('New Arrival');
+                        const bIsNewArrival = b.hasOwnProperty('sellingAttributes') && b.sellingAttributes.includes('New Arrival');
+
+                        // Items with 'New Arrival' should come first
+                        if (aIsNewArrival && !bIsNewArrival) return -1;
+                        if (!aIsNewArrival && bIsNewArrival) return 1;
+                        return 0; // Preserve original order for items with the same status
+                    }));
+                    break;
+                case 'lowestPrice':
+                    setDisplayedProducts([...products].sort((a, b) => a.whitePrice.value - b.whitePrice.value));
+                    console.log(displayedProducts);
+                    break;
+                case 'highestPrice':
+                    setDisplayedProducts([...products].sort((a, b) => b.whitePrice.value - a.whitePrice.value));
+                    console.log(displayedProducts);
+                    break;
+                default: // 'recommended'
+                    setDisplayedProducts(products); // Revert to original data
+                    break;
+            }
+        }
+    }, [selectedSortType, products]);
+
     const handleClassChange = (classObj) => {
         resetPage();
         setCurrentClass(classObj);
@@ -106,12 +139,25 @@ function Explore({ categories }) {
         setIsProductsLoading(true);
         setCurrentPage(0);
         setProducts([]);
+        setDisplayedProducts([]);
     }
 
     const handleLoadMore = () => {
         if (products.length < maxProducts) {
             setCurrentPage(prevPage => prevPage + 1);
         }
+    }
+
+    const handleSortMenu = () => {
+        setIsSortMenuOpen(!isSortMenuOpen);
+    }
+
+    const handleSortChange = (target) => {
+        setSelectedSortType(target);
+    };
+
+    const handleCloseMenu = () => {
+        setIsSortMenuOpen(false);
     }
 
     return (
@@ -158,8 +204,22 @@ function Explore({ categories }) {
                 )
             )}
 
+            {isPageLoading ? (
+                <div>
+                    <Skeleton width={100} height={36} className="my-4" />
+                </div>
+            ) : (
+                <SortButton
+                    sortChange={handleSortChange}
+                    isSortMenuOpen={isSortMenuOpen}
+                    handleSortMenu={handleSortMenu}
+                    selectedSortType={selectedSortType}
+                    closeMenu={handleCloseMenu}
+                />
+            )}
+
             {(isPageLoading || isProductsLoading) ? (
-                <div className="grid grid-cols-4 gap-x-4 gap-y-12 mt-6">
+                <div className="grid grid-cols-4 gap-x-4 gap-y-12">
                     {Array.from({ length: 8 }).map((_, index) => (
                         <div key={index} className="flex flex-col items-start">
                             <Skeleton height={500} width={330} className="mb-2" />
@@ -175,8 +235,8 @@ function Explore({ categories }) {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1 }}
                     >
-                        <div className="grid grid-cols-4 gap-x-4 gap-y-12 mt-6">
-                            {products.map(product => (
+                        <div className="grid grid-cols-4 gap-x-4 gap-y-12">
+                            {displayedProducts.map(product => (
                                 <div key={product.code}>
                                     <Link to={`/product/${product.defaultArticle.code}`} className='relative cursor-pointer'>
                                         <AsyncImage
@@ -234,7 +294,7 @@ function Explore({ categories }) {
                     </motion.div>
                 )
             )}
-            <div className="text-center mt-8">
+            <div className="text-center">
                 <p className="mb-4 text-sm text-red-600">You've viewed {products.length} of {maxProducts} products</p>
                 <div className="w-[40%] bg-gray-200 h-1 mb-5 mx-auto">
                     <div className="bg-red-600 h-1" style={{ width: `${progress}%` }}></div>
