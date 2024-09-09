@@ -39,14 +39,17 @@ function Explore({ categories }) {
             });
 
             let results = response.data.results;
-
             if (results.length > 0) {
+                console.log(results);
                 setProducts(reset ? results : [...products, ...results]);
                 setMaxProducts(response.data.pagination.totalNumberOfResults);
             }
             else {
                 let validTagCode = currentClass.tagCodes.find(x => x.includes(`${currentClass.CatName.toLowerCase()}`));
-                fetchProducts(validTagCode);
+
+                if (validTagCode !== undefined) {
+                    fetchProducts(validTagCode);
+                }
             }
         } catch (error) {
             console.error(error);
@@ -187,7 +190,7 @@ function Explore({ categories }) {
                                                     loader={<div style={{ background: '#ededed' }} />}
                                                     error={
                                                         <AsyncImage
-                                                            src={product.galleryImages.length > 0 && product.galleryImages[0].baseUrl}
+                                                            src={product.galleryImages && product.galleryImages.length > 0 && product.galleryImages[0].baseUrl}
                                                             style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                             loader={<div style={{ background: '#ededed' }} />}
                                                         />

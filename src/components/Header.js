@@ -40,11 +40,12 @@ function Header({ categories }) {
                         >
                             <div className="flex gap-16">
                                 {categories.length > 0 && categories.find(cat => cat.CatName === currentMenu)?.CategoriesArray.map(category => (
-                                    category.CategoriesArray?.length > 0 &&
+                                    category.CategoriesArray?.length > 0 && category.CategoriesArray.every(array => array.tagCodes.length > 0) &&
                                     <div key={uuidv4()}>
                                         <h2>{category.CatName}</h2>
                                         <ul className="flex flex-col gap-3">
                                             {category.CategoriesArray?.map(subcategory => (
+                                                subcategory.tagCodes && subcategory.tagCodes.length > 0 &&
                                                 <li key={uuidv4()} className="text-sm capitalize" onClick={handleMouseLeave}>
                                                     <Link to={`explore/${currentMenu}/${category.CatName}/${subcategory.CatName}`}>{subcategory.CatName}</Link>
                                                 </li>

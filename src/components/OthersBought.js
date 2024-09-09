@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LiaHeart } from "react-icons/lia";
 import { PiArrowLeftLight } from "react-icons/pi";
 import { PiArrowRightLight } from "react-icons/pi";
@@ -9,15 +9,6 @@ import { AsyncImage } from 'loadable-image';
 
 function OthersBought({ OthersBought }) {
     const navigate = useNavigate();
-
-    const handleNavigation = (code) => {
-        navigate(`/product/${code}`);
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
 
     const settings = {
         dots: true,
@@ -69,7 +60,8 @@ function OthersBought({ OthersBought }) {
             <Slider {...settings}>
                 {OthersBought.map((item) => (
                     <div key={item.code}>
-                        <div className='relative cursor-pointer' onClick={() => handleNavigation(item.defaultArticle.code)}>
+
+                        <Link to={`/product/${item.defaultArticle.code}`} className='relative cursor-pointer'>
                             <AsyncImage
                                 src={item.defaultArticle.images[0].baseUrl} alt={item.name}
                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
@@ -83,7 +75,7 @@ function OthersBought({ OthersBought }) {
                                 }
                             />
                             <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
-                        </div>
+                        </Link>
                         <p className='pt-2 text-[13px]'>{item.name}</p>
                         <p>${item.whitePrice.value}</p>
                     </div>

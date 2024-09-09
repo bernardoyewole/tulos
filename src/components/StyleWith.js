@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LiaHeart } from "react-icons/lia";
 import { PiArrowLeftLight } from "react-icons/pi";
 import { PiArrowRightLight } from "react-icons/pi";
@@ -9,15 +9,6 @@ import { AsyncImage } from 'loadable-image';
 
 function StyleWith({ styleWithList }) {
     const navigate = useNavigate();
-
-    const handleNavigation = (code) => {
-        navigate(`/product/${code}`);
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
 
     const settings = {
         dots: true,
@@ -72,7 +63,7 @@ function StyleWith({ styleWithList }) {
                     if (!style) return null;
                     return (
                         <div key={style.code}>
-                            <div className='relative cursor-pointer' onClick={() => handleNavigation(style.code)}>
+                            <Link to={`/product/${style.code}`} className='relative cursor-pointer'>
                                 {style.articlesList && style.articlesList.length > 0 && style.articlesList[0].fabricSwatchThumbnails.length > 0 && (
                                     <AsyncImage
                                         src={style.articlesList.find(x => x.code === style.code).fabricSwatchThumbnails[0].baseUrl}
@@ -95,7 +86,7 @@ function StyleWith({ styleWithList }) {
                                     />
                                 )}
                                 <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
-                            </div>
+                            </Link>
                             <p className='pt-2 text-[13px]'>{style.name}</p>
                             <p>${style.whitePrice?.price}</p>
                         </div>
