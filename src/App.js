@@ -43,23 +43,23 @@ function App() {
 
   useEffect(() => {
     const fetchBaseApparel = async () => {
-      try {
-        const response = await axios.request(optionsBaseApparel);
-        const baseApparel = [...response.data.results];
-        setBaseApparel(baseApparel);
-        updateNewArrivals(baseApparel);
-      }
-      catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   const response = await axios.request(optionsBaseApparel);
+      //   const baseApparel = [...response.data.results];
+      //   setBaseApparel(baseApparel);
+      //   updateNewArrivals(baseApparel);
+      // }
+      // catch (error) {
+      //   console.error(error);
+      // }
     };
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.request(optionsCategory);
-        const categories = [...response.data];
-        const filteredCategories = categories.filter(cat => cat.tagCodes.length > 0).filter(cat => cat.CatName !== 'Divided' && cat.CatName !== 'Beauty' && cat.CatName !== 'Sport')
-        setCategories(filteredCategories);
+        // const response = await axios.request(optionsCategory);
+        // const categories = [...response.data];
+        // const filteredCategories = categories.filter(cat => cat.tagCodes.length > 0).filter(cat => cat.CatName !== 'Divided' && cat.CatName !== 'Beauty' && cat.CatName !== 'Sport')
+        // setCategories(filteredCategories);
       }
       catch (error) {
         console.error(error);

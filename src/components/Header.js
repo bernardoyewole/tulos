@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
-import { FiSearch } from "react-icons/fi";
-import { IoBagHandleOutline } from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
+import { LiaHeart } from "react-icons/lia";
+import { BsHandbag } from "react-icons/bs";
+import { FaRegUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+import SignInModal from "./SignInModal";
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 function Header({ categories }) {
+    const [open, setOpen] = useState(false);
+
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
+
     const navigate = useNavigate();
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
@@ -112,14 +122,16 @@ function Header({ categories }) {
                         </div>
                     </ul>
                     <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <a className="font-sans font-bold text-3xl leading-[0.8]" onClick={() => navigate('/')}>TULOS</a>
+                        <a className="font-sans font-bold text-3xl leading-[3]" onClick={() => navigate('/')}>TULOS</a>
                     </div>
-                    <ul className="flex gap-4 items-center">
-                        <li><FiSearch /></li>
-                        <li><IoBagHandleOutline /></li>
-                        <li><a>Login</a></li>
+                    <ul className="flex gap-6 items-center">
+                        <li className="cursor-pointer"><IoSearchOutline className="text-[21px]" /></li>
+                        <li onClick={onOpenModal} className="cursor-pointer"><FaRegUser className="text-[17px] text-gray-800" /></li>
+                        <li className="cursor-pointer"><LiaHeart className="text-xl" /></li>
+                        <li className="cursor-pointer"><BsHandbag className="text-lg" /></li>
                     </ul>
                 </nav>
+                <SignInModal open={open} onCloseModal={onCloseModal} />
             </div>
         </>
     );
