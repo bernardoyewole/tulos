@@ -131,7 +131,7 @@ function Header({ categories }) {
                         <li className="cursor-pointer"><BsHandbag className="text-lg" /></li>
                     </ul>
                 </nav>
-                <SignInModal open={open} onCloseModal={onCloseModal} />
+                <SignInModal open={open} closeModal={onCloseModal} />
             </div>
         </>
     );
