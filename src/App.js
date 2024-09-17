@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Product from './pages/Product';
 import Explore from './pages/Explore'
 import AuthProvider from './provider/AuthProvider';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -109,6 +110,7 @@ function App() {
             <Route path='/' element={<Home newArrivals={newArrivals} />} />
             <Route path='/product/:productCode' element={<Product />} />
             <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
+            <Route path='/resetPassword' element={<ResetPassword />} />
           </Routes>
           <Footer />
         </ScrollToTop>

@@ -52,7 +52,7 @@ function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPasswo
                     BACK TO SIGN IN
                 </button>
             </form>
-            <button className="text-sm text-gray-500 hover:text-black mt-4">FORGOT PASSWORD?</button>
+            <button onClick={() => changeModalView('forgotPassword')} className="text-sm text-gray-500 hover:text-black mt-4">FORGOT PASSWORD?</button>
         </>
     )
 }

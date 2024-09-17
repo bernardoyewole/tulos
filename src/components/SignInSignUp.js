@@ -1,24 +1,23 @@
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useAuth } from '../provider/AuthProvider';
 import TrySignIn from './TrySignIn';
 import PasswordSignIn from './PasswordSignIn';
 import SignUp from './SignUp';
+import ForgotPassword from './ForgotPassword';
 
 function SignInSignUp({ open, closeModal }) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
   const [modalView, setModalView] = useState('signIn');
   const [loading, setLoading] = useState(false);
-  // const [firstName, setFirstName] = useState('');
-  // const [lastName, setLastName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
   const { setToken } = useAuth();
+
   const onTrySignIn = data => {
     if (isValid(data.email)) {
       setLoading(true);
@@ -47,7 +46,7 @@ function SignInSignUp({ open, closeModal }) {
           setLoading(false);
         });
     } else {
-      setErrorMessage('Enter a valid email address');
+      setMessage('Enter a valid email address');
     }
   }
 
@@ -75,6 +74,25 @@ function SignInSignUp({ open, closeModal }) {
       });
   }
 
+  const onForgotPassword = async (data) => {
+    console.log(data);
+    setLoading(true);
+
+    try {
+      const response = await axios.post('https://localhost:44397/api/Account/forgotPassword', data);
+      console.log(response);
+      if (response.status === 200) {
+        setMessage(response.data.message);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setMessage(error.response.data.message);
+      setLoading(false);
+    }
+  }
+
   const onPasswordSignIn = data => {
     setLoading(true);
 
@@ -97,12 +115,12 @@ function SignInSignUp({ open, closeModal }) {
         console.log(err.response);
         if (err.response.data.status === 401 && err.response.data.title === 'Unauthorized') {
           if (err.response.data.detail === 'NotAllowed') {
-            setErrorMessage('Please activate your account');
+            setMessage('Please activate your account');
           } else {
-            setErrorMessage('Invalid email or password');
+            setMessage('Invalid email or password');
           }
         } else {
-          setErrorMessage('Some error occurred, try again')
+          setMessage('Some error occurred, try again')
         }
 
         setLoading(false);
@@ -114,7 +132,7 @@ function SignInSignUp({ open, closeModal }) {
   };
 
   useEffect(() => {
-    setErrorMessage('');
+    setMessage('');
     setLoading(false);
   }, [modalView]);
 
@@ -124,7 +142,7 @@ function SignInSignUp({ open, closeModal }) {
         return <TrySignIn
           onTrySignIn={onTrySignIn}
           loading={loading}
-          errorMessage={errorMessage}
+          errorMessage={message}
         />
 
       case 'passwordSignIn':
@@ -134,7 +152,7 @@ function SignInSignUp({ open, closeModal }) {
           changeModalView={setModalView}
           showPassword={showPassword}
           togglePassword={setShowPassword}
-          errorMessage={errorMessage}
+          errorMessage={message}
         />
 
       case 'signUp':
@@ -144,6 +162,13 @@ function SignInSignUp({ open, closeModal }) {
           togglePassword={setShowPassword}
           showPassword={showPassword}
           changeModalView={setModalView}
+        />
+
+      case 'forgotPassword':
+        return <ForgotPassword
+          onForgotPassword={onForgotPassword}
+          message={message}
+          loading={loading}
         />
 
       default:
