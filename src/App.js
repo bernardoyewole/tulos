@@ -7,6 +7,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Product from './pages/Product';
 import Explore from './pages/Explore'
+import AuthProvider from './provider/AuthProvider';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -100,17 +101,19 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <ScrollToTop>
-        <Header categories={categories} />
-        <Routes>
-          <Route path='/' element={<Home newArrivals={newArrivals} />} />
-          <Route path='/product/:productCode' element={<Product />} />
-          <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
-        </Routes>
-        <Footer />
-      </ScrollToTop>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <ScrollToTop>
+          <Header categories={categories} />
+          <Routes>
+            <Route path='/' element={<Home newArrivals={newArrivals} />} />
+            <Route path='/product/:productCode' element={<Product />} />
+            <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
+          </Routes>
+          <Footer />
+        </ScrollToTop>
+      </Router>
+    </AuthProvider>
   );
 }
 

@@ -5,7 +5,7 @@ import { BsHandbag } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-import SignInModal from "./SignInModal";
+import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
@@ -131,7 +131,7 @@ function Header({ categories }) {
                         <li className="cursor-pointer"><BsHandbag className="text-lg" /></li>
                     </ul>
                 </nav>
-                <SignInModal open={open} closeModal={onCloseModal} />
+                <SignInSignUp open={open} closeModal={onCloseModal} />
             </div>
         </>
     );
