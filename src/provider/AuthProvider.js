@@ -8,8 +8,8 @@ const AuthProvider = ({ children }) => {
     const [refreshToken, setRefreshToken_] = useState(localStorage.getItem("refreshToken"));
     const [expiresIn, setExpiresIn_] = useState(localStorage.getItem("expiresIn"));
     const [email, setEmail_] = useState(localStorage.getItem("email"));
-
     const [expirationTime, setExpirationTime] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
     const setToken = (newToken, newRefreshToken, newExpiresIn, userEmail) => {
         setToken_(newToken);
@@ -24,6 +24,32 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("refreshToken", newRefreshToken);
         localStorage.setItem("expiresIn", newExpiresIn);
         localStorage.setItem("email", userEmail);
+
+        setIsAuthenticated(true);
+    };
+
+    const clearAuthData = () => {
+        setToken_(null);
+        setRefreshToken_(null);
+        setExpiresIn_(null);
+        setEmail_(null);
+        setExpirationTime(null);
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("expiresIn");
+        localStorage.removeItem("email");
+
+        setIsAuthenticated(false);
+    };
+
+    const logout = async () => {
+        try {
+            await axios.post("https://localhost:44397/api/Account/logout");
+            clearAuthData();
+        } catch (error) {
+            console.error("Failed to log out", error);
+        }
     };
 
     useEffect(() => {
@@ -34,8 +60,10 @@ const AuthProvider = ({ children }) => {
 
         if (token) {
             axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+            setIsAuthenticated(true);
         } else {
             delete axios.defaults.headers.common["Authorization"];
+            setIsAuthenticated(false);
         }
     }, [token]);
 
@@ -51,25 +79,24 @@ const AuthProvider = ({ children }) => {
 
     const refreshAuthToken = async () => {
         try {
-            const response = await axios.post("https://localhost:44397/refresh", refreshToken);
+            const response = await axios.post("https://localhost:44397/refresh", { refreshToken });
             const { token, refreshToken: newRefreshToken, expiresIn } = response.data;
             setToken(token, newRefreshToken, expiresIn);
         } catch (error) {
             console.error("Failed to refresh token", error);
-            setToken(null, null, null, null);
+            clearAuthData();
         }
     };
 
-    const contextValue = useMemo(() =>
-    ({
+    const contextValue = useMemo(() => ({
         token,
         refreshToken,
         expiresIn,
         email,
+        isAuthenticated,
         setToken,
-    }),
-        [token, refreshToken, expiresIn, email]
-    );
+        logout,
+    }), [token, refreshToken, expiresIn, email, isAuthenticated]);
 
     return (
         <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

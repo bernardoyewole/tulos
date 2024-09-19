@@ -7,22 +7,36 @@ import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
-import { Modal } from 'react-responsive-modal';
-
+import { useAuth } from "../provider/AuthProvider";
+import axios from "axios";
 function Header({ categories }) {
     const [open, setOpen] = useState(false);
-
-    const onOpenModal = () => setOpen(true);
-    const onCloseModal = () => setOpen(false);
-
-    const navigate = useNavigate();
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
 
+    const { isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const onOpenModal = () => {
+        setOpen(true);
+    }
+
+    const onCloseModal = () => {
+        setOpen(false);
+    }
+
     const handleMouseLeave = () => {
         setCurrentMenu('');
     };
+
+    const handleAccountClick = async () => {
+        if (isAuthenticated) {
+            navigate('/account');
+        } else {
+            onOpenModal();
+        }
+    }
 
     useEffect(() => {
         // Define end dates for each season
@@ -126,7 +140,7 @@ function Header({ categories }) {
                     </div>
                     <ul className="flex gap-6 items-center">
                         <li className="cursor-pointer"><IoSearchOutline className="text-[21px]" /></li>
-                        <li onClick={onOpenModal} className="cursor-pointer"><FaRegUser className="text-[17px] text-gray-800" /></li>
+                        <li onClick={handleAccountClick} className="cursor-pointer"><FaRegUser className="text-[17px] text-gray-800" /></li>
                         <li className="cursor-pointer"><LiaHeart className="text-xl" /></li>
                         <li className="cursor-pointer"><BsHandbag className="text-lg" /></li>
                     </ul>

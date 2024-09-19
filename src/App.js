@@ -9,6 +9,7 @@ import Product from './pages/Product';
 import Explore from './pages/Explore'
 import AuthProvider from './provider/AuthProvider';
 import ResetPassword from './pages/ResetPassword';
+import Account from './pages/Account';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -96,7 +97,6 @@ function App() {
       setNewArrivals(validNewArrivals);
     }
 
-
     fetchBaseApparel();
     fetchCategories();
   }, []);
@@ -111,6 +111,7 @@ function App() {
             <Route path='/product/:productCode' element={<Product />} />
             <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
             <Route path='/resetPassword' element={<ResetPassword />} />
+            <Route path='/account' element={<Account />} />
           </Routes>
           <Footer />
         </ScrollToTop>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HeroBanner from "../components/HeroBanner";
 import NewArrival from "../components/NewArrival";
 import NewStore from "../components/NewStore";
@@ -6,9 +6,15 @@ import Featured from '../components/Featured';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { motion } from 'framer-motion';
+import { useAuth } from '../provider/AuthProvider';
 
 function Home({ newArrivals }) {
+    const { isAuthenticated } = useAuth();
     const isLoading = !newArrivals || newArrivals.length === 0;
+
+    useEffect(() => {
+        console.log(isAuthenticated);
+    }, [isAuthenticated]);
 
     return (
         <>
@@ -35,7 +41,7 @@ function Home({ newArrivals }) {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }} // Duration of the fade-in effect
+                    transition={{ duration: 1 }}
                 >
                     <NewArrival newArrivals={newArrivals} />
                 </motion.div>
