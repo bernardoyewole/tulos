@@ -47,9 +47,8 @@ function App() {
   useEffect(() => {
     const fetchBaseApparel = async () => {
       try {
-        // const response = await axios.request(optionsBaseApparel);
-        // const baseApparel = [...response.data.results];
-        const baseApparel = [];
+        const response = await axios.request(optionsBaseApparel);
+        const baseApparel = [...response.data.results];
         setBaseApparel(baseApparel);
         updateNewArrivals(baseApparel);
       }
