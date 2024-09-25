@@ -29,6 +29,7 @@ const MyDetailsForm = ({ email, user, saveChanges, setIsDetailModified, isDetail
                 <PiIdentificationCardBold className='text-3xl' />
                 <h2 className="text-2xl font-semibold">MY DETAILS</h2>
             </div>
+            <p className='text-sm text-gray-800 mb-6'>Feel free to edit any of your details below so your TULOS account is totally up to date. (* Indicates a required field).</p>
             <form onSubmit={handleSaveChanges} className='w-[356px]'>
                 <div className="mb-6">
                     <label htmlFor="firstName" className="block text-sm text-gray-700 font-semibold pb-2">FIRST NAME *</label>

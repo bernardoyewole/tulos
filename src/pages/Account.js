@@ -28,7 +28,7 @@ const AccountPage = () => {
             });
     }
 
-    const saveChanges = (userInfo) => {
+    const saveDetailsChanges = (userInfo) => {
         axios.put(`https://localhost:44397/api/User/${email}`, userInfo)
             .then(res => {
                 if (res.status === 200) {
@@ -39,6 +39,21 @@ const AccountPage = () => {
                 console.error(err);
             });
     }
+
+    const submitNewPassword = async (currentPassword, newPassword) => {
+        try {
+            const response = await axios.post('https://localhost:44397/api/Account/changePassword', {
+                email,
+                currentPassword,
+                newPassword
+            });
+            if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            return error.response.data;
+        }
+    };
 
     useEffect(() => {
         getUserInfo();
@@ -67,9 +82,10 @@ const AccountPage = () => {
                         selectedMenu={selectedMenu}
                         user={user}
                         email={email}
-                        saveChanges={saveChanges}
+                        saveChanges={saveDetailsChanges}
                         setIsDetailModified={setIsDetailModified}
                         isDetailModified={isDetailModified}
+                        submitNewPassword={submitNewPassword}
                     />
                 </div>
             </div>

@@ -1,7 +1,8 @@
 import Order from "./Order";
 import AccountDetail from "./AccountDetail";
+import ChangePassword from "./ChangePassword";
 
-const AccountView = ({ selectedMenu, user, email, saveChanges, setIsDetailModified, isDetailModified }) => {
+const AccountView = ({ selectedMenu, user, email, saveChanges, setIsDetailModified, isDetailModified, submitNewPassword }) => {
     const renderContent = () => {
         switch (selectedMenu) {
             case 'orders':
@@ -14,6 +15,8 @@ const AccountView = ({ selectedMenu, user, email, saveChanges, setIsDetailModifi
                     setIsDetailModified={setIsDetailModified}
                     isDetailModified={isDetailModified}
                 />
+            case 'password':
+                return <ChangePassword submitNewPassword={submitNewPassword} />
             default:
                 return <div className="p-6 bg-white shadow-md"><h2>Welcome to your account!</h2></div>;
         }
