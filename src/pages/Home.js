@@ -7,14 +7,27 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { motion } from 'framer-motion';
 import { useAuth } from '../provider/AuthProvider';
+import axios from 'axios';
 
-function Home({ newArrivals }) {
+function Home({ newArrivals, onOpenModal }) {
     const { isAuthenticated } = useAuth();
     const isLoading = !newArrivals || newArrivals.length === 0;
 
     useEffect(() => {
         console.log(isAuthenticated);
     }, [isAuthenticated]);
+
+    const addtoFavorite = async (product) => {
+        console.log(product);
+        try {
+            const response = await axios.post('https://localhost:44397/api/Favorite/addToFavorite', product);
+            if (response.status === 200) {
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <>
@@ -43,7 +56,7 @@ function Home({ newArrivals }) {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <NewArrival newArrivals={newArrivals} />
+                    <NewArrival newArrivals={newArrivals} addtoFavorite={addtoFavorite} onOpenModal={onOpenModal} />
                 </motion.div>
             )}
             <NewStore />

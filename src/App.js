@@ -15,6 +15,7 @@ function App() {
   const [baseApparel, setBaseApparel] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchBaseApparel = async (currentPage = 0) => {
     const optionsBaseApparel = {
@@ -121,13 +122,21 @@ function App() {
     fetchInitialData();
   }, []);
 
+  const onOpenSignInModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const onCloseSignInModal = () => {
+    setIsModalOpen(false);
+  }
+
   return (
     <AuthProvider>
       <Router>
         <ScrollToTop>
-          <Header categories={categories} />
+          <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
           <Routes>
-            <Route path='/' element={<Home newArrivals={newArrivals} />} />
+            <Route path='/' element={<Home newArrivals={newArrivals} onOpenModal={onOpenSignInModal} />} />
             <Route path='/product/:productCode' element={<Product />} />
             <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
             <Route path='/resetPassword' element={<ResetPassword />} />

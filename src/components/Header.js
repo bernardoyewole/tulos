@@ -9,22 +9,14 @@ import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
 import axios from "axios";
-function Header({ categories }) {
-    const [open, setOpen] = useState(false);
+function Header({ categories, onOpenModal, onCloseModal, open }) {
+    // const [open, setOpen] = useState(false);
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
 
     const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
-
-    const onOpenModal = () => {
-        setOpen(true);
-    }
-
-    const onCloseModal = () => {
-        setOpen(false);
-    }
 
     const handleMouseLeave = () => {
         setCurrentMenu('');
