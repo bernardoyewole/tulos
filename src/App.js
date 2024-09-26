@@ -18,6 +18,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
+  const [addToFavoriteTrigger, setAddToFavoriteTrigger] = useState(false);
 
   const { email, isAuthenticated } = useAuth();
 
@@ -136,10 +137,12 @@ function App() {
     try {
       const response = await axios.post('https://localhost:44397/api/Favorite/addToFavorite', product);
       if (response.status === 200) {
+        setAddToFavoriteTrigger(!addToFavoriteTrigger);
         return response.data;
       }
     } catch (error) {
-      return error.response.data;
+      console.log(error);
+      // return error.response.data;
     }
   }
 
@@ -163,7 +166,7 @@ function App() {
     };
 
     fetchFavorites();
-  }, [email, isAuthenticated]);
+  }, [email, isAuthenticated, addToFavoriteTrigger]);
 
   return (
     <Router>
@@ -171,7 +174,7 @@ function App() {
         <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
         <Routes>
           <Route path='/' element={<Home newArrivals={newArrivals} onOpenModal={onOpenSignInModal} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={setLikedProducts} />} />
-          <Route path='/product/:productCode' element={<Product />} />
+          <Route path='/product/:productCode' element={<Product addToFavorite={addToFavorite} likedProducts={likedProducts} />} />
           <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
           <Route path='/resetPassword' element={<ResetPassword />} />
           <Route path='/account' element={<Account />} />

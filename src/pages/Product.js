@@ -10,7 +10,7 @@ import StyleWith from "../components/StyleWith";
 import OthersBought from "../components/OthersBought";
 import { motion } from 'framer-motion';
 
-function Product() {
+function Product({ addToFavorite, likedProducts }) {
     const [product, setProduct] = useState(null);
     const [currentArticle, setCurrentArticle] = useState(null);
     const [styleWithProducts, setStyleWithProducts] = useState([]);
@@ -188,6 +188,8 @@ function Product() {
                                 product={product}
                                 currentArticle={currentArticle}
                                 changeArticle={changeArticle}
+                                addToFavorite={addToFavorite}
+                                likedProducts={likedProducts}
                             />
                         </motion.div>
                     )

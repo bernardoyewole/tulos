@@ -44,7 +44,7 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
                                     e.preventDefault();
                                     handleLike(arrival);
                                 }}
-                                className={`absolute z-20 bottom-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(arrival.defaultArticle.code)
+                                className={`absolute bottom-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(arrival.defaultArticle.code)
                                     ? 'text-red-500'
                                     : 'text-white'
                                     } hover:text-red-500`}
@@ -55,7 +55,6 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
                     </div>
                 ))}
             </div>
-
             <div className='flex justify-center pt-6'>
                 <button className='text-white bg-black py-3 px-10 text-[13px] rounded-full'>Shop Now</button>
             </div>

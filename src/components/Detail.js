@@ -5,8 +5,9 @@ import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
 import { AsyncImage } from 'loadable-image'
 import { IoMdHeart } from "react-icons/io";
+import { useAuth } from "../provider/AuthProvider";
 
-function Detail({ product, currentArticle, changeArticle }) {
+function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts }) {
     const [expandedSection, setExpandedSection] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [selectedThumbnailCode, setSelectedThumbnailCode] = useState(null);
@@ -14,6 +15,8 @@ function Detail({ product, currentArticle, changeArticle }) {
     const toggleExpand = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
     };
+
+    const { email } = useAuth();
 
     useEffect(() => {
         const tempThumbnails = product.articlesList.map(article => ({
@@ -47,16 +50,32 @@ function Detail({ product, currentArticle, changeArticle }) {
         setSelectedSize(name);
     }
 
+    const handleLike = (product) => {
+        const productObj = {
+            userEmail: email,
+            hmProductId: product.code,
+            name: product.name,
+            imageUrl: thumbnails[0].baseUrl || thumbnails[1].baseUrl,
+            price: product.whitePrice.price
+        }
+
+        addToFavorite(productObj);
+    }
+
+    useEffect(() => {
+        console.log(likedProducts);
+    }, [likedProducts]);
+
     return (
         <div>
             <div className="flex justify-between items-center">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
                 <IoMdHeart
-                // onClick={() => handleLike(product)}
-                // className={`absolute z-20 bottom-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(arrival.defaultArticle.code)
-                //     ? 'text-red-500'
-                //     : 'text-white'
-                //     } hover:text-red-500`}
+                    onClick={() => handleLike(product)}
+                    className={`cursor-pointer text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(product.code)
+                        ? 'text-red-500'
+                        : 'text-white'
+                        } hover:text-red-500`}
                 />
             </div>
             <p className="text-xl my-6 leading-[1]">${product.whitePrice.price}</p>
