@@ -10,12 +10,16 @@ import Explore from './pages/Explore'
 import AuthProvider from './provider/AuthProvider';
 import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
+import { useAuth } from './provider/AuthProvider';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [likedProducts, setLikedProducts] = useState([]);
+
+  const { email, isAuthenticated } = useAuth();
 
   const fetchBaseApparel = async (currentPage = 0) => {
     const optionsBaseApparel = {
@@ -128,22 +132,53 @@ function App() {
     setIsModalOpen(false);
   }
 
+  const addToFavorite = async (product) => {
+    try {
+      const response = await axios.post('https://localhost:44397/api/Favorite/addToFavorite', product);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (isAuthenticated) {
+        try {
+          const response = await axios.get(`https://localhost:44397/api/Favorite/${email}`);
+
+          if (response.status === 200) {
+            const favorites = response.data;
+            const likedProductIds = favorites.map(fav => fav.hmProductId);
+            setLikedProducts(likedProductIds);
+          }
+        } catch (error) {
+          console.error("Error fetching favorites:", error);
+        }
+      } else {
+        setLikedProducts([]);
+      }
+    };
+
+    fetchFavorites();
+  }, [email, isAuthenticated]);
+
   return (
-    <AuthProvider>
-      <Router>
-        <ScrollToTop>
-          <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
-          <Routes>
-            <Route path='/' element={<Home newArrivals={newArrivals} onOpenModal={onOpenSignInModal} />} />
-            <Route path='/product/:productCode' element={<Product />} />
-            <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
-            <Route path='/resetPassword' element={<ResetPassword />} />
-            <Route path='/account' element={<Account />} />
-          </Routes>
-          <Footer />
-        </ScrollToTop>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <ScrollToTop>
+        <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
+        <Routes>
+          <Route path='/' element={<Home newArrivals={newArrivals} onOpenModal={onOpenSignInModal} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={setLikedProducts} />} />
+          <Route path='/product/:productCode' element={<Product />} />
+          <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
+          <Route path='/resetPassword' element={<ResetPassword />} />
+          <Route path='/account' element={<Account />} />
+        </Routes>
+        <Footer />
+      </ScrollToTop>
+    </Router>
   );
 }
 

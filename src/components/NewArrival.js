@@ -1,35 +1,11 @@
 import { Link } from "react-router-dom";
 import { IoMdHeart } from "react-icons/io";
-import { useAuth } from "../provider/AuthProvider";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../provider/AuthProvider";
 
-function NewArrival({ newArrivals, addToFavorite, onOpenModal }) {
+function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProducts, likedProducts }) {
     const { email, isAuthenticated } = useAuth();
-    const [likedProducts, setLikedProducts] = useState([]);
-
-    useEffect(() => {
-        console.log(isAuthenticated);
-        const fetchFavorites = async () => {
-            if (isAuthenticated) {
-                try {
-                    const response = await axios.get(`https://localhost:44397/api/Favorite/${email}`);
-
-                    if (response.status === 200) {
-                        const favorites = response.data;
-                        const likedProductIds = favorites.map(fav => fav.hmProductId);
-                        setLikedProducts(likedProductIds);
-                    }
-                } catch (error) {
-                    console.error("Error fetching favorites:", error);
-                }
-            } else {
-                setLikedProducts([]);
-            }
-        };
-
-        fetchFavorites();
-    }, [email, isAuthenticated]);
 
     const handleLike = async (arrival) => {
         if (!isAuthenticated) {
@@ -48,9 +24,9 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal }) {
         const response = await addToFavorite(product);
 
         if (response === "Product added to favorites") {
-            setLikedProducts([...likedProducts, arrival.defaultArticle.code]);
+            updateLikedProducts([...likedProducts, arrival.defaultArticle.code]);
         } else if (response === "Favorite removed") {
-            setLikedProducts(likedProducts.filter(id => id !== arrival.defaultArticle.code));
+            updateLikedProducts(likedProducts.filter(id => id !== arrival.defaultArticle.code));
         }
     }
 

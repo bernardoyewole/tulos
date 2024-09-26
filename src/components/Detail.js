@@ -4,7 +4,7 @@ import { IoBagHandleOutline } from "react-icons/io5";
 import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
 import { AsyncImage } from 'loadable-image'
-import { Blur, Grow, Slide } from 'transitions-kit'
+import { IoMdHeart } from "react-icons/io";
 
 function Detail({ product, currentArticle, changeArticle }) {
     const [expandedSection, setExpandedSection] = useState(null);
@@ -51,7 +51,13 @@ function Detail({ product, currentArticle, changeArticle }) {
         <div>
             <div className="flex justify-between items-center">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
-                <TfiHeart className='text-gray-700 text-2xl' />
+                <IoMdHeart
+                // onClick={() => handleLike(product)}
+                // className={`absolute z-20 bottom-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(arrival.defaultArticle.code)
+                //     ? 'text-red-500'
+                //     : 'text-white'
+                //     } hover:text-red-500`}
+                />
             </div>
             <p className="text-xl my-6 leading-[1]">${product.whitePrice.price}</p>
 

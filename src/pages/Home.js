@@ -9,20 +9,9 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../provider/AuthProvider';
 import axios from 'axios';
 
-function Home({ newArrivals, onOpenModal }) {
+function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProducts }) {
     // const { isAuthenticated } = useAuth();
     const isLoading = !newArrivals || newArrivals.length === 0;
-
-    const addToFavorite = async (product) => {
-        try {
-            const response = await axios.post('https://localhost:44397/api/Favorite/addToFavorite', product);
-            if (response.status === 200) {
-                return response.data;
-            }
-        } catch (error) {
-            return error.response.data;
-        }
-    }
 
     return (
         <>
@@ -51,7 +40,7 @@ function Home({ newArrivals, onOpenModal }) {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <NewArrival newArrivals={newArrivals} addToFavorite={addToFavorite} onOpenModal={onOpenModal} />
+                    <NewArrival newArrivals={newArrivals} addToFavorite={addToFavorite} onOpenModal={onOpenModal} likedProducts={likedProducts} updateLikedProducts={updateLikedProducts} />
                 </motion.div>
             )}
             <NewStore />
