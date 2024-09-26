@@ -10,22 +10,17 @@ import { useAuth } from '../provider/AuthProvider';
 import axios from 'axios';
 
 function Home({ newArrivals, onOpenModal }) {
-    const { isAuthenticated } = useAuth();
+    // const { isAuthenticated } = useAuth();
     const isLoading = !newArrivals || newArrivals.length === 0;
 
-    useEffect(() => {
-        console.log(isAuthenticated);
-    }, [isAuthenticated]);
-
-    const addtoFavorite = async (product) => {
-        console.log(product);
+    const addToFavorite = async (product) => {
         try {
             const response = await axios.post('https://localhost:44397/api/Favorite/addToFavorite', product);
             if (response.status === 200) {
-                console.log(response);
+                return response.data;
             }
         } catch (error) {
-            console.log(error);
+            return error.response.data;
         }
     }
 
@@ -56,7 +51,7 @@ function Home({ newArrivals, onOpenModal }) {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <NewArrival newArrivals={newArrivals} addtoFavorite={addtoFavorite} onOpenModal={onOpenModal} />
+                    <NewArrival newArrivals={newArrivals} addToFavorite={addToFavorite} onOpenModal={onOpenModal} />
                 </motion.div>
             )}
             <NewStore />

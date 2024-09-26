@@ -96,8 +96,6 @@ function App() {
 
     // If we don't have enough new arrivals, fetch more from the next page
     if (validNewArrivals.length < 10 && currentPage < 5) {
-      console.log(validNewArrivals.length);
-
       const nextPage = currentPage + 1;
       const moreBaseApparel = await fetchBaseApparel(nextPage);
       const moreNewArrivals = await updateNewArrivals(moreBaseApparel, nextPage);

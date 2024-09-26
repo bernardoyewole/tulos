@@ -1,14 +1,40 @@
-import { LiaHeart } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { IoMdHeart } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function NewArrival({ newArrivals, addtoFavorite, onOpenModal }) {
+function NewArrival({ newArrivals, addToFavorite, onOpenModal }) {
     const { email, isAuthenticated } = useAuth();
+    const [likedProducts, setLikedProducts] = useState([]);
 
-    const handleLike = (arrival) => {
+    useEffect(() => {
+        console.log(isAuthenticated);
+        const fetchFavorites = async () => {
+            if (isAuthenticated) {
+                try {
+                    const response = await axios.get(`https://localhost:44397/api/Favorite/${email}`);
+
+                    if (response.status === 200) {
+                        const favorites = response.data;
+                        const likedProductIds = favorites.map(fav => fav.hmProductId);
+                        setLikedProducts(likedProductIds);
+                    }
+                } catch (error) {
+                    console.error("Error fetching favorites:", error);
+                }
+            } else {
+                setLikedProducts([]);
+            }
+        };
+
+        fetchFavorites();
+    }, [email, isAuthenticated]);
+
+    const handleLike = async (arrival) => {
         if (!isAuthenticated) {
             onOpenModal();
+            return;
         }
 
         const product = {
@@ -19,7 +45,13 @@ function NewArrival({ newArrivals, addtoFavorite, onOpenModal }) {
             price: arrival.price.value
         }
 
-        addtoFavorite(product);
+        const response = await addToFavorite(product);
+
+        if (response === "Product added to favorites") {
+            setLikedProducts([...likedProducts, arrival.defaultArticle.code]);
+        } else if (response === "Favorite removed") {
+            setLikedProducts(likedProducts.filter(id => id !== arrival.defaultArticle.code));
+        }
     }
 
     return (
@@ -36,7 +68,10 @@ function NewArrival({ newArrivals, addtoFavorite, onOpenModal }) {
                                     e.preventDefault();
                                     handleLike(arrival);
                                 }}
-                                className='absolute z-20 bottom-3 right-4 text-white text-2xl fill-current hover:text-red-500 transition-colors duration-300'
+                                className={`absolute z-20 bottom-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(arrival.defaultArticle.code)
+                                    ? 'text-red-500'
+                                    : 'text-white'
+                                    } hover:text-red-500`}
                             />
                         </Link>
                         <p className='pt-2 text-[13px]'>{arrival.name}</p>
