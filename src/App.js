@@ -175,7 +175,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home newArrivals={newArrivals} onOpenModal={onOpenSignInModal} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={setLikedProducts} />} />
           <Route path='/product/:productCode' element={<Product addToFavorite={addToFavorite} likedProducts={likedProducts} />} />
-          <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} />} />
+          <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={setLikedProducts} />} />
           <Route path='/resetPassword' element={<ResetPassword />} />
           <Route path='/account' element={<Account />} />
         </Routes>

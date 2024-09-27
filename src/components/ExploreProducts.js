@@ -3,8 +3,36 @@ import { v4 as uuidv4 } from 'uuid';
 import { LiaHeart } from "react-icons/lia";
 import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../provider/AuthProvider';
+import { IoMdHeart } from "react-icons/io";
 
-function ExploreProducts({ products }) {
+function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedProducts }) {
+    const { email, isAuthenticated } = useAuth();
+
+    const handleLike = async (product) => {
+        // if (!isAuthenticated) {
+        //     onOpenModal();
+        //     return;
+        // }
+
+        const productObj = {
+            userEmail: email,
+            hmProductId: product.defaultArticle.code,
+            name: product.name,
+            imageUrl: product.images[0].baseUrl,
+            price: product.whitePrice.value
+        }
+        console.log(productObj);
+
+        const response = await addToFavorite(productObj);
+
+        if (response === "Product added to favorites") {
+            updateLikedProducts([...likedProducts, product.defaultArticle.code]);
+        } else if (response === "Favorite removed") {
+            updateLikedProducts(likedProducts.filter(id => id !== product.defaultArticle.code));
+        }
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -14,7 +42,7 @@ function ExploreProducts({ products }) {
             <div className="grid grid-cols-4 gap-x-4 gap-y-12">
                 {products.map(product => (
                     <div key={product.code}>
-                        <Link to={`/product/${product.defaultArticle.code}`} className='relative cursor-pointer'>
+                        <Link to={`/product/${product.defaultArticle.code}`} className='relative block cursor-pointer'>
                             <AsyncImage
                                 src={product.defaultArticle.logoPicture[0].baseUrl}
                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
@@ -34,7 +62,16 @@ function ExploreProducts({ products }) {
                                     />
                                 }
                             />
-                            <LiaHeart className='absolute top-3 right-4 text-gray-600 text-2xl ' />
+                            <IoMdHeart
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleLike(product);
+                                }}
+                                className={`absolute top-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(product.code)
+                                    ? 'text-red-500'
+                                    : 'text-white'
+                                    } hover:text-red-500`}
+                            />
                             <p className='pt-2 text-[13px]'>{product.name}</p>
                         </Link>
                         <p>${product.whitePrice.value}</p>

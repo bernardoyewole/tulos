@@ -7,7 +7,7 @@ import SortButton from "../components/SortButton";
 import CurrentClassButtons from "../components/CurrentClassButtons";
 import ExploreProducts from "../components/ExploreProducts";
 
-function Explore({ categories }) {
+function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts }) {
     const [baseClass, setBaseClass] = useState(null);
     const [currentClass, setCurrentClass] = useState(null);
     const [relatedClasses, setRelatedClasses] = useState([]);
@@ -24,8 +24,8 @@ function Explore({ categories }) {
     const { menu, category, subcategory } = useParams();
 
     const fetchProducts = async (classCode, reset = false) => {
-        setProducts(products);
-        return;
+        // setProducts(products);
+        // return;
         try {
             const response = await axios.get('https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list', {
                 params: {
@@ -206,7 +206,7 @@ function Explore({ categories }) {
                 </div>
             ) : (
                 products.length > 0 && (
-                    <ExploreProducts products={displayedProducts} />
+                    <ExploreProducts products={displayedProducts} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={updateLikedProducts} />
                 )
             )}
             <div className="text-center">

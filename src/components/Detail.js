@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { TfiHeart } from "react-icons/tfi";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
