@@ -14,8 +14,6 @@ function SignInSignUp({ open, closeModal }) {
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
   const { setToken } = useAuth();
 
   const onTrySignIn = data => {
@@ -30,7 +28,6 @@ function SignInSignUp({ open, closeModal }) {
         }
       })
         .then(res => {
-          console.log(res.data);
           if (res.status === 200) {
             if (res.data === "User confirmed successfully") {
               setModalView('passwordSignIn');
@@ -42,7 +39,6 @@ function SignInSignUp({ open, closeModal }) {
           setLoading(false);
         })
         .catch(err => {
-          console.log(err);
           setLoading(false);
         });
     } else {
@@ -62,32 +58,27 @@ function SignInSignUp({ open, closeModal }) {
 
     axios.post('https://localhost:44397/api/Account/register', trimmedData)
       .then(res => {
-        console.log(res.data);
         if (res.data.message.includes("User registered successfully") && res.status === 200) {
           closeModal();
         }
         setLoading(false);
       })
       .catch(err => {
-        console.log(err);
         setLoading(false);
       });
   }
 
   const onForgotPassword = async (data) => {
-    console.log(data);
     setLoading(true);
 
     try {
       const response = await axios.post('https://localhost:44397/api/Account/forgotPassword', data);
-      console.log(response);
       if (response.status === 200) {
         setMessage(response.data.message);
       }
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setMessage(error.response.data.message);
       setLoading(false);
     }
@@ -112,7 +103,6 @@ function SignInSignUp({ open, closeModal }) {
         setLoading(false);
       })
       .catch(err => {
-        console.log(err.response);
         if (err.response.data.status === 401 && err.response.data.title === 'Unauthorized') {
           if (err.response.data.detail === 'NotAllowed') {
             setMessage('Please activate your account');

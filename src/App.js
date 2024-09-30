@@ -7,7 +7,6 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Product from './pages/Product';
 import Explore from './pages/Explore'
-import AuthProvider from './provider/AuthProvider';
 import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
 import { useAuth } from './provider/AuthProvider';
@@ -173,11 +172,38 @@ function App() {
       <ScrollToTop>
         <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
         <Routes>
-          <Route path='/' element={<Home newArrivals={newArrivals} onOpenModal={onOpenSignInModal} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={setLikedProducts} />} />
-          <Route path='/product/:productCode' element={<Product addToFavorite={addToFavorite} likedProducts={likedProducts} />} />
-          <Route path='/explore/:menu/:category/:subcategory' element={<Explore categories={categories} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={setLikedProducts} />} />
-          <Route path='/resetPassword' element={<ResetPassword />} />
-          <Route path='/account' element={<Account />} />
+          <Route
+            path='/'
+            element={<Home
+              newArrivals={newArrivals}
+              onOpenModal={onOpenSignInModal}
+              addToFavorite={addToFavorite}
+              likedProducts={likedProducts}
+              updateLikedProducts={setLikedProducts} />}
+          />
+          <Route
+            path='/product/:productCode'
+            element={<Product
+              addToFavorite={addToFavorite}
+              likedProducts={likedProducts} />}
+          />
+          <Route
+            path='/explore/:menu/:category/:subcategory'
+            element={<Explore
+              categories={categories}
+              onOpenModal={onOpenSignInModal}
+              addToFavorite={addToFavorite}
+              likedProducts={likedProducts}
+              updateLikedProducts={setLikedProducts} />}
+          />
+          <Route
+            path='/resetPassword'
+            element={<ResetPassword />}
+          />
+          <Route
+            path='/account'
+            element={<Account />}
+          />
         </Routes>
         <Footer />
       </ScrollToTop>

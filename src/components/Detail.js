@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +11,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
     const [thumbnails, setThumbnails] = useState([]);
     const [selectedThumbnailCode, setSelectedThumbnailCode] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
+
     const toggleExpand = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
     };
@@ -60,10 +61,6 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
 
         addToFavorite(productObj);
     }
-
-    useEffect(() => {
-        console.log(likedProducts);
-    }, [likedProducts]);
 
     return (
         <div>

@@ -7,7 +7,7 @@ import SortButton from "../components/SortButton";
 import CurrentClassButtons from "../components/CurrentClassButtons";
 import ExploreProducts from "../components/ExploreProducts";
 
-function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts }) {
+function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts, onOpenModal }) {
     const [baseClass, setBaseClass] = useState(null);
     const [currentClass, setCurrentClass] = useState(null);
     const [relatedClasses, setRelatedClasses] = useState([]);
@@ -117,11 +117,9 @@ function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts
                     break;
                 case 'lowestPrice':
                     setDisplayedProducts([...products].sort((a, b) => a.whitePrice.value - b.whitePrice.value));
-                    console.log(displayedProducts);
                     break;
                 case 'highestPrice':
                     setDisplayedProducts([...products].sort((a, b) => b.whitePrice.value - a.whitePrice.value));
-                    console.log(displayedProducts);
                     break;
                 default: // 'recommended'
                     setDisplayedProducts(products); // Revert to original data
@@ -206,7 +204,13 @@ function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts
                 </div>
             ) : (
                 products.length > 0 && (
-                    <ExploreProducts products={displayedProducts} addToFavorite={addToFavorite} likedProducts={likedProducts} updateLikedProducts={updateLikedProducts} />
+                    <ExploreProducts
+                        onOpenModal={onOpenModal}
+                        products={displayedProducts}
+                        addToFavorite={addToFavorite}
+                        likedProducts={likedProducts}
+                        updateLikedProducts={updateLikedProducts}
+                    />
                 )
             )}
             <div className="text-center">

@@ -1,19 +1,17 @@
 import { motion } from 'framer-motion';
 import { v4 as uuidv4 } from 'uuid';
-import { LiaHeart } from "react-icons/lia";
 import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import { IoMdHeart } from "react-icons/io";
-
-function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedProducts }) {
+function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedProducts, onOpenModal }) {
     const { email, isAuthenticated } = useAuth();
 
     const handleLike = async (product) => {
-        // if (!isAuthenticated) {
-        //     onOpenModal();
-        //     return;
-        // }
+        if (!isAuthenticated) {
+            onOpenModal();
+            return;
+        }
 
         const productObj = {
             userEmail: email,
@@ -22,7 +20,6 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
             imageUrl: product.images[0].baseUrl,
             price: product.whitePrice.value
         }
-        console.log(productObj);
 
         const response = await addToFavorite(productObj);
 
@@ -67,7 +64,7 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
                                     e.preventDefault();
                                     handleLike(product);
                                 }}
-                                className={`absolute top-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(product.code)
+                                className={`absolute top-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(product.defaultArticle.code)
                                     ? 'text-red-500'
                                     : 'text-white'
                                     } hover:text-red-500`}
