@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await axios.post("https://localhost:44397/api/Account/logout");
+            await axios.post("https://tulosapi.azurewebsites.net/api/Account/logout");
             clearAuthData();
         } catch (error) {
             console.error("Failed to log out", error);
@@ -79,7 +79,7 @@ const AuthProvider = ({ children }) => {
 
     const refreshAuthToken = async () => {
         try {
-            const response = await axios.post("https://localhost:44397/refresh", { refreshToken });
+            const response = await axios.post("https://tulosapi.azurewebsites.net/refresh", { refreshToken });
             const { token, refreshToken: newRefreshToken, expiresIn } = response.data;
             setToken(token, newRefreshToken, expiresIn);
         } catch (error) {

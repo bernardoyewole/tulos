@@ -15,7 +15,7 @@ const AccountPage = () => {
     const navigate = useNavigate();
 
     const getUserInfo = () => {
-        axios.get(`https://localhost:44397/api/User/${email}`)
+        axios.get(`https://tulosapi.azurewebsites.net/api/User/${email}`)
             .then(res => {
                 if (res.status === 200) {
                     SetUser(res.data);
@@ -29,7 +29,7 @@ const AccountPage = () => {
     }
 
     const saveDetailsChanges = (userInfo) => {
-        axios.put(`https://localhost:44397/api/User/${email}`, userInfo)
+        axios.put(`https://tulosapi.azurewebsites.net/api/User/${email}`, userInfo)
             .then(res => {
                 if (res.status === 200) {
                     setIsDetailModified(false);
@@ -42,7 +42,7 @@ const AccountPage = () => {
 
     const submitNewPassword = async (currentPassword, newPassword) => {
         try {
-            const response = await axios.post('https://localhost:44397/api/Account/changePassword', {
+            const response = await axios.post('https://tulosapi.azurewebsites.net/api/Account/changePassword', {
                 email,
                 currentPassword,
                 newPassword

@@ -32,7 +32,7 @@ function ResetPassword() {
         const newPassword = data.password;
 
         try {
-            const response = await axios.post('https://localhost:44397/api/Account/resetPassword', {
+            const response = await axios.post('https://tulosapi.azurewebsites.net/api/Account/resetPassword', {
                 email,
                 resetCode,
                 newPassword

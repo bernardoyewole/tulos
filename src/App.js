@@ -134,7 +134,7 @@ function App() {
 
   const addToFavorite = async (product) => {
     try {
-      const response = await axios.post('https://localhost:44397/api/Favorite/addToFavorite', product);
+      const response = await axios.post('https://tulosapi.azurewebsites.net/api/Favorite/addToFavorite', product);
       if (response.status === 200) {
         setAddToFavoriteTrigger(!addToFavoriteTrigger);
         return response.data;
@@ -149,7 +149,7 @@ function App() {
     const fetchFavorites = async () => {
       if (isAuthenticated) {
         try {
-          const response = await axios.get(`https://localhost:44397/api/Favorite/${email}`);
+          const response = await axios.get(`https://tulosapi.azurewebsites.net/api/Favorite/${email}`);
 
           if (response.status === 200) {
             const favorites = response.data;

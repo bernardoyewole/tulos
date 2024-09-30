@@ -22,7 +22,7 @@ function SignInSignUp({ open, closeModal }) {
 
       const trimmedEmail = data.email.trim();
 
-      axios.post('https://localhost:44397/api/Account/checkUser', trimmedEmail, {
+      axios.post('https://tulosapi.azurewebsites.net/api/Account/checkUser', trimmedEmail, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -56,7 +56,7 @@ function SignInSignUp({ open, closeModal }) {
       lastName: data.lastName.trim()
     };
 
-    axios.post('https://localhost:44397/api/Account/register', trimmedData)
+    axios.post('https://tulosapi.azurewebsites.net/api/Account/register', trimmedData)
       .then(res => {
         if (res.data.message.includes("User registered successfully") && res.status === 200) {
           closeModal();
@@ -72,7 +72,7 @@ function SignInSignUp({ open, closeModal }) {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://localhost:44397/api/Account/forgotPassword', data);
+      const response = await axios.post('https://tulosapi.azurewebsites.net/api/Account/forgotPassword', data);
       if (response.status === 200) {
         setMessage(response.data.message);
       }
@@ -93,7 +93,7 @@ function SignInSignUp({ open, closeModal }) {
       rememberMe: data.rememberMe
     };
 
-    axios.post('https://localhost:44397/login', trimmedData)
+    axios.post('https://tulosapi.azurewebsites.net/login', trimmedData)
       .then(res => {
         if (res.data.accessToken.length > 0 && res.status === 200) {
           setToken(res.data.accessToken, res.data.refreshToken, res.data.expiresIn, trimmedData.email);
