@@ -6,11 +6,13 @@ import { AsyncImage } from 'loadable-image'
 import { IoMdHeart } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
 
-function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts }) {
+function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts, onOpenModal }) {
     const [expandedSection, setExpandedSection] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [selectedThumbnailCode, setSelectedThumbnailCode] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
+
+    const { isAuthenticated } = useAuth();
 
     const toggleExpand = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
@@ -51,6 +53,11 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
     }
 
     const handleLike = (product) => {
+        if (!isAuthenticated) {
+            onOpenModal();
+            return;
+        }
+
         const productObj = {
             userEmail: email,
             hmProductId: product.code,

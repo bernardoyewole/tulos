@@ -185,7 +185,8 @@ function App() {
             path='/product/:productCode'
             element={<Product
               addToFavorite={addToFavorite}
-              likedProducts={likedProducts} />}
+              likedProducts={likedProducts}
+              onOpenModal={onOpenSignInModal} />}
           />
           <Route
             path='/explore/:menu/:category/:subcategory'

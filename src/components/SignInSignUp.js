@@ -61,6 +61,7 @@ function SignInSignUp({ open, closeModal }) {
         if (res.data.message.includes("User registered successfully") && res.status === 200) {
           closeModal();
         }
+
         setLoading(false);
       })
       .catch(err => {
@@ -96,6 +97,7 @@ function SignInSignUp({ open, closeModal }) {
     axios.post('https://tulosapi.azurewebsites.net/login', trimmedData)
       .then(res => {
         if (res.data.accessToken.length > 0 && res.status === 200) {
+          setMessage('');
           setToken(res.data.accessToken, res.data.refreshToken, res.data.expiresIn, trimmedData.email);
           closeModal();
         }
