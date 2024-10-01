@@ -13,10 +13,13 @@ function SignInSignUp({ open, closeModal }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
 
   const { setToken } = useAuth();
 
   const onTrySignIn = data => {
+    setEmail('');
+
     if (isValid(data.email)) {
       setLoading(true);
 
@@ -31,7 +34,9 @@ function SignInSignUp({ open, closeModal }) {
           if (res.status === 200) {
             if (res.data === "User confirmed successfully") {
               setModalView('passwordSignIn');
+              setEmail(trimmedEmail);
             } else {
+              setEmail(trimmedEmail);
               setModalView('signUp');
             }
           }
@@ -145,6 +150,7 @@ function SignInSignUp({ open, closeModal }) {
           showPassword={showPassword}
           togglePassword={setShowPassword}
           errorMessage={message}
+          email={email}
         />
 
       case 'signUp':
@@ -154,6 +160,7 @@ function SignInSignUp({ open, closeModal }) {
           togglePassword={setShowPassword}
           showPassword={showPassword}
           changeModalView={setModalView}
+          email={email}
         />
 
       case 'forgotPassword':

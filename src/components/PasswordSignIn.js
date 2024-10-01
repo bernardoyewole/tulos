@@ -2,7 +2,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPassword, togglePassword, errorMessage }) {
+function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPassword, togglePassword, errorMessage, email }) {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     return (
@@ -15,8 +15,10 @@ function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPasswo
                     <input
                         type="text"
                         id="email"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-12 px-3 transition-all duration-300 ease-out text-[15px]"
+                        value={email}
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-12 px-3 transition-all duration-300 ease-out text-[15px] disabled:cursor-not-allowed disabled:bg-gray-100"
                         autoComplete="off"
+                        disabled
                         {...register('email', { required: 'Email is required' })}
                     />
                     <p className="text-[10px] leading-none text-red-500 h-2">{errors.email && `${errors.email.message}`}</p>

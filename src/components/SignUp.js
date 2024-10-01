@@ -2,7 +2,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { FaSpinner } from 'react-icons/fa';
 import { useForm } from "react-hook-form";
 
-function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPassword }) {
+function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPassword, email }) {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     return (
@@ -50,7 +50,9 @@ function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPasswo
                     <input
                         type="text"
                         id="email"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px] disabled:cursor-not-allowed disabled:bg-gray-100"
+                        value={email}
+                        disabled
                         autoComplete="off"
                         {...register('email',
                             {
