@@ -33,8 +33,8 @@ function SignInSignUp({ open, closeModal }) {
         .then(res => {
           if (res.status === 200) {
             if (res.data === "User confirmed successfully") {
-              setModalView('passwordSignIn');
               setEmail(trimmedEmail);
+              setModalView('passwordSignIn');
             } else {
               setEmail(trimmedEmail);
               setModalView('signUp');

@@ -16,10 +16,10 @@ function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPasswo
                         type="text"
                         id="email"
                         value={email}
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-12 px-3 transition-all duration-300 ease-out text-[15px] disabled:cursor-not-allowed disabled:bg-gray-100"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-12 px-3 transition-all duration-300 ease-out text-[15px] read-only:cursor-not-allowed read-only:bg-gray-100"
                         autoComplete="off"
-                        disabled
-                    // {...register('email', { required: 'Email is required' })}
+                        readOnly
+                        {...register('email', { required: 'Email is required' })}
                     />
                     <p className="text-[10px] leading-none text-red-500 h-2">{errors.email && `${errors.email.message}`}</p>
                 </div>

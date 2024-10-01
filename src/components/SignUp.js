@@ -50,19 +50,19 @@ function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPasswo
                     <input
                         type="text"
                         id="email"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px] disabled:cursor-not-allowed disabled:bg-gray-100"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px] read-only:cursor-not-allowed read-only:bg-gray-100"
                         value={email}
-                        disabled
+                        readOnly
                         autoComplete="off"
-                    // {...register('email',
-                    //     {
-                    //         required: 'Email is required',
-                    //         pattern: {
-                    //             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                    //             message: 'Enter a valid email address'
-                    //         }
+                        {...register('email',
+                            {
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                    message: 'Enter a valid email address'
+                                }
 
-                    //     })}
+                            })}
                     />
                     <p className="text-[10px] leading-none text-red-500 h-2">{errors.email && `${errors.email.message}`}</p>
                 </div>
