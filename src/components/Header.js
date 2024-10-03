@@ -8,14 +8,13 @@ import { v4 as uuidv4 } from 'uuid';
 import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
-import axios from "axios";
+
 function Header({ categories, onOpenModal, onCloseModal, open }) {
-    // const [open, setOpen] = useState(false);
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
 
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     const handleMouseLeave = () => {
@@ -128,7 +127,7 @@ function Header({ categories, onOpenModal, onCloseModal, open }) {
                         </div>
                     </ul>
                     <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <a className="font-sans font-bold text-3xl leading-[3]" onClick={() => navigate('/')}>TULOS</a>
+                        <Link to='/' className="font-sans font-bold text-3xl leading-[3]">TULOS</Link>
                     </div>
                     <ul className="flex gap-6 items-center">
                         <li className="cursor-pointer"><IoSearchOutline className="text-[21px]" /></li>

@@ -2,8 +2,9 @@ import menBg from '../images/men-2.jpg';
 import womenBg from '../images/women-2.jpg';
 import kidsBg from '../images/kids-2.jpg';
 import homeBg from '../images/home.jpg';
+import { Link } from 'react-router-dom';
 
-function Featured() {
+function Featured({ shop }) {
     return (
         <section className='pb-20'>
             <h2 className='text-center text-4xl'>FEATURED COLLECTION</h2>
@@ -15,7 +16,7 @@ function Featured() {
                     <img src={menBg} />
                     <div className='absolute text-center left-6 bottom-4'>
                         <h3 className='text-4xl text-white pb-4'>MEN</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full'>Shop</button>
+                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Men')}>Shop</button>
                     </div>
                 </div>
                 <div className='relative'>
@@ -24,7 +25,7 @@ function Featured() {
                     <img src={womenBg} />
                     <div className='absolute text-center left-6 bottom-4'>
                         <h3 className='text-4xl text-white pb-4'>WOMEN</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full'>Shop</button>
+                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Women')}>Shop</button>
                     </div>
                 </div>
                 <div className='relative'>
@@ -33,7 +34,7 @@ function Featured() {
                     <img src={kidsBg} />
                     <div className='absolute text-center left-6 bottom-4'>
                         <h3 className='text-4xl text-white pb-4'>KIDS</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full'>Shop</button>
+                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Kids')}>Shop</button>
                     </div>
                 </div>
                 <div className='relative'>
@@ -42,7 +43,7 @@ function Featured() {
                     <img src={homeBg} />
                     <div className='absolute text-center left-6 bottom-4'>
                         <h3 className='text-4xl text-white pb-4'>HOME</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full'>Shop</button>
+                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Home')}>Shop</button>
                     </div>
                 </div>
             </div>

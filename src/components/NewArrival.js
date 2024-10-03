@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
 
-function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProducts, likedProducts }) {
+function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProducts, likedProducts, shopNow }) {
     const { email, isAuthenticated } = useAuth();
 
     const handleLike = async (arrival) => {
@@ -70,7 +70,7 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
                 ))}
             </div>
             <div className='flex justify-center pt-6'>
-                <button className='text-white bg-black py-3 px-10 text-[13px] rounded-full'>Shop Now</button>
+                <button className='text-white bg-black py-3 px-10 text-[13px] rounded-full' onClick={shopNow}>Shop Now</button>
             </div>
         </section>
     );

@@ -9,13 +9,12 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../provider/AuthProvider';
 import axios from 'axios';
 
-function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProducts }) {
-    // const { isAuthenticated } = useAuth();
+function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProducts, categories, shopNow, shop }) {
     const isLoading = !newArrivals || newArrivals.length === 0;
 
     return (
         <>
-            <HeroBanner />
+            <HeroBanner categories={categories} shopNow={shopNow} />
             {isLoading ? (
                 <section className="pt-20">
                     <h2 className="text-center text-4xl">
@@ -40,11 +39,18 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <NewArrival newArrivals={newArrivals} addToFavorite={addToFavorite} onOpenModal={onOpenModal} likedProducts={likedProducts} updateLikedProducts={updateLikedProducts} />
+                    <NewArrival
+                        newArrivals={newArrivals}
+                        addToFavorite={addToFavorite}
+                        onOpenModal={onOpenModal}
+                        likedProducts={likedProducts}
+                        updateLikedProducts={updateLikedProducts}
+                        shopNow={shopNow}
+                    />
                 </motion.div>
             )}
             <NewStore />
-            <Featured />
+            <Featured shop={shop} />
         </>
     );
 }

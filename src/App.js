@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Header from "./components/Header";
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -18,7 +18,11 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
   const [addToFavoriteTrigger, setAddToFavoriteTrigger] = useState(false);
+  const [defaultMenu, setDefaultMenu] = useState(null);
+  const [defaultCategory, setDefaultCategory] = useState(null);
+  const [defaultSubcategory, setDefaultSubcategory] = useState(null);
 
+  const navigate = useNavigate();
   const { email, isAuthenticated } = useAuth();
 
   const fetchBaseApparel = async (currentPage = 0) => {
@@ -122,6 +126,10 @@ function App() {
     };
 
     fetchInitialData();
+
+    setDefaultMenu(categories.find(c => c.CatName === 'Women').CatName)
+    setDefaultCategory(categories.find(c => c.CatName === 'Women').CategoriesArray[0].CatName)
+    setDefaultSubcategory(categories.find(c => c.CatName === 'Women').CategoriesArray[0].CategoriesArray[0].CatName);
   }, []);
 
   const onOpenSignInModal = () => {
@@ -144,6 +152,28 @@ function App() {
       // return error.response.data;
     }
   }
+
+  // const menu = categories.find(c => c.CatName === 'Women').CatName;
+  // const category = categories.find(c => c.CatName === 'Women').CategoriesArray[0].CatName;
+  // const subcategory = categories.find(c => c.CatName === 'Women').CategoriesArray[0].CategoriesArray[0].CatName;
+
+  const handleShopNow = () => {
+    if (defaultMenu !== undefined && defaultCategory !== undefined && defaultSubcategory !== undefined) {
+      navigate(`explore/${defaultMenu}/${defaultCategory}/${defaultSubcategory}`);
+    }
+  }
+
+  const handleShop = (categoryName) => {
+    const selectedCategory = categories.find(c => c.CatName === categoryName);
+    const menu = selectedCategory.CatName;
+    const category = selectedCategory.CategoriesArray[0].CatName;
+    const subcategory = selectedCategory.CategoriesArray[0].CategoriesArray[0].CatName;
+
+    if (menu && category && subcategory) {
+      navigate(`explore/${menu}/${category}/${subcategory}`);
+    }
+  };
+
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -168,47 +198,49 @@ function App() {
   }, [email, isAuthenticated, addToFavoriteTrigger]);
 
   return (
-    <Router>
-      <ScrollToTop>
-        <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
-        <Routes>
-          <Route
-            path='/'
-            element={<Home
-              newArrivals={newArrivals}
-              onOpenModal={onOpenSignInModal}
-              addToFavorite={addToFavorite}
-              likedProducts={likedProducts}
-              updateLikedProducts={setLikedProducts} />}
-          />
-          <Route
-            path='/product/:productCode'
-            element={<Product
-              addToFavorite={addToFavorite}
-              likedProducts={likedProducts}
-              onOpenModal={onOpenSignInModal} />}
-          />
-          <Route
-            path='/explore/:menu/:category/:subcategory'
-            element={<Explore
-              categories={categories}
-              onOpenModal={onOpenSignInModal}
-              addToFavorite={addToFavorite}
-              likedProducts={likedProducts}
-              updateLikedProducts={setLikedProducts} />}
-          />
-          <Route
-            path='/resetPassword'
-            element={<ResetPassword />}
-          />
-          <Route
-            path='/account'
-            element={<Account />}
-          />
-        </Routes>
-        <Footer />
-      </ScrollToTop>
-    </Router>
+    <ScrollToTop>
+      <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
+      <Routes>
+        <Route
+          path='/'
+          element={<Home
+            categories={categories}
+            newArrivals={newArrivals}
+            onOpenModal={onOpenSignInModal}
+            addToFavorite={addToFavorite}
+            likedProducts={likedProducts}
+            updateLikedProducts={setLikedProducts}
+            shopNow={handleShopNow}
+            shop={handleShop}
+          />}
+        />
+        <Route
+          path='/product/:productCode'
+          element={<Product
+            addToFavorite={addToFavorite}
+            likedProducts={likedProducts}
+            onOpenModal={onOpenSignInModal} />}
+        />
+        <Route
+          path='/explore/:menu/:category/:subcategory'
+          element={<Explore
+            categories={categories}
+            onOpenModal={onOpenSignInModal}
+            addToFavorite={addToFavorite}
+            likedProducts={likedProducts}
+            updateLikedProducts={setLikedProducts} />}
+        />
+        <Route
+          path='/resetPassword'
+          element={<ResetPassword />}
+        />
+        <Route
+          path='/account'
+          element={<Account />}
+        />
+      </Routes>
+      <Footer />
+    </ScrollToTop>
   );
 }
 
