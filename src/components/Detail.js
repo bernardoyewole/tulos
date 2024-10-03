@@ -3,7 +3,7 @@ import { IoBagHandleOutline } from "react-icons/io5";
 import { PiCaretDown } from "react-icons/pi";
 import { v4 as uuidv4 } from 'uuid';
 import { AsyncImage } from 'loadable-image'
-import { IoMdHeart } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
 
 function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts, onOpenModal }) {
@@ -73,13 +73,32 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
         <div>
             <div className="flex justify-between items-center">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
-                <IoMdHeart
-                    onClick={() => handleLike(product)}
-                    className={`cursor-pointer text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(product.code)
-                        ? 'text-red-500'
-                        : 'text-white'
-                        } hover:text-red-500`}
-                />
+                {likedProducts.includes(product.code) ? (
+                    <IoMdHeart
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleLike(product);
+                        }}
+                        className="text-2xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                    />
+                ) : (
+                    <div className="group">
+                        <IoMdHeartEmpty
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleLike(product);
+                            }}
+                            className="text-2xl text-gray-600 group-hover:hidden"
+                        />
+                        <IoMdHeart
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleLike(product);
+                            }}
+                            className="text-2xl text-red-500 cursor-pointer hidden group-hover:block"
+                        />
+                    </div>
+                )}
             </div>
             <p className="text-xl my-6 leading-[1]">${product.whitePrice.price}</p>
 

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
-import { IoMdHeart } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedProducts, onOpenModal }) {
     const { email, isAuthenticated } = useAuth();
 
@@ -59,16 +59,32 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
                                     />
                                 }
                             />
-                            <IoMdHeart
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    handleLike(product);
-                                }}
-                                className={`absolute top-3 right-4 text-2xl fill-current transition-colors duration-300 ${likedProducts.includes(product.defaultArticle.code)
-                                    ? 'text-red-500'
-                                    : 'text-white'
-                                    } hover:text-red-500`}
-                            />
+                            {likedProducts.includes(product.defaultArticle.code) ? (
+                                <IoMdHeart
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleLike(product);
+                                    }}
+                                    className="absolute top-3 right-4 text-2xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                                />
+                            ) : (
+                                <div className="group">
+                                    <IoMdHeartEmpty
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleLike(product);
+                                        }}
+                                        className="absolute top-3 right-4 text-2xl text-gray-600 group-hover:hidden"
+                                    />
+                                    <IoMdHeart
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleLike(product);
+                                        }}
+                                        className="absolute top-3 right-4 text-2xl text-red-500 cursor-pointer hidden group-hover:block"
+                                    />
+                                </div>
+                            )}
                             <p className='pt-2 text-[13px]'>{product.name}</p>
                         </Link>
                         <p>${product.whitePrice.value}</p>

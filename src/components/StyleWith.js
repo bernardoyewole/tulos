@@ -1,15 +1,16 @@
-import { useNavigate, Link } from "react-router-dom";
-import { LiaHeart } from "react-icons/lia";
+import { Link } from "react-router-dom";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { PiArrowLeftLight } from "react-icons/pi";
 import { PiArrowRightLight } from "react-icons/pi";
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { AsyncImage } from 'loadable-image';
+import { useAuth } from "../provider/AuthProvider";
 
-function StyleWith({ styleWithList }) {
-    const navigate = useNavigate();
-
+function StyleWith({ styleWithList, addToFavorite, likedProducts, onOpenModal }) {
+    const { email, isAuthenticated } = useAuth();
+    console.log(likedProducts);
     const settings = {
         dots: true,
         infinite: true,
@@ -55,6 +56,23 @@ function StyleWith({ styleWithList }) {
         ],
     };
 
+    const handleLike = (style) => {
+        if (!isAuthenticated) {
+            onOpenModal();
+            return;
+        }
+
+        const styleObj = {
+            userEmail: email,
+            hmProductId: style.code,
+            name: style.name,
+            imageUrl: style.articlesList.find(x => x.code === style.code).fabricSwatchThumbnails[0].baseUrl || style.articlesList.find(x => x.code === style.code).galleryDetails[0].baseUrl,
+            price: style.whitePrice.price
+        }
+
+        addToFavorite(styleObj);
+    }
+
     return (
         <section className="my-container my-20">
             <h2 className="font-semibold text-lg pb-4">Style With</h2>
@@ -62,8 +80,8 @@ function StyleWith({ styleWithList }) {
                 {styleWithList.map((style) => {
                     if (!style) return null;
                     return (
-                        <div key={style.code}>
-                            <Link to={`/product/${style.code}`} className='relative cursor-pointer'>
+                        <div key={style.code} className="relative">
+                            <Link to={`/product/${style.code}`} className='cursor-pointer'>
                                 {style.articlesList && style.articlesList.length > 0 && style.articlesList[0].fabricSwatchThumbnails.length > 0 && (
                                     <AsyncImage
                                         src={style.articlesList.find(x => x.code === style.code).fabricSwatchThumbnails[0].baseUrl}
@@ -74,18 +92,36 @@ function StyleWith({ styleWithList }) {
                                                 src={style.articlesList.find(x => x.code === style.code).galleryDetails[0].baseUrl}
                                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                 loader={<div style={{ background: '#ededed' }} />}
-                                            // error={
-                                            //     <AsyncImage
-                                            //         src={style.articlesList.find(x => x.code === style.code).galleryDetails[1].baseUrl}
-                                            //         style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
-                                            //         loader={<div style={{ background: '#ededed' }} />}
-                                            //     />
-                                            // }
                                             />
                                         }
                                     />
                                 )}
-                                <LiaHeart className='absolute bottom-3 right-4 text-gray-600 text-2xl ' />
+                                {likedProducts.includes(style.code) ? (
+                                    <IoMdHeart
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleLike(style);
+                                        }}
+                                        className="absolute top-3 right-4 text-2xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                                    />
+                                ) : (
+                                    <div className="group">
+                                        <IoMdHeartEmpty
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleLike(style);
+                                            }}
+                                            className="absolute top-3 right-4 text-2xl text-gray-600 group-hover:hidden"
+                                        />
+                                        <IoMdHeart
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleLike(style);
+                                            }}
+                                            className="absolute top-3 right-4 text-2xl text-red-500 cursor-pointer hidden group-hover:block"
+                                        />
+                                    </div>
+                                )}
                             </Link>
                             <p className='pt-2 text-[13px]'>{style.name}</p>
                             <p>${style.whitePrice?.price}</p>

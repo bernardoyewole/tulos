@@ -213,7 +213,13 @@ function Product({ addToFavorite, likedProducts, onOpenModal }) {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    {styleWithProducts.length > 1 && <StyleWith styleWithList={styleWithProducts} />}
+                    {styleWithProducts.length > 1 &&
+                        <StyleWith
+                            styleWithList={styleWithProducts}
+                            addToFavorite={addToFavorite}
+                            likedProducts={likedProducts}
+                            onOpenModal={onOpenModal}
+                        />}
                 </motion.div>
             )}
 
@@ -233,7 +239,13 @@ function Product({ addToFavorite, likedProducts, onOpenModal }) {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    {OthersBoughtList.length > 0 && <OthersBought OthersBought={OthersBoughtList} />}
+                    {OthersBoughtList.length > 0 &&
+                        <OthersBought
+                            OthersBought={OthersBoughtList}
+                            addToFavorite={addToFavorite}
+                            likedProducts={likedProducts}
+                            onOpenModal={onOpenModal}
+                        />}
                 </motion.div>
             )}
         </section>
