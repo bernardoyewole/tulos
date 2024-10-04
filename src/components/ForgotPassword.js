@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { FaSpinner } from 'react-icons/fa';
 
-function ForgotPassword({ onForgotPassword, message, loading }) {
+function ForgotPassword({ onForgotPassword, message, loading, changeModalView }) {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     return (
@@ -12,7 +12,7 @@ function ForgotPassword({ onForgotPassword, message, loading }) {
                 <input
                     type="text"
                     id="email"
-                    className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
+                    className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 focus:ring-0 outline-none h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
                     autoComplete="off"
                     {...register('email',
                         {
@@ -27,6 +27,9 @@ function ForgotPassword({ onForgotPassword, message, loading }) {
             </div>
             <button type="submit" className="w-full bg-black text-white h-12 mb-4 hover:bg-gray-900 flex items-center justify-center" disabled={loading}>
                 {loading ? <FaSpinner className="animate-spin mr-2" /> : 'CONTINUE'}
+            </button>
+            <button onClick={() => changeModalView('signIn')} className="w-full text-black h-12 border border-black hover:bg-gray-100">
+                BACK TO SIGN IN
             </button>
             <p className="h-2 text-[13px] text-[#28865f]">{message}</p>
         </form>

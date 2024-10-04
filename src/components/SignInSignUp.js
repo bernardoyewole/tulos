@@ -168,6 +168,7 @@ function SignInSignUp({ open, closeModal }) {
           onForgotPassword={onForgotPassword}
           message={message}
           loading={loading}
+          changeModalView={setModalView}
         />
 
       default:

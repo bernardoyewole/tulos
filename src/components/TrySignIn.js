@@ -17,7 +17,7 @@ function TrySignIn({ onTrySignIn, loading, errorMessage }) {
                     <input
                         type="text"
                         id="email"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-12 px-3 transition-all duration-300 ease-out text-[15px]"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 focus:ring-0 outline-none h-12 px-3 transition-all duration-300 ease-out text-[15px]"
                         autoComplete="off"
                         {...register('email', { required: 'Email is required' })}
                     />

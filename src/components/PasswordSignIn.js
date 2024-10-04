@@ -16,7 +16,7 @@ function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPasswo
                         type="text"
                         id="email"
                         value={email}
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-12 px-3 transition-all duration-300 ease-out text-[15px] read-only:cursor-not-allowed read-only:bg-gray-100"
+                        className="border-[1px] border-gray-300 focus:border-gray-300 focus:ring-0 outline-none rounded-sm h-12 px-3 transition-all duration-300 ease-out text-[15px] read-only:cursor-not-allowed read-only:bg-gray-100"
                         autoComplete="off"
                         readOnly
                         {...register('email', { required: 'Email is required' })}
@@ -28,7 +28,7 @@ function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPasswo
                     <input
                         type={showPassword ? 'text' : 'password'}
                         id="password"
-                        className={`border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px] bg-yellow-50`}
+                        className={`border-[1px] border-gray-300 rounded-sm focus:border-gray-400 focus:ring-0 outline-none h-[50px] px-3 transition-all duration-300 ease-out text-[15px] bg-yellow-50`}
                         autoComplete="off"
                         {...register('password', { required: 'Password is required' })}
                     />
@@ -54,7 +54,7 @@ function PasswordSignIn({ onPasswordSignIn, loading, changeModalView, showPasswo
                     BACK TO SIGN IN
                 </button>
             </form>
-            <button onClick={() => changeModalView('forgotPassword')} className="text-sm text-gray-500 hover:text-black mt-4">FORGOT PASSWORD?</button>
+            <button onClick={() => changeModalView('forgotPassword')} className="text-sm text-gray-600 hover:text-black mt-4 transition-colors duration-300">FORGOT PASSWORD?</button>
         </>
     )
 }

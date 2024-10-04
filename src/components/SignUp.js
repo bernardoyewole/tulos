@@ -15,7 +15,7 @@ function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPasswo
                     <input
                         type="text"
                         id="firstName"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 focus:ring-0 outline-none h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
                         autoComplete="off"
                         {...register('firstName',
                             {
@@ -33,7 +33,7 @@ function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPasswo
                     <input
                         type="text"
                         id="lastName"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 focus:ring-0 outline-none h-[50px] px-3 transition-all duration-300 ease-out text-[15px]"
                         autoComplete="off"
                         {...register('lastName', {
                             required: 'Last Name is required',
@@ -50,7 +50,7 @@ function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPasswo
                     <input
                         type="text"
                         id="email"
-                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px] read-only:cursor-not-allowed read-only:bg-gray-100"
+                        className="border-[1px] border-gray-300 rounded-sm focus:border-gray-300 focus:ring-0 outline-none h-[50px] px-3 transition-all duration-300 ease-out text-[15px] read-only:cursor-not-allowed read-only:bg-gray-100"
                         value={email}
                         readOnly
                         autoComplete="off"
@@ -71,7 +71,7 @@ function SignUp({ onSignUp, togglePassword, loading, changeModalView, showPasswo
                     <input
                         type={showPassword ? 'text' : 'password'}
                         id="password"
-                        className={`border-[1px] border-gray-300 rounded-sm focus:border-gray-400 h-[50px] px-3 transition-all duration-300 ease-out text-[15px] bg-yellow-50`}
+                        className={`border-[1px] border-gray-300 rounded-sm focus:border-gray-400 focus:ring-0 outline-none h-[50px] px-3 transition-all duration-300 ease-out text-[15px] bg-yellow-50`}
                         autoComplete="off"
                         {...register('password',
                             {

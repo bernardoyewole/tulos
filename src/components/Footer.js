@@ -12,7 +12,6 @@ function Footer() {
 
     useEffect(() => {
         emailjs.init(PUBLIC_KEY);
-        console.log(PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID)
     }, [PUBLIC_KEY]);
 
     const handleSubmit = async (e) => {
@@ -40,7 +39,7 @@ function Footer() {
                             <input
                                 type="email"
                                 placeholder="Your Email"
-                                className="px-4 py-2 border rounded-l-full focus:outline-none w-64 text-sm"
+                                className="px-4 py-2 border rounded-l-full focus:border-gray-800 focus:ring-0 outline-none w-64 text-sm transition-color duration-300"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 ref={emailRef}
