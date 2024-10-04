@@ -7,7 +7,7 @@ import SortButton from "../components/SortButton";
 import CurrentClassButtons from "../components/CurrentClassButtons";
 import ExploreProducts from "../components/ExploreProducts";
 
-function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts, onOpenModal }) {
+function Explore({ categories, addToFavorite, likedProductIds, updateLikedProducts, onOpenModal }) {
     const [baseClass, setBaseClass] = useState(null);
     const [currentClass, setCurrentClass] = useState(null);
     const [relatedClasses, setRelatedClasses] = useState([]);
@@ -208,7 +208,7 @@ function Explore({ categories, addToFavorite, likedProducts, updateLikedProducts
                         onOpenModal={onOpenModal}
                         products={displayedProducts}
                         addToFavorite={addToFavorite}
-                        likedProducts={likedProducts}
+                        likedProducts={likedProductIds}
                         updateLikedProducts={updateLikedProducts}
                     />
                 )

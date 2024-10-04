@@ -8,7 +8,7 @@ import PasswordSignIn from './PasswordSignIn';
 import SignUp from './SignUp';
 import ForgotPassword from './ForgotPassword';
 
-function SignInSignUp({ open, closeModal }) {
+function SignInSignUp({ isModalOpen, closeModal }) {
   const [modalView, setModalView] = useState('signIn');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -177,7 +177,7 @@ function SignInSignUp({ open, closeModal }) {
   };
 
   return (
-    <Modal open={open} onClose={closeModal} center>
+    <Modal open={isModalOpen} onClose={closeModal} center>
       <div className="w-[400px] p-6">
         {renderModalContent()}
       </div>

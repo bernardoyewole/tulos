@@ -9,7 +9,7 @@ import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
 
-function Header({ categories, onOpenModal, onCloseModal, open }) {
+function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
@@ -24,6 +24,14 @@ function Header({ categories, onOpenModal, onCloseModal, open }) {
     const handleAccountClick = async () => {
         if (isAuthenticated) {
             navigate('/account');
+        } else {
+            onOpenModal();
+        }
+    }
+
+    const handleFavoritesClick = () => {
+        if (isAuthenticated) {
+            navigate('/favorites');
         } else {
             onOpenModal();
         }
@@ -132,11 +140,11 @@ function Header({ categories, onOpenModal, onCloseModal, open }) {
                     <ul className="flex gap-6 items-center">
                         <li className="cursor-pointer"><IoSearchOutline className="text-[21px]" /></li>
                         <li onClick={handleAccountClick} className="cursor-pointer"><FaRegUser className="text-[17px] text-gray-800" /></li>
-                        <li className="cursor-pointer"><LiaHeart className="text-xl" /></li>
+                        <li onClick={handleFavoritesClick} className="cursor-pointer"><LiaHeart className="text-xl" /></li>
                         <li className="cursor-pointer"><BsHandbag className="text-lg" /></li>
                     </ul>
                 </nav>
-                <SignInSignUp open={open} closeModal={onCloseModal} />
+                <SignInSignUp isModalOpen={isModalOpen} closeModal={onCloseModal} />
             </div>
         </>
     );

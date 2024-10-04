@@ -6,10 +6,8 @@ import Featured from '../components/Featured';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { motion } from 'framer-motion';
-import { useAuth } from '../provider/AuthProvider';
-import axios from 'axios';
 
-function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProducts, categories, shopNow, shop }) {
+function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProductIds, categories, shopNow, shop }) {
     const isLoading = !newArrivals || newArrivals.length === 0;
 
     return (
@@ -43,7 +41,7 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
                         newArrivals={newArrivals}
                         addToFavorite={addToFavorite}
                         onOpenModal={onOpenModal}
-                        likedProducts={likedProducts}
+                        likedProducts={likedProductIds}
                         updateLikedProducts={updateLikedProducts}
                         shopNow={shopNow}
                     />

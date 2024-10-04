@@ -10,6 +10,7 @@ import Explore from './pages/Explore'
 import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
 import { useAuth } from './provider/AuthProvider';
+import Favorites from './pages/Favorites';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -17,6 +18,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
+  const [likedProductIds, setLikedProductIds] = useState([]);
   const [addToFavoriteTrigger, setAddToFavoriteTrigger] = useState(false);
 
   const navigate = useNavigate();
@@ -168,7 +170,6 @@ function App() {
     }
   };
 
-
   useEffect(() => {
     const fetchFavorites = async () => {
       if (isAuthenticated) {
@@ -178,7 +179,9 @@ function App() {
           if (response.status === 200) {
             const favorites = response.data;
             const likedProductIds = favorites.map(fav => fav.hmProductId);
-            setLikedProducts(likedProductIds);
+
+            setLikedProducts(favorites);
+            setLikedProductIds(likedProductIds);
           }
         } catch (error) {
           console.error("Error fetching favorites:", error);
@@ -193,7 +196,12 @@ function App() {
 
   return (
     <ScrollToTop>
-      <Header categories={categories} onOpenModal={onOpenSignInModal} onCloseModal={onCloseSignInModal} open={isModalOpen} />
+      <Header
+        categories={categories}
+        onOpenModal={onOpenSignInModal}
+        onCloseModal={onCloseSignInModal}
+        isModalOpen={isModalOpen}
+      />
       <Routes>
         <Route
           path='/'
@@ -202,7 +210,7 @@ function App() {
             newArrivals={newArrivals}
             onOpenModal={onOpenSignInModal}
             addToFavorite={addToFavorite}
-            likedProducts={likedProducts}
+            likedProductIds={likedProductIds}
             updateLikedProducts={setLikedProducts}
             shopNow={handleShopNow}
             shop={handleShop}
@@ -212,7 +220,7 @@ function App() {
           path='/product/:productCode'
           element={<Product
             addToFavorite={addToFavorite}
-            likedProducts={likedProducts}
+            likedProductIds={likedProductIds}
             onOpenModal={onOpenSignInModal} />}
         />
         <Route
@@ -221,8 +229,17 @@ function App() {
             categories={categories}
             onOpenModal={onOpenSignInModal}
             addToFavorite={addToFavorite}
-            likedProducts={likedProducts}
+            likedProductIds={likedProductIds}
             updateLikedProducts={setLikedProducts} />}
+        />
+        <Route
+          path='/favorites'
+          element={<Favorites
+            likedProducts={likedProducts}
+            likedProductIds={likedProductIds}
+            addToFavorite={addToFavorite}
+            onOpenModal={onOpenSignInModal}
+          />}
         />
         <Route
           path='/resetPassword'

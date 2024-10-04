@@ -54,31 +54,31 @@ function Footer() {
                     <div>
                         <h3 className="font-bold mb-4">Product</h3>
                         <ul className="text-gray-500 space-y-2 text-sm">
-                            <li>Tshirt</li>
-                            <li>Jacket</li>
-                            <li>Shoes</li>
-                            <li>Pants</li>
-                            <li>Sunglasses</li>
-                            <li>Tuxedo</li>
+                            <li><a href="#">Tshirt</a></li>
+                            <li><a href="#">Jacket</a></li>
+                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">Pants</a></li>
+                            <li><a href="#">Sunglasses</a></li>
+                            <li><a href="#">Tuxedo</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="font-bold mb-4">Categories</h3>
                         <ul className="text-gray-500 space-y-2 text-sm">
-                            <li>Man</li>
-                            <li>Woman</li>
-                            <li>Kids</li>
-                            <li>Gift</li>
-                            <li>New Arrival</li>
+                            <li><a href="#">Man</a></li>
+                            <li><a href="#">Woman</a></li>
+                            <li><a href="#">Kids</a></li>
+                            <li><a href="#">Gift</a></li>
+                            <li><a href="#">New Arrival</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="font-bold mb-4">Our Social Media</h3>
                         <ul className="text-gray-500 space-y-2 text-sm">
-                            <li>Instagram</li>
-                            <li>Facebook</li>
-                            <li>Youtube</li>
-                            <li>Twitter</li>
+                            <li><a>Instagram</a></li>
+                            <li><a>Facebook</a></li>
+                            <li><a>Youtube</a></li>
+                            <li><a>Twitter</a></li>
                         </ul>
                     </div>
                 </div>
