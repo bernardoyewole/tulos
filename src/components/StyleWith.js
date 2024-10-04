@@ -10,7 +10,6 @@ import { useAuth } from "../provider/AuthProvider";
 
 function StyleWith({ styleWithList, addToFavorite, likedProducts, onOpenModal }) {
     const { email, isAuthenticated } = useAuth();
-    console.log(likedProducts);
     const settings = {
         dots: true,
         infinite: true,

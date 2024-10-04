@@ -5,14 +5,17 @@ import './styles/reset.css';
 import './styles/app.css';
 import AuthProvider from './provider/AuthProvider';
 import { BrowserRouter as Router } from 'react-router-dom';
+import CartProvider from './provider/CartProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
     <AuthProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <CartProvider>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </CartProvider>
     </AuthProvider>
   </Router>
 );

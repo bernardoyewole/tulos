@@ -29,7 +29,6 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
                                 src={product.imageUrl}
                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                 loader={<div style={{ background: '#ededed' }} />}
-                            // error={}
                             />
                             {likedProductIds.includes(product.hmProductId) ? (
                                 <IoMdHeart

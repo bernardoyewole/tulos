@@ -5,20 +5,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { AsyncImage } from 'loadable-image'
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
+import { useCart } from "../provider/CartProvider";
 
 function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts, onOpenModal }) {
     const [expandedSection, setExpandedSection] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [selectedThumbnailCode, setSelectedThumbnailCode] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
+    const [cartError, setCartError] = useState('');
 
-    const { isAuthenticated } = useAuth();
+    const { email, isAuthenticated } = useAuth();
+    const { addToCart } = useCart();
 
     const toggleExpand = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
     };
-
-    const { email } = useAuth();
 
     useEffect(() => {
         const tempThumbnails = product.articlesList.map(article => ({
@@ -40,10 +41,10 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
         }
 
         tempThumbnails.length > 12 ? setThumbnails(tempThumbnails.splice(0, 12)) : setThumbnails(tempThumbnails);
-
     }, [product]);
 
     const handleArticleChange = (code) => {
+        console.log(code);
         changeArticle(code);
         setSelectedThumbnailCode(code);
     }
@@ -67,6 +68,32 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
         }
 
         addToFavorite(productObj);
+    }
+
+    const handleAddToBag = (currentProduct) => {
+        if (!isAuthenticated) {
+            onOpenModal();
+            return;
+        }
+
+        if (selectedSize === null) {
+            setCartError('Please select a size')
+        } else {
+            setCartError('');
+
+            const productObj = {
+                userEmail: email,
+                hmProductId: currentProduct.code,
+                name: currentProduct.name,
+                imageUrl: currentProduct.fabricSwatchThumbnails[0].baseUrl,
+                price: currentProduct.whitePrice.price,
+                quantity: 1,
+                size: selectedSize,
+                color: currentProduct.colourDescription
+            }
+
+            addToCart(productObj);
+        }
     }
 
     return (
@@ -131,7 +158,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                 </div>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-4">
                 <h3 className="text-sm font-semibold mb-4">
                     {selectedSize ? `Selected size - ${selectedSize}` : 'Select size'}
                 </h3>
@@ -148,8 +175,11 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                 </div>
                 {/* <a href="#" className="text-sm text-gray-600 mt-2 inline-block">Size Guide</a> */}
             </div>
-
-            <button className="bg-black text-white py-4 w-full  font-semibold mb-4 flex gap-2 justify-center items-center">
+            <p className="text-red-500 h-6 text-sm">{cartError.length > 0 && `${cartError}`}</p>
+            <button
+                className="bg-black text-white py-4 w-full  font-semibold mb-4 flex gap-2 justify-center items-center"
+                onClick={() => handleAddToBag(currentArticle)}
+            >
                 <IoBagHandleOutline className="text-lg leading-tight" />
                 <p className="leading-[1]">Add to bag</p>
             </button>
