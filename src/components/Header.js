@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
+import { useCart } from "../provider/CartProvider";
 
 function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
     const [currentMenu, setCurrentMenu] = useState('');
@@ -15,6 +16,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
     const [season, setSeason] = useState('');
 
     const { isAuthenticated } = useAuth();
+    const { cartItems } = useCart();
     const navigate = useNavigate();
 
     const handleMouseLeave = () => {
@@ -138,10 +140,19 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
                         <Link to='/' className="font-sans font-bold text-3xl leading-[3]">TULOS</Link>
                     </div>
                     <ul className="flex gap-6 items-center">
-                        <li className="cursor-pointer"><IoSearchOutline className="text-[21px]" /></li>
-                        <li onClick={handleAccountClick} className="cursor-pointer"><FaRegUser className="text-[17px] text-gray-800" /></li>
-                        <li onClick={handleFavoritesClick} className="cursor-pointer"><LiaHeart className="text-xl" /></li>
-                        <li className="cursor-pointer"><BsHandbag className="text-lg" /></li>
+                        <li className="cursor-pointer">
+                            <IoSearchOutline className="text-[21px]" />
+                        </li>
+                        <li onClick={handleAccountClick} className="cursor-pointer">
+                            <FaRegUser className="text-[17px] text-gray-800" />
+                        </li>
+                        <li onClick={handleFavoritesClick} className="cursor-pointer">
+                            <LiaHeart className="text-xl" />
+                        </li>
+                        <li className="cursor-pointer relative">
+                            <BsHandbag className="text-lg" />
+                            <span className="absolute top-4 left-1.5 text-xs">{cartItems.length > 0 && `${cartItems.length}`}</span>
+                        </li>
                     </ul>
                 </nav>
                 <SignInSignUp isModalOpen={isModalOpen} closeModal={onCloseModal} />

@@ -6,6 +6,7 @@ import { AsyncImage } from 'loadable-image'
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
 import { useCart } from "../provider/CartProvider";
+import toast, { Toaster } from 'react-hot-toast';
 
 function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts, onOpenModal }) {
     const [expandedSection, setExpandedSection] = useState(null);
@@ -92,12 +93,43 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                 color: currentProduct.colourDescription
             }
 
-            addToCart(productObj);
+            const result = addToCart(productObj);
+            if (result) {
+                toast.custom(
+                    <div className="flex p-2 w-[200px]">
+                        <div>
+                            <img src={productObj.imageUrl} />
+                        </div>
+                        <div>
+                            <p>{productObj.name}</p>
+                            <p className="mb-3">{productObj.price}</p>
+                            <div className="flex gap-2">
+                                <p className="flex flex-col gap-1">
+                                    <span>Colour</span>
+                                    <span>Size</span>
+                                    <span>quantity</span>
+                                </p>
+                                <p className="flex flex-col gap-1">
+                                    <span>{productObj.color}</span>
+                                    <span>{productObj.size}</span>
+                                    <span>{productObj.quantity}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>,
+                    {
+                        duration: 4000,
+                        position: 'top-center',
+                        backgroundColor: 'white'
+                    }
+                )
+            }
         }
     }
 
     return (
         <div>
+            <Toaster />
             <div className="flex justify-between items-center">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
                 {likedProducts.includes(product.code) ? (

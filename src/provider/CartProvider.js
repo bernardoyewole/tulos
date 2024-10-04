@@ -16,10 +16,12 @@ const CartProvider = ({ children }) => {
             if (response.status === 200) {
                 // Update cart items if the API call is successful
                 setCartItems(prevItems => [...prevItems, item]);
+                return true;
             }
         } catch (error) {
             console.error("Error adding item to cart:", error);
         }
+        return false;
     };
 
     // Remove an item from the cart
