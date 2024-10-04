@@ -18,9 +18,6 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
   const [addToFavoriteTrigger, setAddToFavoriteTrigger] = useState(false);
-  const [defaultMenu, setDefaultMenu] = useState(null);
-  const [defaultCategory, setDefaultCategory] = useState(null);
-  const [defaultSubcategory, setDefaultSubcategory] = useState(null);
 
   const navigate = useNavigate();
   const { email, isAuthenticated } = useAuth();
@@ -126,10 +123,6 @@ function App() {
     };
 
     fetchInitialData();
-
-    setDefaultMenu(categories.find(c => c.CatName === 'Women').CatName)
-    setDefaultCategory(categories.find(c => c.CatName === 'Women').CategoriesArray[0].CatName)
-    setDefaultSubcategory(categories.find(c => c.CatName === 'Women').CategoriesArray[0].CategoriesArray[0].CatName);
   }, []);
 
   const onOpenSignInModal = () => {
@@ -153,13 +146,14 @@ function App() {
     }
   }
 
-  // const menu = categories.find(c => c.CatName === 'Women').CatName;
-  // const category = categories.find(c => c.CatName === 'Women').CategoriesArray[0].CatName;
-  // const subcategory = categories.find(c => c.CatName === 'Women').CategoriesArray[0].CategoriesArray[0].CatName;
-
   const handleShopNow = () => {
-    if (defaultMenu !== undefined && defaultCategory !== undefined && defaultSubcategory !== undefined) {
-      navigate(`explore/${defaultMenu}/${defaultCategory}/${defaultSubcategory}`);
+    const selectedCategory = categories.find(c => c.CatName === "Women");
+    const menu = selectedCategory.CatName;
+    const category = selectedCategory.CategoriesArray[0].CatName;
+    const subcategory = selectedCategory.CategoriesArray[0].CategoriesArray[0].CatName;
+
+    if (menu !== undefined && category !== undefined && subcategory !== undefined) {
+      navigate(`explore/${menu}/${category}/${subcategory}`);
     }
   }
 

@@ -2,7 +2,6 @@ import menBg from '../images/men-2.jpg';
 import womenBg from '../images/women-2.jpg';
 import kidsBg from '../images/kids-2.jpg';
 import homeBg from '../images/home.jpg';
-import { Link } from 'react-router-dom';
 
 function Featured({ shop }) {
     return (
