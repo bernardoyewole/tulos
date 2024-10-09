@@ -11,6 +11,7 @@ import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
 import { useAuth } from './provider/AuthProvider';
 import Favorites from './pages/Favorites';
+import Cart from './pages/Cart';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -235,6 +236,15 @@ function App() {
         <Route
           path='/favorites'
           element={<Favorites
+            likedProducts={likedProducts}
+            likedProductIds={likedProductIds}
+            addToFavorite={addToFavorite}
+            onOpenModal={onOpenSignInModal}
+          />}
+        />
+        <Route
+          path='/cart'
+          element={<Cart
             likedProducts={likedProducts}
             likedProductIds={likedProductIds}
             addToFavorite={addToFavorite}

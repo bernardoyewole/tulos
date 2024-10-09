@@ -39,6 +39,14 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
         }
     }
 
+    const handleCartClick = () => {
+        if (isAuthenticated) {
+            navigate('/cart');
+        } else {
+            onOpenModal();
+        }
+    }
+
     useEffect(() => {
         // Define end dates for each season
         const seasons = {
@@ -91,7 +99,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
     }, [season]);
 
     return (
-        <>
+        <section className="sticky top-0 z-20 bg-white">
             <div className="bg-[#151515] h-[35px] grid place-content-center">
                 <p className="text-white text-sm">
                     Get 25% Off This {season} Sale. Grab It Fast!!
@@ -101,7 +109,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
                 </p>
             </div>
             <div className="my-container">
-                <nav className="flex justify-between items-center h-[60px] leading-[60px]">
+                <nav className="flex justify-between items-center h-[70px] leading-[60px]">
                     <ul className="flex gap-4 group relative" onMouseLeave={handleMouseLeave}>
                         {['Women', 'Men', 'Baby', 'Kids', 'Home'].map(menu => (
                             <li key={menu}>
@@ -149,7 +157,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
                         <li onClick={handleFavoritesClick} className="cursor-pointer">
                             <LiaHeart className="text-xl" />
                         </li>
-                        <li className="cursor-pointer relative">
+                        <li onClick={handleCartClick} className="cursor-pointer relative">
                             <BsHandbag className="text-lg" />
                             <span className="absolute top-4 left-1.5 text-xs">{cartItems.length > 0 && `${cartItems.length}`}</span>
                         </li>
@@ -157,7 +165,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
                 </nav>
                 <SignInSignUp isModalOpen={isModalOpen} closeModal={onCloseModal} />
             </div>
-        </>
+        </section>
     );
 }
 

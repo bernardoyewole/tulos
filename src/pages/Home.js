@@ -24,7 +24,7 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
                     <div className="my-container grid grid-cols-5 gap-4">
                         {Array.from({ length: 10 }).map((_, index) => (
                             <div key={index}>
-                                <Skeleton height={200} width="100%" className="rounded" />
+                                <Skeleton height={350} width="100%" className="rounded" />
                                 <Skeleton width={100} height={20} className="mt-2" />
                                 <Skeleton width={50} height={20} />
                             </div>

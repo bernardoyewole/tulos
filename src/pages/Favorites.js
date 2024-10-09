@@ -19,7 +19,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
 
     return (
         <section className="my-container">
-            <h1 className='text-3xl font-semibold py-6'>FAVOURITES</h1>
+            <h1 className='text-4xl font-semibold py-6'>FAVOURITES</h1>
             <p className='font-medium text-sm pb-4'>{likedProducts.length} ITEMS</p>
             <div className="grid grid-cols-4 gap-x-6 gap-y-16">
                 {likedProducts.map(product => (
