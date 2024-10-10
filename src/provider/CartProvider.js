@@ -38,8 +38,20 @@ const CartProvider = ({ children }) => {
         }
     };
 
+    const clearCart = async (email) => {
+        try {
+            const response = await axios.delete(`https://tulosapi.azurewebsites.net/api/Cart/clearCart/${email}`);
+
+            if (response.status === 200) {
+                setCartItems([]);
+            }
+        } catch (error) {
+            console.error("Error clearing cart:", error);
+        }
+    }
+
     // Calculate the total cost of all cart items
-    const getCartTotal = () => {
+    const getCartValue = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     };
 
@@ -74,7 +86,8 @@ const CartProvider = ({ children }) => {
                 cartItems,
                 addToCart,
                 removeFromCart,
-                getCartTotal,
+                clearCart,
+                getCartValue,
             }}
         >
             {children}

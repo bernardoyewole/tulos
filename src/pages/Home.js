@@ -11,7 +11,7 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
     const isLoading = !newArrivals || newArrivals.length === 0;
 
     return (
-        <div className='mt-[105px]'>
+        <>
             <HeroBanner categories={categories} shopNow={shopNow} />
             {isLoading ? (
                 <section className="pt-20">
@@ -49,7 +49,7 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
             )}
             <NewStore />
             <Featured shop={shop} />
-        </div>
+        </>
     );
 }
 

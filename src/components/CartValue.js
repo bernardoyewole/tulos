@@ -1,5 +1,8 @@
+import { useCart } from "../provider/CartProvider"
 
 function CartValue() {
+    const { clearCart } = useCart();
+
     return (
         <div>
             {/* Discounts Section */}
@@ -31,17 +34,16 @@ function CartValue() {
                 <p>Total</p>
                 <p>$228.96</p>
             </div>
-
             {/* Sale Note */}
             <p className="text-xs text-gray-500 mb-6">
                 * Sale items are final & cannot be returned. *Item prices exclude tax
             </p>
-
-            {/* Checkout Button */}
-            <button className="w-full bg-black text-white py-3 font-semibold mb-6 hover:bg-gray-800 transition-all">
+            <button className="w-full bg-blue-700 text-white py-3 font-semibold mb-3 hover:bg-[#2c5ce3] transition-all duration-300">
                 CONTINUE TO CHECKOUT
             </button>
-
+            <button onClick={clearCart} className="w-full border border-black py-3 font-semibold mb-6 hover:bg-gray-100 transition-all duration-300">
+                CLEAR CART
+            </button>
             {/* Payment Options */}
             <div className="flex justify-center space-x-4 mb-6">
                 <img src="/path/to/amex-icon.png" alt="Amex" className="h-8" />
@@ -49,7 +51,6 @@ function CartValue() {
                 <img src="/path/to/paypal-icon.png" alt="Paypal" className="h-8" />
                 <img src="/path/to/giftcard-icon.png" alt="Gift Card" className="h-8" />
             </div>
-
             {/* Legal Notes */}
             <p className="text-xs text-gray-500 mb-2">
                 Prices and shipping costs are not confirmed until you've reached checkout.

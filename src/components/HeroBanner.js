@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function HeroBanner({ categories, shopNow }) {
 
     return (
-        <section className="h-[calc(100%-95px)]">
+        <section className="h-[calc(100%-95px)] mt-[105px]">
             <div className="bg-[url('../images/hero-light.jpg')] bg-cover h-full">
                 <div className="bg-black/20 h-full flex items-end px-6 py-10">
                     <div className="my-container flex flex-col">

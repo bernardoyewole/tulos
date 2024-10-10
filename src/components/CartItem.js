@@ -2,7 +2,19 @@ import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
+import { useCart } from '../provider/CartProvider';
+
 function CartItem({ item, likedProducts, likedProductIds, handleLike, addToFavorite }) {
+    const { addToCart, removeFromCart } = useCart();
+
+    const handleAddItem = (product) => {
+        addToCart(product);
+    }
+
+    const handleRemoveItem = (itemId) => {
+        removeFromCart(itemId);
+    }
+
     return (
         <div>
             <div className='flex gap-6'>
@@ -62,11 +74,11 @@ function CartItem({ item, likedProducts, likedProductIds, handleLike, addToFavor
                         </div>
                     </div>
                     <div className="flex items-center border border-gray-300 w-32 justify-between p-3 mt-3 hover:border-black transition-colors duration-300">
-                        <button className="text-2xl font-semibold focus:outline-none">
+                        <button onClick={() => handleRemoveItem(item.id)} className="text-2xl font-semibold focus:outline-none">
                             <HiOutlineMinus />
                         </button>
                         <span className="text-lg text-center w-6">{item.quantity}</span>
-                        <button className="text-2xl font-semibold focus:outline-none">
+                        <button onClick={() => handleAddItem(item)} className="text-2xl font-semibold focus:outline-none">
                             <HiOutlinePlus />
                         </button>
                     </div>
