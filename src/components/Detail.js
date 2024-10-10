@@ -88,7 +88,6 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                 name: currentProduct.name,
                 imageUrl: currentProduct.fabricSwatchThumbnails[0].baseUrl,
                 price: currentProduct.whitePrice.price,
-                quantity: 1,
                 size: selectedSize,
                 color: currentProduct.colourDescription
             }

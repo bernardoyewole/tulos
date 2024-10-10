@@ -116,8 +116,8 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
             }
         };
 
-        fetchStyleWithProducts();
-        fetchOthersBought();
+        // fetchStyleWithProducts();
+        // fetchOthersBought();
     }, [product]);
 
 
