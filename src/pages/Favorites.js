@@ -18,7 +18,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
     }
 
     return (
-        <section className="my-container">
+        <section className="my-container mt-[105px]">
             <h1 className='text-4xl font-semibold py-6'>FAVOURITES</h1>
             <p className='font-medium text-sm pb-4'>{likedProducts.length} ITEMS</p>
             <div className="grid grid-cols-4 gap-x-6 gap-y-16">

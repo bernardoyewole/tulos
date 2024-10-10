@@ -17,7 +17,7 @@ function Cart({ likedProducts, likedProductIds, addToFavorite, onOpenModal }) {
         addToFavorite(product);
     }
     return (
-        <div className="my-container">
+        <div className="my-container mt-[105px]">
             {/* <div className="h-[calc(100% - 505px)] overflow-scroll"> */}
             <h1 className='text-4xl font-semibold pt-6 pb-10'>SHOPPING BAG</h1>
             <div className="flex justify-between gap-20">

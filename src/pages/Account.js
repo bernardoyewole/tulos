@@ -67,7 +67,7 @@ const AccountPage = () => {
     }, [selectedMenu]);
 
     return (
-        <div className='bg-gray-100'>
+        <div className='bg-gray-100 mt-[105px] '>
             <h1 className='text-center text-2xl font-semibold pb-5 pt-10'>MY ACCOUNT</h1>
             <div className="flex my-container min-h-screen pb-10">
                 <div className="w-1/4">
