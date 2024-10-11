@@ -11,7 +11,7 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
     const { addToCart } = useCart();
     const { email } = useAuth();
 
-    const addToBag = () => {
+    const addToBag = async () => {
         if (selectedSize === null || selectedSize.length === 0) {
             setErrorMessage('Please select a size');
         }
@@ -28,7 +28,8 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
 
         setSize(null);
 
-        const result = addToCart(productObj);
+        const result = await addToCart(productObj);
+
         if (result) {
             toast.custom(
                 <div className="flex p-6 gap-4 w-[340px] bg-white shadow-md">

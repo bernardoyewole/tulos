@@ -72,7 +72,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
         addToFavorite(productObj);
     }
 
-    const handleAddToBag = (currentProduct) => {
+    const handleAddToBag = async (currentProduct) => {
         if (!isAuthenticated) {
             onOpenModal();
             return;
@@ -93,7 +93,8 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                 color: currentProduct.colourDescription
             }
 
-            const result = addToCart(productObj);
+            const result = await addToCart(productObj);
+
             if (result) {
                 toast.custom(
                     <div className="flex p-6 gap-4 w-[340px] bg-white shadow-md">
