@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import HeroBanner from "../components/HeroBanner";
 import NewArrival from "../components/NewArrival";
 import NewStore from "../components/NewStore";
@@ -12,7 +11,7 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
 
     return (
         <>
-            <HeroBanner categories={categories} shopNow={shopNow} />
+            <HeroBanner shopNow={shopNow} />
             {isLoading ? (
                 <section className="pt-20">
                     <h2 className="text-center text-4xl">

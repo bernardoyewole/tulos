@@ -99,7 +99,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
     }, [season]);
 
     return (
-        <section className="fixed w-full overflow-hidden top-0 z-20 bg-white">
+        <section className="fixed w-full top-0 z-20 bg-white">
             <div className="bg-[#151515] h-[35px] grid place-content-center">
                 <p className="text-white text-sm">
                     Get 25% Off This {season} Sale. Grab It Fast!!

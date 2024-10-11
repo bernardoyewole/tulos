@@ -6,6 +6,7 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
     const { email, isAuthenticated } = useAuth();
 
     const handleLike = async (arrival) => {
+        console.log(arrival);
         if (!isAuthenticated) {
             onOpenModal();
             return;
@@ -16,7 +17,8 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
             hmProductId: arrival.defaultArticle.code,
             name: arrival.name,
             imageUrl: arrival.images[0].baseUrl,
-            price: arrival.price.value
+            price: arrival.price.value,
+            sizeVariants: [...arrival.variantSizes.map(arr => arr.filterCode)]
         };
 
         const response = await addToFavorite(product);

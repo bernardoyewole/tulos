@@ -13,6 +13,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
     const [selectedSize, setSelectedSize] = useState(null);
     const [isSizeSelected, setIsSizeSelected] = useState(false);
     const [isSizeMenuOpen, setIsSizeMenuOpen] = useState(false);
+    const [sizeVariants, setSizeVariants] = useState([]);
 
     const { email, isAuthenticated } = useAuth();
     const { addToCart } = useCart();

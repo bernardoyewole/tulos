@@ -1,6 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
-function HeroBanner({ categories, shopNow }) {
+function HeroBanner({ shopNow }) {
 
     return (
         <section className="h-[calc(100%-95px)] mt-[105px]">

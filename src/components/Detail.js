@@ -64,7 +64,8 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
             hmProductId: product.code,
             name: product.name,
             imageUrl: thumbnails[0].baseUrl || thumbnails[1].baseUrl,
-            price: product.whitePrice.price
+            price: product.whitePrice.price,
+            sizeVariants: [...currentArticle.variantsList.map(art => art.size.name)]
         }
 
         addToFavorite(productObj);
