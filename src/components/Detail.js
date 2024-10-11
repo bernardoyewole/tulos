@@ -45,7 +45,6 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
     }, [product]);
 
     const handleArticleChange = (code) => {
-        console.log(code);
         changeArticle(code);
         setSelectedThumbnailCode(code);
     }

@@ -12,11 +12,12 @@ const CartProvider = ({ children }) => {
         if (isAuthenticated) {
             try {
                 const response = await axios.get(`https://tulosapi.azurewebsites.net/api/Cart/${email}`);
+                // const response = await axios.get(`https://localhost:44397/api/Cart/${email}`);
 
                 if (response.status === 200) {
                     const cart = response.data;
 
-                    if (cart && cart.length > 0) {
+                    if (cart && cart.length >= 0) {
                         setCartItems(cart);
                     }
                 }
@@ -25,23 +26,22 @@ const CartProvider = ({ children }) => {
                     setCartItems([]);
                     return;
                 }
-
-                // console.error("Error fetching cart items:", error);
             }
         } else {
             setCartItems([]);
         }
-        console.log(cartItems);
     };
+
+    useEffect(() => console.log(cartItems), [cartItems]);
 
     const addToCart = async (item) => {
         try {
             const response = await axios.post('https://tulosapi.azurewebsites.net/api/Cart/addToCart', item);
+            // const response = await axios.post('https://localhost:44397/api/Cart/addToCart', item);
 
             if (response.status === 200) {
-                console.log(item, response);
+                console.log(response);
                 // Update cart items if the API call is successful
-                // setCartItems(prevItems => [...prevItems, item]);
                 fetchCartItems();
                 return true;
             }
@@ -54,10 +54,10 @@ const CartProvider = ({ children }) => {
     const removeFromCart = async (itemId) => {
         try {
             const response = await axios.delete(`https://tulosapi.azurewebsites.net/api/Cart/removeFromCart/${itemId}`);
+            // const response = await axios.delete(`https://localhost:44397/api/Cart/removeFromCart/${itemId}`);
+
 
             if (response.status === 200) {
-                // Update the cart items state by removing the item from the list
-                // setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
                 fetchCartItems();
             }
         } catch (error) {
@@ -68,6 +68,7 @@ const CartProvider = ({ children }) => {
     const clearCart = async (email) => {
         try {
             const response = await axios.delete(`https://tulosapi.azurewebsites.net/api/Cart/clearCart/${email}`);
+            // const response = await axios.delete(`https://localhost:44397/api/Cart/clearCart/${email}`);
 
             if (response.status === 200) {
                 fetchCartItems();
