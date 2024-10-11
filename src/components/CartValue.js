@@ -1,11 +1,11 @@
 import { useCart } from "../provider/CartProvider"
 
 function CartValue() {
-    const { clearCart } = useCart();
+    const { clearCart, getCartValue } = useCart();
 
     return (
         <div>
-            {/* Discounts Section */}
+            {/* Discounts Section IN PROGRESS */}
             <div className="flex justify-between text-sm mb-3">
                 <p className="font-semibold">DISCOUNTS</p>
                 <p className="text-indigo-600 font-semibold cursor-pointer">ADD</p>
@@ -14,13 +14,13 @@ function CartValue() {
             {/* Order Value */}
             <div className="flex justify-between text-sm mb-3">
                 <p className="font-semibold">ORDER VALUE</p>
-                <p className="font-semibold">$269.94</p>
+                <p className="font-semibold">${getCartValue().toFixed(2)}</p>
             </div>
 
             {/* Promotion */}
             <div className="flex justify-between text-sm mb-3">
                 <p className="font-semibold">PROMOTION</p>
-                <p className="text-red-500 font-semibold">- $53.94</p>
+                <p className="text-red-500 font-semibold">- $0</p>
             </div>
 
             {/* Delivery Fee */}
@@ -32,7 +32,7 @@ function CartValue() {
             {/* Total */}
             <div className="flex justify-between text-xl mb-4 font-semibold">
                 <p>Total</p>
-                <p>$228.96</p>
+                <p>${getCartValue().toFixed(2)}</p>
             </div>
             {/* Sale Note */}
             <p className="text-xs text-gray-500 mb-6">

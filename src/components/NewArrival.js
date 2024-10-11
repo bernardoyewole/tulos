@@ -18,7 +18,8 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
             name: arrival.name,
             imageUrl: arrival.images[0].baseUrl,
             price: arrival.price.value,
-            sizeVariants: [...arrival.variantSizes.map(arr => arr.filterCode)]
+            sizeVariants: [...arrival.variantSizes.map(arr => arr.filterCode)],
+            color: arrival.defaultArticle.color.text
         };
 
         const response = await addToFavorite(product);

@@ -140,7 +140,7 @@ function App() {
     try {
       const response = await axios.post('https://tulosapi.azurewebsites.net/api/Favorite/addToFavorite', product);
       if (response.status === 200) {
-        setAddToFavoriteTrigger(!addToFavoriteTrigger);
+        fetchFavorites();
         return response.data;
       }
     } catch (error) {
@@ -171,29 +171,29 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      if (isAuthenticated) {
-        try {
-          const response = await axios.get(`https://tulosapi.azurewebsites.net/api/Favorite/${email}`);
+  const fetchFavorites = async () => {
+    if (isAuthenticated) {
+      try {
+        const response = await axios.get(`https://tulosapi.azurewebsites.net/api/Favorite/${email}`);
 
-          if (response.status === 200) {
-            const favorites = response.data;
-            const likedProductIds = favorites.map(fav => fav.hmProductId);
+        if (response.status === 200) {
+          const favorites = response.data;
+          const likedProductIds = favorites.map(fav => fav.hmProductId);
 
-            setLikedProducts(favorites);
-            setLikedProductIds(likedProductIds);
-          }
-        } catch (error) {
-          console.error("Error fetching favorites:", error);
+          setLikedProducts(favorites);
+          setLikedProductIds(likedProductIds);
         }
-      } else {
-        setLikedProducts([]);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
       }
-    };
+    } else {
+      setLikedProducts([]);
+    }
+  };
 
+  useEffect(() => {
     fetchFavorites();
-  }, [email, isAuthenticated, addToFavoriteTrigger]);
+  }, [email, isAuthenticated]);
 
   return (
     <ScrollToTop>

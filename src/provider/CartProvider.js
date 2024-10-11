@@ -95,6 +95,7 @@ const CartProvider = ({ children }) => {
                 removeFromCart,
                 clearCart,
                 getCartValue,
+                fetchCartItems
             }}
         >
             {children}

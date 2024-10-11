@@ -8,7 +8,6 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
     const { email, isAuthenticated } = useAuth();
 
     const handleLike = async (product) => {
-        console.log(product);
         if (!isAuthenticated) {
             onOpenModal();
             return;
@@ -20,9 +19,10 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
             name: product.name,
             imageUrl: product.images[0].baseUrl,
             price: product.whitePrice.value,
-            sizeVariants: [...product.variantSizes.map(pr => pr.filterCode)]
+            sizeVariants: [...product.variantSizes.map(pr => pr.filterCode)],
+            color: product.defaultArticle.color.text
         }
-
+        console.log(productObj);
         const response = await addToFavorite(productObj);
 
         if (response === "Product added to favorites") {

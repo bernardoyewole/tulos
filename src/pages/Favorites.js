@@ -4,72 +4,20 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
 import { useCart } from '../provider/CartProvider';
 import SizeMenu from '../components/SizeMenu';
 
 function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal }) {
-    // console.log(likedProducts);
-    const [selectedSize, setSelectedSize] = useState(null);
-    const [isSizeSelected, setIsSizeSelected] = useState(false);
+    const [size, setSize] = useState(null);
     const [isSizeMenuOpen, setIsSizeMenuOpen] = useState(false);
-    const [sizeVariants, setSizeVariants] = useState([]);
+    const [productDetail, setProductDetail] = useState({});
 
-    const { email, isAuthenticated } = useAuth();
-    const { addToCart } = useCart();
+    const { isAuthenticated } = useAuth();
 
-    const addToBag = (product) => {
-        if (!isSizeSelected) {
-            openSizeMenu();
-        }
-
-        console.log(product);
-        return;
-        const productObj = {
-            userEmail: email,
-            hmProductId: product.code,
-            name: product.name,
-            imageUrl: product.fabricSwatchThumbnails[0].baseUrl,
-            price: product.whitePrice.price,
-            quantity: 1,
-            size: selectedSize,
-            color: product.colourDescription
-        }
-
-        const result = addToCart(productObj);
-        if (result) {
-            toast.custom(
-                <div className="flex p-2 w-[200px]">
-                    <div>
-                        <img src={productObj.imageUrl} />
-                    </div>
-                    <div>
-                        <p>{productObj.name}</p>
-                        <p className="mb-3">{productObj.price}</p>
-                        <div className="flex gap-2">
-                            <p className="flex flex-col gap-1">
-                                <span>Colour</span>
-                                <span>Size</span>
-                                <span>quantity</span>
-                            </p>
-                            <p className="flex flex-col gap-1">
-                                <span>{productObj.color}</span>
-                                <span>{productObj.size}</span>
-                                <span>{productObj.quantity}</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>,
-                {
-                    duration: 4000,
-                    position: 'top-center',
-                    backgroundColor: 'white'
-                }
-            );
-
-            setSelectedSize(null);
-            setIsSizeSelected(false);
-        }
+    const handleOpenSizeMenu = (product) => {
+        setSize(null);
+        setProductDetail(product);
+        openSizeMenu();
     }
 
     const handleLike = (product) => {
@@ -90,8 +38,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
     };
 
     return (
-        <section className="my-container mt-[105px]">
-            <Toaster />
+        <section className="my-container mt-[105px] mb-[50px]">
             <h1 className='text-4xl font-semibold py-6'>FAVOURITES</h1>
 
             {likedProducts && likedProducts.length > 0 ? (
@@ -161,7 +108,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
                                         )}
                                     </div>
                                 )}
-                                <button onClick={() => addToBag(product)} className='border border-gray-700 py-4 text-md mt-4 w-full'>ADD TO BAG</button>
+                                <button onClick={() => handleOpenSizeMenu(product)} className='border border-gray-700 py-4 text-md mt-4 w-full'>ADD TO BAG</button>
                             </div>
                         ))}
                     </div>
@@ -176,7 +123,14 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
                 </div>
             )}
 
-            <SizeMenu isOpen={isSizeMenuOpen} onClose={closeSizeMenu} />
+            <SizeMenu
+                isOpen={isSizeMenuOpen}
+                onClose={closeSizeMenu}
+                product={productDetail}
+                setSize={setSize}
+                selectedSize={size}
+                closeMenu={closeSizeMenu}
+            />
         </section>
 
     )

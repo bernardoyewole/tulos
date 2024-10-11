@@ -4,9 +4,10 @@ import CartValue from "../components/CartValue";
 import { useAuth } from "../provider/AuthProvider";
 import { BsHandbag } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function Cart({ likedProducts, likedProductIds, addToFavorite, onOpenModal, shopNow }) {
-    const { cartItems } = useCart();
+    const { cartItems, fetchCartItems } = useCart();
     const { isAuthenticated } = useAuth();
 
     const handleLike = (product) => {
@@ -18,13 +19,17 @@ function Cart({ likedProducts, likedProductIds, addToFavorite, onOpenModal, shop
         addToFavorite(product);
     }
 
+    useEffect(() => {
+        fetchCartItems();
+    }, []);
+
     return (
         <div className="my-container mt-[105px] mb-10">
             {/* <div className="h-[calc(100% - 505px)] overflow-scroll"> */}
             <h1 className='text-4xl font-semibold pt-6 pb-10'>SHOPPING BAG</h1>
             <div className="flex justify-between gap-20">
                 {cartItems && cartItems.length > 0 ?
-                    (<section className="flex flex-col gap-4">
+                    (<section className="flex flex-col gap-8">
                         {cartItems.map(item => (
                             <CartItem
                                 key={item.id}
