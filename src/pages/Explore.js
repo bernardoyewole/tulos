@@ -24,8 +24,6 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
     const { menu, category, subcategory } = useParams();
 
     const fetchProducts = async (classCode, reset = false) => {
-        // setProducts(products);
-        // return;
         try {
             const response = await axios.get('https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list', {
                 params: {

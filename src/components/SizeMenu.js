@@ -31,14 +31,14 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
         const result = addToCart(productObj);
         if (result) {
             toast.custom(
-                <div className="flex p-2 w-[200px]">
-                    <div>
-                        <img src={productObj.imageUrl} />
+                <div className="flex p-6 gap-4 w-[340px] bg-white shadow-md">
+                    <div className="w-[40%]">
+                        <img className="w-[100%]" src={productObj.imageUrl} />
                     </div>
                     <div>
-                        <p>{productObj.name}</p>
-                        <p className="mb-3">{productObj.price}</p>
-                        <div className="flex gap-2">
+                        <p className="text-sm">{productObj.name}</p>
+                        <p className="mb-3 text-sm font-semibold">{productObj.price}</p>
+                        <div className="flex gap-2 text-xs">
                             <p className="flex flex-col gap-1">
                                 <span>Colour</span>
                                 <span>Size</span>
@@ -53,8 +53,8 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
                     </div>
                 </div>,
                 {
-                    duration: 4000,
-                    position: 'top-center',
+                    duration: 2000,
+                    position: 'right-top',
                     backgroundColor: 'white'
                 }
             );

@@ -24,7 +24,6 @@ const AccountPage = () => {
             })
             .catch(err => {
                 console.log(err.response);
-                // setErrorMessage('Some error occurred, try again');
             });
     }
 
