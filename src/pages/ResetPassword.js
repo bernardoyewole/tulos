@@ -38,9 +38,6 @@ function ResetPassword() {
                 newPassword
             });
 
-            console.log(email, resetCode, newPassword);
-            console.log(response);
-
             if (response.status === 200) {
                 setFailed(false);
                 setMessage(response.data.message);
@@ -54,7 +51,6 @@ function ResetPassword() {
         } catch (error) {
             setFailed(true);
             setMessage(error.response.data.message);
-            console.error(error);
             setLoading(false);
         }
     };

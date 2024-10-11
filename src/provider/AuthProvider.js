@@ -83,7 +83,6 @@ const AuthProvider = ({ children }) => {
             const { token, refreshToken: newRefreshToken, expiresIn } = response.data;
             setToken(token, newRefreshToken, expiresIn);
         } catch (error) {
-            console.error("Failed to refresh token", error);
             clearAuthData();
         }
     };

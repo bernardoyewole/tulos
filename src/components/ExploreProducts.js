@@ -22,7 +22,7 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
             sizeVariants: [...product.variantSizes.map(pr => pr.filterCode)],
             color: product.defaultArticle.color.text
         }
-        console.log(productObj);
+
         const response = await addToFavorite(productObj);
 
         if (response === "Product added to favorites") {

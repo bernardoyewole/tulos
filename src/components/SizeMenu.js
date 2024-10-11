@@ -26,11 +26,9 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
             color: product.color
         }
 
-        console.log(productObj);
         setSize(null);
 
         const result = addToCart(productObj);
-        console.log(result);
         if (result) {
             toast.custom(
                 <div className="flex p-2 w-[200px]">

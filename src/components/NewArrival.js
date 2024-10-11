@@ -6,7 +6,6 @@ function NewArrival({ newArrivals, addToFavorite, onOpenModal, updateLikedProduc
     const { email, isAuthenticated } = useAuth();
 
     const handleLike = async (arrival) => {
-        console.log(arrival);
         if (!isAuthenticated) {
             onOpenModal();
             return;

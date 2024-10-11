@@ -145,7 +145,6 @@ function App() {
       }
     } catch (error) {
       console.log(error);
-      // return error.response.data;
     }
   }
 
