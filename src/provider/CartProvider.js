@@ -59,7 +59,7 @@ const CartProvider = ({ children }) => {
         }
     };
 
-    const clearCart = async (email) => {
+    const clearCart = async () => {
         try {
             const response = await axios.delete(`https://tulosapi.azurewebsites.net/api/Cart/clearCart/${email}`);
 

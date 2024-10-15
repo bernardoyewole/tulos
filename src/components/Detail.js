@@ -7,6 +7,7 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useAuth } from "../provider/AuthProvider";
 import { useCart } from "../provider/CartProvider";
 import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 function Detail({ product, currentArticle, changeArticle, addToFavorite, likedProducts, onOpenModal }) {
     const [expandedSection, setExpandedSection] = useState(null);
@@ -17,6 +18,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
 
     const { email, isAuthenticated } = useAuth();
     const { addToCart } = useCart();
+    const navigate = useNavigate();
 
     const toggleExpand = (sectionId) => {
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
@@ -90,14 +92,15 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                 imageUrl: currentProduct.fabricSwatchThumbnails[0].baseUrl,
                 price: currentProduct.whitePrice.price,
                 size: selectedSize,
-                color: currentProduct.colourDescription
+                sizeVariants: [...currentProduct.variantsList.map(variant => variant.size.name)],
+                color: currentProduct.colourDescription || currentProduct.color.text
             }
 
             const result = await addToCart(productObj);
 
             if (result) {
                 toast.custom(
-                    <div className="flex p-6 gap-4 w-[340px] bg-white shadow-md">
+                    <div onClick={() => navigate('/cart')} className="flex p-6 gap-4 w-[340px] bg-white shadow-md cursor-pointer">
                         <div className="w-[40%]">
                             <img className="w-[100%]" src={productObj.imageUrl} />
                         </div>
@@ -113,13 +116,13 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                                 <p className="flex flex-col gap-1">
                                     <span>{productObj.color}</span>
                                     <span>{productObj.size}</span>
-                                    <span>{productObj.quantity}</span>
+                                    <span>1</span>
                                 </p>
                             </div>
                         </div>
                     </div>,
                     {
-                        duration: 2000,
+                        duration: 1000,
                         position: 'right-top',
                         backgroundColor: 'white'
                     }
@@ -166,7 +169,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
 
             <div className="mb-6">
                 <span className="text-gray-800 font-semibold text-sm">Colour - </span>
-                <span className="text-gray-500 text-sm">{currentArticle.colourDescription}</span>
+                <span className="text-gray-500 text-sm">{currentArticle.colourDescription || currentArticle.color.text}</span>
                 <div className="flex mt-4 gap-2 flex-wrap">
                     {thumbnails && thumbnails.length > 0 &&
                         thumbnails.map(thumbnail => (
@@ -180,7 +183,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                                 error={
                                     <AsyncImage
                                         key={thumbnail.id}
-                                        src={product.articlesList.find(x => x.code === currentArticle.code).galleryDetails[1].baseUrl}
+                                        src={product.articlesList.find(x => x.code === currentArticle.code).galleryDetails[1]?.baseUrl}
                                         style={{ width: '64px', height: "auto", aspectRatio: 9 / 16 }}
                                         loader={<div style={{ background: '#ededed' }} />}
                                         className={`border cursor-pointer ${selectedThumbnailCode === thumbnail.code ? 'border-black' : 'border'}`}

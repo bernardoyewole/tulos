@@ -14,12 +14,8 @@ function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, li
             <HeroBanner shopNow={shopNow} />
             {isLoading ? (
                 <section className="pt-20">
-                    <h2 className="text-center text-4xl">
-                        <Skeleton width={200} />
-                    </h2>
-                    <p className="text-sm text-gray-600 text-center pt-2 pb-10">
-                        <Skeleton width={300} />
-                    </p>
+                    <h2 className='text-center text-4xl'>NEW ARRIVALS</h2>
+                    <p className='text-sm text-gray-600 text-center pt-2 pb-10'>Our latest collection, where classic and contemporary styles converge in perfect harmony</p>
                     <div className="my-container grid grid-cols-5 gap-4">
                         {Array.from({ length: 10 }).map((_, index) => (
                             <div key={index}>
