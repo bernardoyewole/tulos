@@ -239,6 +239,7 @@ function App() {
             likedProductIds={likedProductIds}
             addToFavorite={addToFavorite}
             onOpenModal={onOpenSignInModal}
+            shopNow={handleShopNow}
           />}
         />
         <Route

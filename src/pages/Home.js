@@ -6,7 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { motion } from 'framer-motion';
 
-function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProductIds, categories, shopNow, shop }) {
+function Home({ newArrivals, onOpenModal, addToFavorite, updateLikedProducts, likedProductIds, shopNow, shop }) {
     const isLoading = !newArrivals || newArrivals.length === 0;
 
     return (

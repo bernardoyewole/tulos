@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useState } from 'react';
-import { useCart } from '../provider/CartProvider';
 import SizeMenu from '../components/SizeMenu';
 
-function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal }) {
+function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal, shopNow }) {
     const [size, setSize] = useState(null);
     const [isSizeMenuOpen, setIsSizeMenuOpen] = useState(false);
     const [productDetail, setProductDetail] = useState({});
@@ -117,9 +116,9 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal 
                 <div className="flex flex-col items-center justify-center min-h-[300px]">
                     <p className="text-lg font-semibold mb-4">Your favourites list is empty</p>
                     <p className="text-gray-600 mb-6">Browse our collection and add items to your favourites.</p>
-                    <Link to="/explore" className="bg-black text-white py-4 w-60 text-center font-semibold hover:bg-gray-900 transition-all duration-300">
+                    <button onClick={shopNow} className="bg-black text-white py-4 w-60 text-center font-semibold hover:bg-gray-900 transition-all duration-300">
                         Explore Products
-                    </Link>
+                    </button>
                 </div>
             )}
 

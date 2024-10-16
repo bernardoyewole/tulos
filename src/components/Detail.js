@@ -24,6 +24,11 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
         setExpandedSection(expandedSection === sectionId ? null : sectionId);
     };
 
+    const goToCart = () => {
+        navigate('/cart');
+        toast.dismiss();
+    }
+
     useEffect(() => {
         const tempThumbnails = product.articlesList.map(article => ({
             id: article.fabricSwatchThumbnails[0].id,
@@ -100,7 +105,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
 
             if (result) {
                 toast.custom(
-                    <div onClick={() => navigate('/cart')} className="flex p-6 gap-4 w-[340px] bg-white shadow-md cursor-pointer">
+                    <div onClick={goToCart} className="flex p-6 gap-4 w-[340px] bg-white shadow-md cursor-pointer">
                         <div className="w-[40%]">
                             <img className="w-[100%]" src={productObj.imageUrl} />
                         </div>

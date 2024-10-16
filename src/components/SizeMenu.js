@@ -1,6 +1,6 @@
 import { IoCloseOutline } from 'react-icons/io5';
 import { AsyncImage } from 'loadable-image';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../provider/CartProvider';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -10,10 +10,17 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
     const [errorMessage, setErrorMessage] = useState('');
     const { addToCart } = useCart();
     const { email } = useAuth();
+    const navigate = useNavigate();
+
+    const goToCart = () => {
+        navigate('/cart');
+        toast.dismiss();
+    }
 
     const addToBag = async () => {
         if (selectedSize === null || selectedSize.length === 0) {
             setErrorMessage('Please select a size');
+            return;
         }
 
         const productObj = {
@@ -23,6 +30,7 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
             imageUrl: product.imageUrl,
             price: product.price,
             size: selectedSize,
+            sizeVariants: product.sizeVariants,
             color: product.color
         }
 
@@ -32,7 +40,7 @@ function SizeMenu({ isOpen, onClose, product, setSize, selectedSize, closeMenu }
 
         if (result) {
             toast.custom(
-                <div className="flex p-6 gap-4 w-[340px] bg-white shadow-md">
+                <div onClick={goToCart} className="flex p-6 gap-4 w-[340px] bg-white shadow-md cursor-pointer">
                     <div className="w-[40%]">
                         <img className="w-[100%]" src={productObj.imageUrl} />
                     </div>

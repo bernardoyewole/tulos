@@ -35,6 +35,7 @@ const CartProvider = ({ children }) => {
     const addToCart = async (item) => {
         try {
             const response = await axios.post('https://tulosapi.azurewebsites.net/api/Cart/addToCart', item);
+            // const response = await axios.post('https://localhost:44397/api/Cart/addToCart', item);
 
             if (response.status === 200) {
                 fetchCartItems();
@@ -49,6 +50,7 @@ const CartProvider = ({ children }) => {
     const removeFromCart = async (itemId) => {
         try {
             const response = await axios.delete(`https://tulosapi.azurewebsites.net/api/Cart/removeFromCart/${itemId}`);
+            // const response = await axios.delete(`https://localhost:44397/api/Cart/removeFromCart/${itemId}`);
 
 
             if (response.status === 200) {
@@ -62,6 +64,7 @@ const CartProvider = ({ children }) => {
     const clearCart = async () => {
         try {
             const response = await axios.delete(`https://tulosapi.azurewebsites.net/api/Cart/clearCart/${email}`);
+            // const response = await axios.delete(`https://localhost:44397/api/Cart/clearCart/${email}`);
 
             if (response.status === 200) {
                 fetchCartItems();
