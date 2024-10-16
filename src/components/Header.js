@@ -9,11 +9,13 @@ import SignInSignUp from "./SignInSignUp";
 import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
 import { useCart } from "../provider/CartProvider";
+import SearchMenu from "./SearchMenu";
 
-function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
+function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSearch }) {
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
+    const [isSearchMenuOpen, setisSearchMenuOpen] = useState(false);
 
     const { isAuthenticated } = useAuth();
     const { cartItems } = useCart();
@@ -47,29 +49,41 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
         }
     }
 
+    const handleSearchMenuOpen = () => {
+        openSearchMenu();
+    }
+
+    const openSearchMenu = () => {
+        setisSearchMenuOpen(true);
+    };
+
+    const closeSearchMenu = () => {
+        setisSearchMenuOpen(false);
+    };
+
+    // Define end dates for each season
+    const seasons = {
+        Summer: new Date('2024-09-30T23:59:59'), // Example: Summer ends on September 30
+        Fall: new Date('2024-12-21T23:59:59'),   // Example: Fall ends on December 21
+        Winter: new Date('2025-03-19T23:59:59'), // Example: Winter ends on March 19
+    };
+
+    // Determine the current season based on the current date
+    const determineSeason = () => {
+        const now = new Date();
+
+        if (now <= seasons.Summer) {
+            return 'Summer';
+        } else if (now <= seasons.Fall) {
+            return 'Fall';
+        } else if (now <= seasons.Winter) {
+            return 'Winter';
+        } else {
+            return 'Summer'; // Reset to next Summer (for next cycle)
+        }
+    };
+
     useEffect(() => {
-        // Define end dates for each season
-        const seasons = {
-            Summer: new Date('2024-09-30T23:59:59'), // Example: Summer ends on September 30
-            Fall: new Date('2024-12-21T23:59:59'),   // Example: Fall ends on December 21
-            Winter: new Date('2025-03-19T23:59:59'), // Example: Winter ends on March 19
-        };
-
-        // Determine the current season based on the current date
-        const determineSeason = () => {
-            const now = new Date();
-
-            if (now <= seasons.Summer) {
-                return 'Summer';
-            } else if (now <= seasons.Fall) {
-                return 'Fall';
-            } else if (now <= seasons.Winter) {
-                return 'Winter';
-            } else {
-                return 'Summer'; // Reset to next Summer (for next cycle)
-            }
-        };
-
         // Set the initial season
         const initialSeason = determineSeason();
         setSeason(initialSeason);
@@ -148,23 +162,28 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen }) {
                         <Link to='/' className="font-sans font-bold text-3xl leading-[3]">TULOS</Link>
                     </div>
                     <ul className="flex gap-6 items-center">
-                        <li className="cursor-pointer">
-                            <IoSearchOutline className="text-[21px]" />
+                        <li onClick={handleSearchMenuOpen} className="cursor-pointer">
+                            <IoSearchOutline className="text-[20px] hover:text-gray-700" />
                         </li>
                         <li onClick={handleAccountClick} className="cursor-pointer">
-                            <FaRegUser className="text-[17px] text-gray-800" />
+                            <FaRegUser className="text-[17px] text-gray-800 hover:text-gray-700" />
                         </li>
                         <li onClick={handleFavoritesClick} className="cursor-pointer">
-                            <LiaHeart className="text-xl" />
+                            <LiaHeart className="text-xl hover:text-gray-700" />
                         </li>
                         <li onClick={handleCartClick} className="cursor-pointer relative">
-                            <BsHandbag className="text-lg" />
-                            <span className="absolute top-4 left-1.5 text-xs">{cartItems.length > 0 && `${cartItems.length}`}</span>
+                            <BsHandbag className="text-lg hover:text-gray-700" />
+                            <span className="absolute -top-2 -right-2  text-xs">{cartItems.length > 0 && `${cartItems.length}`}</span>
                         </li>
                     </ul>
                 </nav>
                 <SignInSignUp isModalOpen={isModalOpen} closeModal={onCloseModal} />
             </div>
+            <SearchMenu
+                isOpen={isSearchMenuOpen}
+                closeMenu={closeSearchMenu}
+                search={handleSearch}
+            />
         </section>
     );
 }

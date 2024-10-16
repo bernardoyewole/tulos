@@ -13,11 +13,13 @@ import { useAuth } from './provider/AuthProvider';
 import Favorites from './pages/Favorites';
 import Cart from './pages/Cart';
 import toast, { Toaster } from 'react-hot-toast';
+import SearchExplore from './pages/SearchExplore';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [queryResult, setQueryResult] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
   const [likedProductIds, setLikedProductIds] = useState([]);
@@ -204,13 +206,46 @@ function App() {
     }
   };
 
+  const handleSearch = async (queryText) => {
+    const options = {
+      method: 'GET',
+      url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
+      params: {
+        country: 'us',
+        lang: 'en',
+        currentpage: '0',
+        pagesize: '30',
+        query: queryText
+      },
+      headers: {
+        'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
+        'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+
+      if (response.data.length && response.data.length > 0) {
+        setQueryResult(response.data.results);
+        navigate('/searchExplore');
+      } else {
+        // // mocking selected for you page
+        // handleSearch('shirt');
+        // navigate('/searchExplore');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     fetchFavorites();
 
     if (isAuthenticated) {
 
       getUserInfo();
-
       toast.custom(
         <div className="w-[300px] bg-green-300 shadow-md">
           <p className='text-[15px] text-center py-6'>Welcome {username}!</p>
@@ -232,6 +267,7 @@ function App() {
         onOpenModal={onOpenSignInModal}
         onCloseModal={onCloseSignInModal}
         isModalOpen={isModalOpen}
+        handleSearch={handleSearch}
       />
       <Routes>
         <Route
@@ -262,6 +298,11 @@ function App() {
             addToFavorite={addToFavorite}
             likedProductIds={likedProductIds}
             updateLikedProducts={setLikedProducts} />}
+        />
+        <Route
+          path='/searchExplore'
+          element={<SearchExplore
+            searchResult={queryResult} />}
         />
         <Route
           path='/favorites'

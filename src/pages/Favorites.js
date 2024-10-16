@@ -124,7 +124,6 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
 
             <SizeMenu
                 isOpen={isSizeMenuOpen}
-                onClose={closeSizeMenu}
                 product={productDetail}
                 setSize={setSize}
                 selectedSize={size}
