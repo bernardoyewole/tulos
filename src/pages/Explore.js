@@ -206,7 +206,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
                         onOpenModal={onOpenModal}
                         products={displayedProducts}
                         addToFavorite={addToFavorite}
-                        likedProducts={likedProductIds}
+                        likedProductIds={likedProductIds}
                         updateLikedProducts={updateLikedProducts}
                     />
                 )

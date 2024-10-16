@@ -4,7 +4,7 @@ import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedProducts, onOpenModal }) {
+function ExploreProducts({ products, addToFavorite, likedProductIds, updateLikedProducts, onOpenModal }) {
     const { email, isAuthenticated } = useAuth();
 
     const handleLike = async (product) => {
@@ -26,9 +26,9 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
         const response = await addToFavorite(productObj);
 
         if (response === "Product added to favorites") {
-            updateLikedProducts([...likedProducts, product.defaultArticle.code]);
+            updateLikedProducts([...likedProductIds, product.defaultArticle.code]);
         } else if (response === "Favorite removed") {
-            updateLikedProducts(likedProducts.filter(id => id !== product.defaultArticle.code));
+            updateLikedProducts(likedProductIds.filter(id => id !== product.defaultArticle.code));
         }
     }
 
@@ -61,7 +61,7 @@ function ExploreProducts({ products, addToFavorite, likedProducts, updateLikedPr
                                     />
                                 }
                             />
-                            {likedProducts.includes(product.defaultArticle.code) ? (
+                            {likedProductIds.includes(product.defaultArticle.code) ? (
                                 <IoMdHeart
                                     onClick={(e) => {
                                         e.preventDefault();

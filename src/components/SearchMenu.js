@@ -7,6 +7,7 @@ function SearchMenu({ isOpen, closeMenu, search }) {
 
     const handleSearch = async (data) => {
         await search(data.queryText);
+        closeMenu();
     }
 
     const query = watch("queryText")

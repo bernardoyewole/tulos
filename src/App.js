@@ -19,7 +19,6 @@ function App() {
   const [baseApparel, setBaseApparel] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [queryResult, setQueryResult] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
   const [likedProductIds, setLikedProductIds] = useState([]);
@@ -184,7 +183,7 @@ function App() {
     if (menu && category && subcategory) {
       navigate(`explore/${menu}/${category}/${subcategory}`);
     }
-  };
+  }
 
   const fetchFavorites = async () => {
     if (isAuthenticated) {
@@ -204,40 +203,10 @@ function App() {
     } else {
       setLikedProducts([]);
     }
-  };
+  }
 
-  const handleSearch = async (queryText) => {
-    const options = {
-      method: 'GET',
-      url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
-      params: {
-        country: 'us',
-        lang: 'en',
-        currentpage: '0',
-        pagesize: '30',
-        query: queryText
-      },
-      headers: {
-        'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-        'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
-      }
-    };
-
-    try {
-      const response = await axios.request(options);
-      console.log(response.data);
-
-      if (response.data.length && response.data.length > 0) {
-        setQueryResult(response.data.results);
-        navigate('/searchExplore');
-      } else {
-        // // mocking selected for you page
-        // handleSearch('shirt');
-        // navigate('/searchExplore');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSearch = (queryText) => {
+    navigate(`/searchExplore/${queryText}`);
   }
 
   useEffect(() => {
@@ -300,9 +269,12 @@ function App() {
             updateLikedProducts={setLikedProducts} />}
         />
         <Route
-          path='/searchExplore'
+          path='/searchExplore/:query'
           element={<SearchExplore
-            searchResult={queryResult} />}
+            onOpenModal={onOpenSignInModal}
+            addToFavorite={addToFavorite}
+            likedProductIds={likedProductIds}
+            updateLikedProducts={setLikedProducts} />}
         />
         <Route
           path='/favorites'
