@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PiIdentificationCardBold } from "react-icons/pi";
 
-const MyDetailsForm = ({ email, user, saveChanges, setIsDetailModified, isDetailModified }) => {
+const MyDetailsForm = ({ user, saveChanges, setIsDetailModified, isDetailModified }) => {
     const [userInfo, setUserInfo] = useState(user);
-
-    // const [isFormModified, setIsFormModified] = useState(false);
 
     // Track changes in the form fields
     const handleChange = (e) => {
@@ -65,8 +63,9 @@ const MyDetailsForm = ({ email, user, saveChanges, setIsDetailModified, isDetail
                         name="email"
                         value={userInfo.email}
                         onChange={handleChange}
-                        className="w-full p-4 border border-gray-300 text-gray-800 text-sm "
+                        className="w-full p-4 border border-gray-300 text-gray-800 text-sm cursor-not-allowed"
                         required
+                        readOnly
                     />
                 </div>
                 <button

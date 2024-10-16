@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const AccountPage = () => {
     const [selectedMenu, setSelectedMenu] = useState('orders');
     const [user, SetUser] = useState(null);
-    const [userName, SetUserName] = useState('');
+    const [userName, setUserName] = useState('');
     const [isDetailModified, setIsDetailModified] = useState(false);
 
     const { email, logout } = useAuth();
@@ -19,7 +19,7 @@ const AccountPage = () => {
             .then(res => {
                 if (res.status === 200) {
                     SetUser(res.data);
-                    SetUserName(`${res.data.firstName} ${res.data.lastName}`);
+                    setUserName(`${res.data.firstName} ${res.data.lastName}`);
                 }
             })
             .catch(err => {

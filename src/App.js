@@ -12,6 +12,7 @@ import Account from './pages/Account';
 import { useAuth } from './provider/AuthProvider';
 import Favorites from './pages/Favorites';
 import Cart from './pages/Cart';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   const [baseApparel, setBaseApparel] = useState([]);
@@ -20,10 +21,23 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedProducts, setLikedProducts] = useState([]);
   const [likedProductIds, setLikedProductIds] = useState([]);
-  const [addToFavoriteTrigger, setAddToFavoriteTrigger] = useState(false);
+  const [username, setUsername] = useState('');
 
   const navigate = useNavigate();
   const { email, isAuthenticated } = useAuth();
+
+  const getUserInfo = () => {
+    axios.get(`https://tulosapi.azurewebsites.net/api/User/${email}`)
+      .then(res => {
+        if (res.status === 200) {
+          setUsername(`${res.data.firstName} ${res.data.lastName}`);
+        }
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  }
+
 
   const fetchBaseApparel = async (currentPage = 0) => {
     const optionsBaseApparel = {
@@ -192,10 +206,27 @@ function App() {
 
   useEffect(() => {
     fetchFavorites();
+
+    if (isAuthenticated) {
+
+      getUserInfo();
+
+      toast.custom(
+        <div className="w-[300px] bg-green-300 shadow-md">
+          <p className='text-[15px] text-center py-6'>Welcome {username}!</p>
+        </div>,
+        {
+          duration: 3000,
+          position: 'right-top',
+          backgroundColor: 'white'
+        }
+      );
+    }
   }, [email, isAuthenticated]);
 
   return (
     <ScrollToTop>
+      <Toaster />
       <Header
         categories={categories}
         onOpenModal={onOpenSignInModal}

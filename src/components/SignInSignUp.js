@@ -7,6 +7,7 @@ import TrySignIn from './TrySignIn';
 import PasswordSignIn from './PasswordSignIn';
 import SignUp from './SignUp';
 import ForgotPassword from './ForgotPassword';
+import toast, { Toaster } from 'react-hot-toast';
 
 function SignInSignUp({ isModalOpen, closeModal }) {
   const [modalView, setModalView] = useState('signIn');
@@ -64,7 +65,21 @@ function SignInSignUp({ isModalOpen, closeModal }) {
     axios.post('https://tulosapi.azurewebsites.net/api/Account/register', trimmedData)
       .then(res => {
         if (res.data.message.includes("User registered successfully") && res.status === 200) {
-          closeModal();
+
+          setModalView('passwordSignIn');
+          toast.dismiss();
+          toast.custom(
+            <div className="flex p-6 gap-4 w-[340px] bg-green-300 shadow-md">
+              <p className='text-[15px]'>
+                An email has been sent with the activation link. Click the link to activate your account, then sign in
+              </p>
+            </div>,
+            {
+              duration: 3000,
+              position: 'top-center',
+              backgroundColor: 'white'
+            }
+          );
         }
 
         setLoading(false);
@@ -178,6 +193,7 @@ function SignInSignUp({ isModalOpen, closeModal }) {
 
   return (
     <Modal open={isModalOpen} onClose={closeModal} center>
+      <Toaster />
       <div className="w-[400px] p-6">
         {renderModalContent()}
       </div>
