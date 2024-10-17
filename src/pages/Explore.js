@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { FaSpinner } from "react-icons/fa";
 import SortButton from "../components/SortButton";
 import CurrentClassButtons from "../components/CurrentClassButtons";
 import ExploreProducts from "../components/ExploreProducts";
@@ -20,6 +21,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
     const [progress, setProgress] = useState(null);
     const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
     const [selectedSortType, setSelectedSortType] = useState('recommended');
+    const [loadingMore, setLoadingMore] = useState(false);
 
     const { menu, category, subcategory } = useParams();
 
@@ -42,8 +44,18 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
             let results = response.data.results;
             if (results.length > 0) {
                 setProducts(reset ? results : [...products, ...results]);
+                reset ?? setProducts(results);
+                !reset ?? setProducts((prev) => {
+                    const combinedResults = [...prev, ...results];
+                    return combinedResults.filter(
+                        (item, index, self) => index === self.findIndex(obj => obj.code === item.code)
+                    );
+                });
+
                 setDisplayedProducts(products);
                 setMaxProducts(response.data.pagination.totalNumberOfResults);
+
+                setTimeout(() => setLoadingMore(false), 1000);
             }
             else {
                 let validTagCode = currentClass.tagCodes.find(x => x.includes(`${currentClass.CatName.toLowerCase()}`));
@@ -139,6 +151,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
     }
 
     const handleLoadMore = () => {
+        setLoadingMore(true);
         if (products.length < maxProducts) {
             setCurrentPage(prevPage => prevPage + 1);
         }
@@ -211,20 +224,20 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
                     />
                 )
             )}
-            <div className="text-center">
+            <div className="flex flex-col justify-center items-center mt-10">
                 <p className="mb-4 text-sm text-red-600">You've viewed {products.length} of {maxProducts} products</p>
                 <div className="w-[40%] bg-gray-200 h-1 mb-5 mx-auto">
                     <div className="bg-red-600 h-1" style={{ width: `${progress}%` }}></div>
                 </div>
                 <button
-                    className={`bg-black text-white py-4 px-8 transition-colors ${products.length === maxProducts
+                    className={`bg-black text-white h-14 w-[11rem] flex justify-center items-center transition-colors ${products.length === maxProducts
                         ? 'cursor-not-allowed opacity-70'
                         : 'hover:bg-gray-800'
                         }`}
                     onClick={handleLoadMore}
                     disabled={products.length === maxProducts}
                 >
-                    LOAD MORE
+                    {loadingMore ? <FaSpinner className="animate-spin mr-2" /> : 'LOAD MORE'}
                 </button>
             </div>
         </section>

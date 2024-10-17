@@ -4,6 +4,7 @@ import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+
 function ExploreProducts({ products, addToFavorite, likedProductIds, updateLikedProducts, onOpenModal }) {
     const { email, isAuthenticated } = useAuth();
 

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 function SearchMenu({ isOpen, closeMenu, search }) {
-    const { register, watch, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, watch, handleSubmit, reset, setFocus, formState: { errors } } = useForm();
 
     const handleSearch = async (data) => {
         await search(data.queryText);
@@ -15,6 +15,12 @@ function SearchMenu({ isOpen, closeMenu, search }) {
     const handleClearInput = () => {
         reset();
     }
+
+    useEffect(() => {
+        if (isOpen) {
+            setFocus('queryText');
+        }
+    }, [isOpen]);
 
     return (
         <>

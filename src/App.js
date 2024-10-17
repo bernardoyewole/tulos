@@ -274,7 +274,9 @@ function App() {
             onOpenModal={onOpenSignInModal}
             addToFavorite={addToFavorite}
             likedProductIds={likedProductIds}
-            updateLikedProducts={setLikedProducts} />}
+            updateLikedProducts={setLikedProducts}
+            shopNow={handleShopNow}
+          />}
         />
         <Route
           path='/favorites'
