@@ -11,7 +11,7 @@ import { useAuth } from "../provider/AuthProvider";
 import { useCart } from "../provider/CartProvider";
 import SearchMenu from "./SearchMenu";
 
-function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSearch }) {
+function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSearch, welcomeUser }) {
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
@@ -177,7 +177,11 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                         </li>
                     </ul>
                 </nav>
-                <SignInSignUp isModalOpen={isModalOpen} closeModal={onCloseModal} />
+                <SignInSignUp
+                    isModalOpen={isModalOpen}
+                    closeModal={onCloseModal}
+                    welcomeUser={welcomeUser}
+                />
             </div>
             <SearchMenu
                 isOpen={isSearchMenuOpen}

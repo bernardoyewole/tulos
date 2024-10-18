@@ -75,10 +75,9 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
 
                 setMaxProducts(response.data.pagination.totalNumberOfResults);
             } else {
-
-                toast.dismiss();
+                toast.remove();
                 toast.custom(
-                    <div className="flex p-6 gap-4 w-[340px] bg-red-300 shadow-md">
+                    <div className="flex p-6 gap-4 min-w-[340px] bg-red-200 shadow-md text-balance">
                         <p className='text-[15px]'>
                             We couldn't find any results for "{query}"
                         </p>

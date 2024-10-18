@@ -9,7 +9,7 @@ import SignUp from './SignUp';
 import ForgotPassword from './ForgotPassword';
 import toast, { Toaster } from 'react-hot-toast';
 
-function SignInSignUp({ isModalOpen, closeModal }) {
+function SignInSignUp({ isModalOpen, closeModal, welcomeUser }) {
   const [modalView, setModalView] = useState('signIn');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -120,6 +120,7 @@ function SignInSignUp({ isModalOpen, closeModal }) {
           setMessage('');
           setToken(res.data.accessToken, res.data.refreshToken, res.data.expiresIn, trimmedData.email);
           closeModal();
+          welcomeUser();
         }
 
         setLoading(false);

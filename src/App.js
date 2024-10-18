@@ -27,19 +27,6 @@ function App() {
   const navigate = useNavigate();
   const { email, isAuthenticated } = useAuth();
 
-  const getUserInfo = () => {
-    axios.get(`https://tulosapi.azurewebsites.net/api/User/${email}`)
-      .then(res => {
-        if (res.status === 200) {
-          setUsername(`${res.data.firstName} ${res.data.lastName}`);
-        }
-      })
-      .catch(err => {
-        console.log(err.response);
-      });
-  }
-
-
   const fetchBaseApparel = async (currentPage = 0) => {
     const optionsBaseApparel = {
       method: 'GET',
@@ -212,21 +199,36 @@ function App() {
   useEffect(() => {
     fetchFavorites();
 
-    if (isAuthenticated) {
-
+    if (email !== null && isAuthenticated) {
       getUserInfo();
-      toast.custom(
-        <div className="w-[300px] bg-green-300 shadow-md">
-          <p className='text-[15px] text-center py-6'>Welcome {username}!</p>
-        </div>,
-        {
-          duration: 3000,
-          position: 'right-top',
-          backgroundColor: 'white'
-        }
-      );
     }
   }, [email, isAuthenticated]);
+
+
+  const getUserInfo = () => {
+    axios.get(`https://tulosapi.azurewebsites.net/api/User/${email}`)
+      .then(res => {
+        if (res.status === 200) {
+          setUsername(`${res.data.firstName} ${res.data.lastName}`);
+        }
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  }
+
+  const showWelcomeMessage = () => {
+    toast.custom(
+      <div className="w-[300px] bg-green-300 shadow-md">
+        <p className='text-[15px] text-center py-6'>Welcome, {username}!</p>
+      </div>,
+      {
+        duration: 3000,
+        position: 'right-top',
+        backgroundColor: 'white'
+      }
+    );
+  }
 
   return (
     <ScrollToTop>
@@ -237,6 +239,7 @@ function App() {
         onCloseModal={onCloseSignInModal}
         isModalOpen={isModalOpen}
         handleSearch={handleSearch}
+        welcomeUser={showWelcomeMessage}
       />
       <Routes>
         <Route
