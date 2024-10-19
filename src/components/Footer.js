@@ -26,7 +26,7 @@ function Footer() {
             setMessage("An error occurred. Please try again.");
         }
     };
-
+    return null;
     return (
         <footer className="pt-8">
             <div className="my-container flex justify-between items-center mb-8">

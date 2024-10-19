@@ -183,7 +183,7 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
     }
 
     return (
-        <div className='my-container mt-[105px] min-h-[calc(100%-80px)]'>
+        <div className='my-container min-h-[calc(100%-80px)]'>
             <Toaster />
             {isProductsLoading ? (
                 <div>

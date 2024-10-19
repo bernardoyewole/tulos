@@ -170,7 +170,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
     }
 
     return (
-        <section className="my-container mt-[105px]">
+        <section className="my-container">
             {isPageLoading ? (
                 <div>
                     <Skeleton width={300} height={36} className="mb-4" />

@@ -57,7 +57,7 @@ function ResetPassword() {
 
     return (
         <div className="bg-[url('../images/hero-light.jpg')] h-screen bg-cover">
-            <div className="bg-black/70 h-full grid place-items-center mt-[105px]">
+            <div className="bg-black/70 h-full grid place-items-center">
                 <div className="bg-white w-[400px] p-6">
                     <h1 className="text-xl mb-6">RESET PASSWORD</h1>
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>

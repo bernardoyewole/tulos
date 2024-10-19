@@ -4,6 +4,7 @@ import kidsBg from '../images/kids-2.jpg';
 import homeBg from '../images/home.jpg';
 
 function Featured({ shop }) {
+    return null;
     return (
         <section className='pb-20'>
             <h2 className='text-center text-4xl'>FEATURED COLLECTION</h2>

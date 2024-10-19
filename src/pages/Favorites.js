@@ -37,7 +37,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
     };
 
     return (
-        <section className="my-container mt-[105px] mb-[50px]">
+        <section className="my-container mb-[50px]">
             <h1 className='text-4xl font-semibold py-6'>FAVOURITES</h1>
 
             {likedProducts && likedProducts.length > 0 ? (

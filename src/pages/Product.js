@@ -135,7 +135,7 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
     };
 
     return (
-        <section className="mt-[105px]">
+        <section>
             {isLoading ? (
                 <div className="my-container leading-[1] py-6 flex gap-2">
                     <Skeleton width={90} height={20} className="inline-block" />

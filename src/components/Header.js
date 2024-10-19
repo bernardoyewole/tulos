@@ -10,12 +10,17 @@ import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
 import { useCart } from "../provider/CartProvider";
 import SearchMenu from "./SearchMenu";
+import { IoCloseOutline } from "react-icons/io5";
+import { IoMenu } from "react-icons/io5";
+import { HiOutlineMenu } from "react-icons/hi";
+import MobileMenu from "./MobileMenu";
 
 function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSearch, welcomeUser }) {
     const [currentMenu, setCurrentMenu] = useState('');
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [season, setSeason] = useState('');
     const [isSearchMenuOpen, setisSearchMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const { isAuthenticated } = useAuth();
     const { cartItems } = useCart();
@@ -60,6 +65,14 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
     const closeSearchMenu = () => {
         setisSearchMenuOpen(false);
     };
+
+    const openMobileMenu = () => {
+        setIsMobileMenuOpen(true);
+    };
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    }
 
     // Define end dates for each season
     const seasons = {
@@ -113,9 +126,9 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
     }, [season]);
 
     return (
-        <section className="fixed w-full top-0 z-20 bg-white">
+        <section className="w-full bg-white">
             <div className="bg-[#151515] h-[35px] grid place-content-center">
-                <p className="text-white text-sm">
+                <p className="text-white text-xs sm:text-sm">
                     Get 25% Off This {season} Sale. Grab It Fast!!
                     <span className="inline-block w-32 text-center">
                         {`${timeLeft.hours}H : ${timeLeft.minutes}M : ${timeLeft.seconds}S`}
@@ -124,7 +137,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
             </div>
             <div className="my-container">
                 <nav className="flex justify-between items-center h-[70px] leading-[70px]">
-                    <ul className="flex gap-4 group relative" onMouseLeave={handleMouseLeave}>
+                    <ul className="md:flex gap-4 group relative md:visible hidden" onMouseLeave={handleMouseLeave}>
                         {['Women', 'Men', 'Baby', 'Kids', 'Home'].map(menu => (
                             <li key={menu}>
                                 <a
@@ -158,10 +171,10 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                             </div>
                         </div>
                     </ul>
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <Link to='/' className="font-sans font-bold text-3xl leading-[3]">TULOS</Link>
+                    <div className="md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+                        <Link to='/' className="font-sans font-bold text-2xl md:text-3xl leading-[4] md:leading-[7]">TULOS</Link>
                     </div>
-                    <ul className="flex gap-6 items-center">
+                    <ul className="flex gap-5 md:gap-6 items-center">
                         <li onClick={handleSearchMenuOpen} className="cursor-pointer">
                             <IoSearchOutline className="text-[20px] hover:text-gray-700" />
                         </li>
@@ -175,6 +188,10 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                             <BsHandbag className="text-lg hover:text-gray-700" />
                             <span className="absolute -top-2 -right-2  text-xs">{cartItems.length > 0 && `${cartItems.length}`}</span>
                         </li>
+                        {/* Hamburger Icon */}
+                        <div className="md:hidden" onClick={openMobileMenu}>
+                            <HiOutlineMenu className="text-2xl cursor-pointer text-gray-800" />
+                        </div>
                     </ul>
                 </nav>
                 <SignInSignUp
@@ -187,6 +204,12 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                 isOpen={isSearchMenuOpen}
                 closeMenu={closeSearchMenu}
                 search={handleSearch}
+            />
+            <MobileMenu
+                isOpen={isMobileMenuOpen}
+                closeMenu={closeMobileMenu}
+                options={categories}
+                selectMenu={setCurrentMenu}
             />
         </section>
     );
