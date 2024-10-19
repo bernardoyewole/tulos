@@ -123,7 +123,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                 </p>
             </div>
             <div className="my-container">
-                <nav className="flex justify-between items-center h-[70px] leading-[60px]">
+                <nav className="flex justify-between items-center h-[70px] leading-[70px]">
                     <ul className="flex gap-4 group relative" onMouseLeave={handleMouseLeave}>
                         {['Women', 'Men', 'Baby', 'Kids', 'Home'].map(menu => (
                             <li key={menu}>
@@ -137,7 +137,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                         ))}
 
                         <div
-                            className="dropdown-content absolute top-[60px] p-10 hidden backdrop-blur-sm bg-black/60 text-white shadow-lg dropdown-container z-10 group-hover:block transition-all ease-in-out duration-300"
+                            className="dropdown-content absolute top-[70px] px-10 pb-10 pt-2 hidden backdrop-blur-sm bg-black/60 text-white shadow-lg dropdown-container z-10 group-hover:block transition-all ease-in-out duration-300"
                             onMouseLeave={handleMouseLeave}
                         >
                             <div className="flex gap-16">

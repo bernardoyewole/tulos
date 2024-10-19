@@ -6,7 +6,7 @@ import { BsHandbag } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
-function Cart({ likedProducts, likedProductIds, addToFavorite, onOpenModal, shopNow }) {
+function Cart({ likedProductIds, addToFavorite, onOpenModal, shopNow }) {
     const { cartItems, fetchCartItems } = useCart();
     const { isAuthenticated } = useAuth();
 
@@ -34,10 +34,9 @@ function Cart({ likedProducts, likedProductIds, addToFavorite, onOpenModal, shop
                             <CartItem
                                 key={item.id}
                                 item={item}
-                                handleLike={handleLike}
+                                likeProduct={handleLike}
                                 addToFavorite={addToFavorite}
                                 likedProductIds={likedProductIds}
-                                likedProducts={likedProducts}
                             />
                         ))}
                     </section>)

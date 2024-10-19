@@ -4,7 +4,7 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
 import { useCart } from '../provider/CartProvider';
 
-function CartItem({ item, likedProducts, likedProductIds, handleLike, addToFavorite }) {
+function CartItem({ item, likedProductIds, likeProduct }) {
     const { addToCart, removeFromCart } = useCart();
 
     const handleAddItem = (product) => {
@@ -13,6 +13,11 @@ function CartItem({ item, likedProducts, likedProductIds, handleLike, addToFavor
 
     const handleRemoveItem = (itemId) => {
         removeFromCart(itemId);
+    }
+
+    const handleLike = (item) => {
+        delete item.id;
+        likeProduct(item);
     }
 
     return (
