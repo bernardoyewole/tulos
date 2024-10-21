@@ -10,13 +10,8 @@ import 'react-responsive-modal/styles.css';
 import { useAuth } from "../provider/AuthProvider";
 import { useCart } from "../provider/CartProvider";
 import SearchMenu from "./SearchMenu";
-import { IoCloseOutline } from "react-icons/io5";
-import { IoMenu } from "react-icons/io5";
 import { HiOutlineMenu } from "react-icons/hi";
 import MobileMenu from "./MobileMenu";
-import { CiMenuBurger } from "react-icons/ci";
-import { IoIosMenu } from "react-icons/io";
-import { LuMenu } from "react-icons/lu";
 
 function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSearch, welcomeUser }) {
     const [currentMenu, setCurrentMenu] = useState('');
@@ -133,13 +128,13 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
             <div className="bg-[#151515] h-[35px] grid place-content-center">
                 <p className="text-white text-xs sm:text-sm">
                     Get 25% Off This {season} Sale. Grab It Fast!!
-                    <span className="inline-block w-32 text-center">
-                        {`${timeLeft.hours}H : ${timeLeft.minutes}M : ${timeLeft.seconds}S`}
+                    <span>
+                        {` ${timeLeft.hours}H : ${timeLeft.minutes}M : ${timeLeft.seconds}S`}
                     </span>
                 </p>
             </div>
             <div className="my-container">
-                <nav className="flex justify-between items-center h-[70px] leading-[70px]">
+                <nav className="flex justify-between items-center h-[70px] leading-[70px] relative">
                     <ul className="md:flex gap-4 group relative md:visible hidden" onMouseLeave={handleMouseLeave}>
                         {['Women', 'Men', 'Baby', 'Kids', 'Home'].map(menu => (
                             <li key={menu}>

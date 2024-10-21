@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { HiOutlineArrowSmallLeft } from 'react-icons/hi2';
 import { IoCloseOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
 function MobileMenu({ isOpen, closeMenu, options }) {
     const [selectedMenu, setSelectedMenu] = useState('Women');
@@ -87,15 +88,17 @@ function MobileMenu({ isOpen, closeMenu, options }) {
                         <ul className="flex flex-col gap-4">
                             {selectedCategory.CategoriesArray.map(subcategory => (
                                 <li key={subcategory.CatName} className="text-sm">
-                                    <a
+                                    <Link
+                                        to={`explore/${selectedMenu}/${selectedCategory.CatName}/${subcategory.CatName}`}
+                                        onClick={closeMenu}
                                         className="block uppercase font-semibold hover:text-gray-600 transition-colors duration-2s00"
-                                        href={`explore/${selectedMenu}/${selectedCategory.CatName}/${subcategory.CatName}`}
                                     >
                                         {subcategory.CatName}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
-                        </ul></>
+                        </ul>
+                    </>
                 )}
             </div>
         </div>
