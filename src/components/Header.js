@@ -14,6 +14,9 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoMenu } from "react-icons/io5";
 import { HiOutlineMenu } from "react-icons/hi";
 import MobileMenu from "./MobileMenu";
+import { CiMenuBurger } from "react-icons/ci";
+import { IoIosMenu } from "react-icons/io";
+import { LuMenu } from "react-icons/lu";
 
 function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSearch, welcomeUser }) {
     const [currentMenu, setCurrentMenu] = useState('');
@@ -179,7 +182,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                             <IoSearchOutline className="text-[20px] hover:text-gray-700" />
                         </li>
                         <li onClick={handleAccountClick} className="cursor-pointer">
-                            <FaRegUser className="text-[17px] text-gray-800 hover:text-gray-700" />
+                            <FaRegUser className="text-[17px] text-gray-700 hover:text-gray-600" />
                         </li>
                         <li onClick={handleFavoritesClick} className="cursor-pointer">
                             <LiaHeart className="text-xl hover:text-gray-700" />
@@ -189,7 +192,7 @@ function Header({ categories, onOpenModal, onCloseModal, isModalOpen, handleSear
                             <span className="absolute -top-2 -right-2  text-xs">{cartItems.length > 0 && `${cartItems.length}`}</span>
                         </li>
                         {/* Hamburger Icon */}
-                        <div className="md:hidden" onClick={openMobileMenu}>
+                        <div className="md:hidden mt-[2px]" onClick={openMobileMenu}>
                             <HiOutlineMenu className="text-2xl cursor-pointer text-gray-800" />
                         </div>
                     </ul>

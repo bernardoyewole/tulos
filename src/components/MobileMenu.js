@@ -3,8 +3,8 @@ import { HiOutlineArrowSmallLeft } from 'react-icons/hi2';
 import { IoCloseOutline } from 'react-icons/io5';
 
 function MobileMenu({ isOpen, closeMenu, options }) {
-    const [selectedMenu, setSelectedMenu] = useState('Women'); // Default to Women
-    const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category
+    const [selectedMenu, setSelectedMenu] = useState('Women');
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [currentCategories, setCurrentCategories] = useState([]);
 
     const handleBack = () => {
@@ -40,7 +40,7 @@ function MobileMenu({ isOpen, closeMenu, options }) {
                     }`}
             >
                 {/* Top Navigation Controls */}
-                <div className="flex justify-end">
+                <div className="flex justify-end mb-4">
                     <IoCloseOutline className="text-3xl cursor-pointer" onClick={closeMenu} />
                 </div>
 
@@ -68,7 +68,7 @@ function MobileMenu({ isOpen, closeMenu, options }) {
                                 <li key={category.CatName} className="text-sm">
                                     <a
                                         onClick={() => setSelectedCategory(category)}
-                                        className="block font-medium hover:underline"
+                                        className="block font-semibold uppercase hover:text-gray-600 transition-colors duration-200"
                                     >
                                         {category.CatName}
                                     </a>
@@ -79,16 +79,16 @@ function MobileMenu({ isOpen, closeMenu, options }) {
                 ) : (
                     // Display Subcategories for the Selected Category
                     <>
-                        <button onClick={handleBack} className="text-sm font-semibold mb-6">
+                        <button onClick={handleBack} className="text-sm font-semibold">
                             {selectedCategory &&
                                 <HiOutlineArrowSmallLeft className='text-2xl' />}
                         </button>
-
+                        <p className='uppercase py-4 text-sm'>{selectedCategory.CatName}</p>
                         <ul className="flex flex-col gap-4">
                             {selectedCategory.CategoriesArray.map(subcategory => (
                                 <li key={subcategory.CatName} className="text-sm">
                                     <a
-                                        className="block font-medium hover:underline"
+                                        className="block uppercase font-semibold hover:text-gray-600 transition-colors duration-2s00"
                                         href={`explore/${selectedMenu}/${selectedCategory.CatName}/${subcategory.CatName}`}
                                     >
                                         {subcategory.CatName}

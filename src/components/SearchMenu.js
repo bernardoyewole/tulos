@@ -33,10 +33,16 @@ function SearchMenu({ isOpen, closeMenu, search }) {
             >
                 <div className="flex items-center gap-2 w-full">
                     <IoSearchOutline className="text-[21px]" />
-                    <form onSubmit={handleSubmit(handleSearch)} className="w-[65%]">
-                        <input
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            e.target[0].blur(); // remove mobile keyboard on Enter/Return
+                            handleSubmit(handleSearch)();
+                        }}
+                        className="w-[65%]"
+                    >                        <input
                             type="text"
-                            className="w-full border-0 focus:ring-0 outline-none text-[15px]"
+                            className="w-full border-0 focus:ring-0 outline-none sm:text-[15px] "
                             placeholder="Search"
                             {...register('queryText', { required: 'Enter product name to search' })}
                         />
