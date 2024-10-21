@@ -245,12 +245,7 @@ function App() {
         <Route
           path='/'
           element={<Home
-            categories={categories}
             newArrivals={newArrivals}
-            onOpenModal={onOpenSignInModal}
-            addToFavorite={addToFavorite}
-            likedProductIds={likedProductIds}
-            updateLikedProducts={setLikedProducts}
             shopNow={handleShopNow}
             shop={handleShop}
           />}
