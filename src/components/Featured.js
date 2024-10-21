@@ -4,51 +4,39 @@ import kidsBg from '../images/kids-2.jpg';
 import homeBg from '../images/home.jpg';
 
 function Featured({ shop }) {
-    return null;
     return (
-        <section className='pb-20'>
-            <h2 className='text-center text-4xl'>FEATURED COLLECTION</h2>
-            <p className='text-sm text-gray-600 text-center pt-2 pb-10'>Dare to mix and match! Check our collections to level up your fashion game</p>
-            <div className='my-container flex gap-4'>
-                <div className='relative'>
-                    <div className='bg-black/30 absolute inset-0'>
-                    </div>
-                    <img src={menBg} />
-                    <div className='absolute text-center left-6 bottom-4'>
-                        <h3 className='text-4xl text-white pb-4'>MEN</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Men')}>Shop</button>
-                    </div>
-                </div>
-                <div className='relative'>
-                    <div className='bg-black/40 absolute inset-0'>
-                    </div>
-                    <img src={womenBg} />
-                    <div className='absolute text-center left-6 bottom-4'>
-                        <h3 className='text-4xl text-white pb-4'>WOMEN</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Women')}>Shop</button>
-                    </div>
-                </div>
-                <div className='relative'>
-                    <div className='bg-black/35 absolute inset-0'>
-                    </div>
-                    <img src={kidsBg} />
-                    <div className='absolute text-center left-6 bottom-4'>
-                        <h3 className='text-4xl text-white pb-4'>KIDS</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Kids')}>Shop</button>
-                    </div>
-                </div>
-                <div className='relative'>
-                    <div className='bg-black/35 absolute inset-0'>
-                    </div>
-                    <img src={homeBg} />
-                    <div className='absolute text-center left-6 bottom-4'>
-                        <h3 className='text-4xl text-white pb-4'>HOME</h3>
-                        <button className='bg-white py-2 text-sm px-10 rounded-full' onClick={() => shop('Home')}>Shop</button>
-                    </div>
-                </div>
+        <section className="pb-16 md:pb-20">
+            <h2 className="text-center text-3xl md:text-4xl">FEATURED COLLECTION</h2>
+            <p className="text-sm text-gray-600 text-center pt-2 pb-6 md:pb-10">
+                Dare to mix and match! Check our collections to level up your fashion game
+            </p>
+
+            <div className="my-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                    { bg: menBg, title: 'MEN', action: () => shop('Men') },
+                    { bg: womenBg, title: 'WOMEN', action: () => shop('Women') },
+                    { bg: kidsBg, title: 'KIDS', action: () => shop('Kids') },
+                    { bg: homeBg, title: 'HOME', action: () => shop('Home') },
+                ].map(({ bg, title, action }) => (
+                    <button
+                        key={title}
+                        onClick={action}
+                        className="relative group w-full h-[400px] overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-black/30"></div>
+                        <img
+                            src={bg}
+                            alt={`${title} collection`}
+                            className="w-full h-full object-cover"
+                        />
+                        <div className="absolute text-center left-1/2 transform -translate-x-1/2 bottom-4">
+                            <h3 className="font-semibold text-2xl md:text-[26px] text-white pb-2 md:pb-4">{title}</h3>
+                        </div>
+                    </button>
+                ))}
             </div>
         </section>
-    )
+    );
 }
 
-export default Featured
+export default Featured;

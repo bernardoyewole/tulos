@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function NewArrival({ newArrivals, shopNow }) {
 
     return (
-        <section className='pt-14 md:pt-20'>
+        <section className='pt-16 md:pt-20'>
             <h2 className='text-center text-3xl md:text-4xl'>NEW ARRIVALS</h2>
             <p className='text-sm text-gray-600 text-center pt-2 pb-6 md:pb-10 text-balance'>
                 Our latest collection, where classic and contemporary styles converge in perfect harmony
