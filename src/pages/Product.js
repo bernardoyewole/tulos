@@ -34,7 +34,7 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
     };
 
     const limiter = new Bottleneck({
-        maxConcurrent: 5, // Max 5 requests running at the same time
+        maxConcurrent: 5, // Max 5 requests running at the same time - api plan
         minTime: 200 // Minimum time between each request (200ms for approx 5 requests per second)
     });
 
@@ -116,8 +116,8 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
             }
         };
 
-        // fetchStyleWithProducts();
-        // fetchOthersBought();
+        fetchStyleWithProducts();
+        fetchOthersBought();
     }, [product]);
 
 

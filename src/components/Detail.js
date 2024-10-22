@@ -175,7 +175,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
             <div className="mb-6">
                 <span className="text-gray-800 font-semibold text-sm">Colour - </span>
                 <span className="text-gray-500 text-sm">{currentArticle.colourDescription || currentArticle.color.text}</span>
-                <div className="flex mt-4 gap-2 flex-wrap">
+                <div className="flex mt-4 flex-wrap">
                     {thumbnails && thumbnails.length > 0 &&
                         thumbnails.map(thumbnail => (
                             <AsyncImage
