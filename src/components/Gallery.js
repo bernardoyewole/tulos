@@ -2,8 +2,8 @@ import { AsyncImage } from 'loadable-image'
 
 function Gallery({ gallery }) {
     return (
-        <div className='grid grid-cols-2 gap-1'>
-            {gallery && gallery.map((gallery, index) => (
+        <div className='grid grid-cols-2'>
+            {gallery && gallery.map(gallery => (
                 <div key={gallery.id}>
                     <AsyncImage
                         src={gallery.baseUrl}

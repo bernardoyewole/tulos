@@ -141,7 +141,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
     return (
         <div>
             <Toaster />
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-6 md:mt-0">
                 <h2 className="text-md font-semibold leading-[1]">{product.name}</h2>
                 {likedProducts.includes(product.code) ? (
                     <IoMdHeart
@@ -216,7 +216,6 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                         </button>
                     ))}
                 </div>
-                {/* <a href="#" className="text-sm text-gray-600 mt-2 inline-block">Size Guide</a> */}
             </div>
             <p className="text-red-500 h-6 text-sm">{cartError.length > 0 && `${cartError}`}</p>
             <button

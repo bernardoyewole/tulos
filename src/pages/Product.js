@@ -116,8 +116,8 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
             }
         };
 
-        fetchStyleWithProducts();
-        fetchOthersBought();
+        // fetchStyleWithProducts();
+        // fetchOthersBought();
     }, [product]);
 
 
@@ -158,16 +158,16 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
                 </motion.div>
             )}
 
-            <div className="my-container flex gap-10 w-full">
+            <div className="my-container md:flex md:gap-10 w-full">
                 {isLoading ? (
-                    <Skeleton height={500} containerClassName="w-[60%]" />
+                    <Skeleton height={500} containerClassName="md:w-[60%]" />
                 ) : (
                     product && currentArticle && (
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1 }}
-                            className="w-[60%]"
+                            className="md:w-[60%]"
                         >
                             <Gallery gallery={currentArticle.galleryDetails} />
                         </motion.div>
@@ -175,14 +175,14 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
                 )}
 
                 {isLoading ? (
-                    <Skeleton height={500} containerClassName="w-[40%]" />
+                    <Skeleton height={500} containerClassName="md:w-[40%]" />
                 ) : (
                     product && currentArticle && (
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1 }}
-                            className="w-[40%]"
+                            className="md:w-[40%]"
                         >
                             <Detail
                                 product={product}

@@ -39,7 +39,7 @@ function Footer() {
                         <input
                             type="email"
                             placeholder="Your Email"
-                            className="flex-grow px-4 py-2 border rounded-full focus:border-gray-800 focus:ring-0 outline-none text-sm transition duration-300"
+                            className="flex-grow max-w-72 px-4 py-2 border rounded-full focus:border-gray-800 focus:ring-0 outline-none text-sm transition duration-300"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             ref={emailRef}
@@ -47,7 +47,7 @@ function Footer() {
                         />
                         <button
                             type="submit"
-                            className="bg-black text-white px-6 py-2 rounded-full w-full sm:w-auto"
+                            className="bg-black text-white px-6 py-2 rounded-full w-full sm:w-auto max-w-32"
                         >
                             Submit
                         </button>

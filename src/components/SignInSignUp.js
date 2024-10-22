@@ -195,7 +195,7 @@ function SignInSignUp({ isModalOpen, closeModal, welcomeUser }) {
   return (
     <Modal open={isModalOpen} onClose={closeModal} center>
       <Toaster />
-      <div className="w-[400px] p-6">
+      <div className="sm:w-[400px] sm:p-6">
         {renderModalContent()}
       </div>
     </Modal>
