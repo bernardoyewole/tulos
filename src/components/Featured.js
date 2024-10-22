@@ -11,7 +11,7 @@ function Featured({ shop }) {
                 Dare to mix and match! Check our collections to level up your fashion game
             </p>
 
-            <div className="my-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="my-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
                 {[
                     { bg: menBg, title: 'MEN', action: () => shop('Men') },
                     { bg: womenBg, title: 'WOMEN', action: () => shop('Women') },
