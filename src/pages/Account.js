@@ -66,17 +66,19 @@ const AccountPage = () => {
     }, [selectedMenu]);
 
     return (
-        <div className='bg-gray-100'>
-            <h1 className='text-center text-2xl font-semibold pb-5 pt-10'>MY ACCOUNT</h1>
-            <div className="flex my-container min-h-screen pb-10">
-                <div className="w-1/4">
+        <div className="bg-gray-100 min-h-screen">
+            <h1 className="text-center text-2xl font-semibold pb-5 pt-10">MY ACCOUNT</h1>
+
+            <div className="my-container flex flex-col lg:flex-row md:gap-6 lg:gap-10 min-h-screen pb-10">
+                <div className="w-full lg:w-1/4 lg:mr-8 mb-8 lg:mb-0">
                     <AccountMenu
                         selectedMenu={selectedMenu}
                         setSelectedMenu={setSelectedMenu}
                         userName={userName}
                     />
                 </div>
-                <div className="w-3/4">
+
+                <div className="w-full lg:w-3/4">
                     <AccountView
                         selectedMenu={selectedMenu}
                         user={user}
@@ -89,6 +91,7 @@ const AccountPage = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 

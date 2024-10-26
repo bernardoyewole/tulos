@@ -68,7 +68,7 @@ function ChangePassword({ submitNewPassword }) {
             </div>
             <p className='text-sm text-gray-800 mb-6'>Feel free to update your password so your TULOS account stays secure. (* Indicates a required field).</p>
 
-            <form onSubmit={handleSubmit} className="w-[356px]">
+            <form onSubmit={handleSubmit} className="w-full lg:w-[356px]">
                 <div className="mb-6 relative">
                     <label htmlFor="currentPassword" className="pb-2 block text-sm font-semibold text-gray-700">CURRENT PASSWORD *</label>
                     <input

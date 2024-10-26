@@ -16,13 +16,13 @@ const AccountMenu = ({ selectedMenu, setSelectedMenu, userName }) => {
     ];
 
     return (
-        <div className="p-4 w-[300px] bg-white">
+        <div className="p-4 w-full md:w-[40%] bg-white">
             <h3 className="text-lg font-semibold mb-6">Hi, {userName}</h3>
             <ul>
                 {menuItems.map((item) => (
                     <li
                         key={item.key}
-                        className={`flex items-center gap-4 cursor-pointer p-4 ${selectedMenu === item.key ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-50'
+                        className={`flex items-center gap-4 cursor-pointer p-4 rounded-lg transition-all duration-300 ${selectedMenu === item.key ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-50'
                             }`}
                         onClick={() => setSelectedMenu(item.key)}
                     >
@@ -34,5 +34,6 @@ const AccountMenu = ({ selectedMenu, setSelectedMenu, userName }) => {
         </div>
     );
 };
+
 
 export default AccountMenu;
