@@ -69,7 +69,6 @@ function SizeMenu({ isOpen, product, setSize, selectedSize, closeMenu }) {
             );
 
             setSize(null);
-            setTimeout(() => closeMenu(), 3000);
         }
     }
 
