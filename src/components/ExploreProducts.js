@@ -22,7 +22,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
             price: product.whitePrice.value,
             sizeVariants: [...product.variantSizes.map(pr => pr.filterCode)],
             color: product.defaultArticle.color.text
-        }
+        };
 
         const response = await addToFavorite(productObj);
 
@@ -31,7 +31,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
         } else if (response === "Favorite removed") {
             updateLikedProducts(likedProductIds.filter(id => id !== product.defaultArticle.code));
         }
-    }
+    };
 
     return (
         <motion.div
@@ -39,9 +39,9 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
         >
-            <div className="grid grid-cols-4 gap-x-4 gap-y-12">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-1 gap-y-10 md:gap-x-2">
                 {products.map(product => (
-                    <div key={product.code}>
+                    <div key={product.code} className="relative">
                         <Link to={`/product/${product.defaultArticle.code}`} className='relative block cursor-pointer'>
                             <AsyncImage
                                 src={product.defaultArticle.logoPicture[0].baseUrl}
@@ -54,7 +54,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                                         loader={<div style={{ background: '#ededed' }} />}
                                         error={
                                             <AsyncImage
-                                                src={product.galleryImages && product.galleryImages.length > 0 && product.galleryImages[0].baseUrl}
+                                                src={product.galleryImages?.[0]?.baseUrl || ""}
                                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                 loader={<div style={{ background: '#ededed' }} />}
                                             />
@@ -91,7 +91,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                             <p className='pt-2 text-[13px]'>{product.name}</p>
                         </Link>
                         <p>${product.whitePrice.value}</p>
-                        {product.rgbColors && product.rgbColors.length > 0 && (
+                        {product.rgbColors?.length > 0 && (
                             <div className="flex items-center space-x-1 h-4">
                                 {product.rgbColors.length <= 3 ? (
                                     product.rgbColors.map((color, index) => (
@@ -121,7 +121,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                 ))}
             </div>
         </motion.div>
-    )
+    );
 }
 
-export default ExploreProducts
+export default ExploreProducts;
