@@ -60,7 +60,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                                 e.preventDefault();
                                                 handleLike(product);
                                             }}
-                                            className="absolute top-3 right-4 text-2xl text-red-500 hover:text-red-600 cursor-pointer"
+                                            className="absolute top-3 right-4 text-2xl text-red-500 md:hover:text-red-600 cursor-pointer"
                                         />
                                     ) : (
                                         <div className="group">
@@ -76,7 +76,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                                     e.preventDefault();
                                                     handleLike(product);
                                                 }}
-                                                className="absolute top-3 right-4 text-2xl text-red-500 hidden group-hover:block"
+                                                className="absolute top-3 right-4 text-2xl text-red-500 hidden md:group-hover:block"
                                             />
                                         </div>
                                     )}
@@ -129,7 +129,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                     </p>
                     <button
                         onClick={shopNow}
-                        className="bg-black text-white py-3 px-10 text-sm rounded-full hover:bg-gray-900 transition-all duration-300"
+                        className="bg-black text-white py-3 px-10 text-sm hover:bg-gray-900 transition-all duration-300"
                     >
                         Explore Products
                     </button>

@@ -68,7 +68,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                                         e.preventDefault();
                                         handleLike(product);
                                     }}
-                                    className="absolute top-3 right-4 text-2xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                                    className="absolute top-3 right-4 text-2xl text-red-500 fill-current md:hover:text-red-600 cursor-pointer"
                                 />
                             ) : (
                                 <div className="group">
@@ -84,7 +84,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                                             e.preventDefault();
                                             handleLike(product);
                                         }}
-                                        className="absolute top-3 right-4 text-2xl text-red-500 cursor-pointer hidden group-hover:block"
+                                        className="absolute top-3 right-4 text-2xl text-red-500 cursor-pointer hidden md:group-hover:block"
                                     />
                                 </div>
                             )}

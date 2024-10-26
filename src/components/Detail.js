@@ -149,7 +149,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                             e.preventDefault();
                             handleLike(product);
                         }}
-                        className="text-2xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                        className="text-2xl text-red-500 fill-current md:hover:text-red-600 cursor-pointer"
                     />
                 ) : (
                     <div className="group">
@@ -165,7 +165,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                                 e.preventDefault();
                                 handleLike(product);
                             }}
-                            className="text-2xl text-red-500 cursor-pointer hidden group-hover:block"
+                            className="text-2xl text-red-500 cursor-pointer hidden md:group-hover:block"
                         />
                     </div>
                 )}

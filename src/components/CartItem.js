@@ -37,7 +37,7 @@ function CartItem({ item, likedProductIds, likeProduct }) {
                                     e.preventDefault();
                                     handleLike(item);
                                 }}
-                                className="absolute top-3 right-4 text-xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                                className="absolute top-3 right-4 text-xl text-red-500 fill-current md:hover:text-red-600 cursor-pointer"
                             />
                         ) : (
                             <div className="group">
@@ -53,7 +53,7 @@ function CartItem({ item, likedProductIds, likeProduct }) {
                                         e.preventDefault();
                                         handleLike(item);
                                     }}
-                                    className="absolute top-3 right-4 text-xl text-red-500 cursor-pointer hidden group-hover:block"
+                                    className="absolute top-3 right-4 text-xl text-red-500 cursor-pointer hidden md:group-hover:block"
                                 />
                             </div>
                         )}
