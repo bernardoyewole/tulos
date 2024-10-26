@@ -46,10 +46,10 @@ function CartValue() {
             </button>
             {/* Payment Options */}
             <div className="flex justify-center space-x-4 mb-6">
-                <img src="/path/to/amex-icon.png" alt="Amex" className="h-8" />
-                <img src="/path/to/visa-icon.png" alt="Visa" className="h-8" />
-                <img src="/path/to/paypal-icon.png" alt="Paypal" className="h-8" />
-                <img src="/path/to/giftcard-icon.png" alt="Gift Card" className="h-8" />
+                <span>Amex</span>
+                <span>Paypal</span>
+                <span>Visa</span>
+                <span>Gift Card</span>
             </div>
             {/* Legal Notes */}
             <p className="text-xs text-gray-500 mb-2">
