@@ -83,6 +83,7 @@ function SizeMenu({ isOpen, product, setSize, selectedSize, closeMenu }) {
 
     useEffect(() => {
         setErrorMessage('');
+
     }, [product]);
 
     return (
@@ -92,7 +93,7 @@ function SizeMenu({ isOpen, product, setSize, selectedSize, closeMenu }) {
                 onClick={closeMenu}
             />
             <div
-                className={`overflow-scroll fixed top-0 right-0 h-full w-[460px] bg-white transition-transform transform ${isOpen ? 'translate-x-0' : 'translate-x-full'
+                className={`overflow-scroll fixed top-0 right-0 h-full w-full sm:w-[50%] lg:w-[40%] bg-white transition-transform transform ${isOpen ? 'translate-x-0' : 'translate-x-full'
                     } z-50 duration-500`}
             >
                 <Toaster />
@@ -130,7 +131,8 @@ function SizeMenu({ isOpen, product, setSize, selectedSize, closeMenu }) {
                                 </button>
                             )) :
                                 <button
-                                    className="py-2 px-4 border text-sm hover:border-black transition-colors duration-200"
+                                    className={`py-2 px-4 border text-sm hover:border-black  ${selectedSize === 'No Size' && 'border-black'} transition-colors duration-200`}
+                                    onClick={() => handleSize('No Size')}
                                 >
                                     NO SIZE
                                 </button>

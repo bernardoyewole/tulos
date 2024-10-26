@@ -38,18 +38,20 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
 
     return (
         <section className="my-container mb-[50px]">
-            <h1 className='text-4xl font-semibold py-6'>FAVOURITES</h1>
+            <h1 className="text-2xl md:text-4xl font-semibold py-6">FAVOURITES</h1>
 
             {likedProducts && likedProducts.length > 0 ? (
                 <>
-                    <p className='font-medium text-sm pb-4'>{likedProducts.length} {likedProducts.length === 1 ? 'ITEM' : 'ITEMS'}</p>
-                    <div className="grid grid-cols-4 gap-x-6 gap-y-16">
-                        {likedProducts.map(product => (
-                            <div key={product.hmProductId}>
-                                <Link to={`/product/${product.hmProductId}`} className='relative block cursor-pointer'>
+                    <p className="font-medium text-sm pb-4">
+                        {likedProducts.length} {likedProducts.length === 1 ? 'ITEM' : 'ITEMS'}
+                    </p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 gap-y-10">
+                        {likedProducts.map((product) => (
+                            <div key={product.hmProductId} className="flex flex-col justify-between">
+                                <Link to={`/product/${product.hmProductId}`} className="relative block cursor-pointer">
                                     <AsyncImage
                                         src={product.imageUrl}
-                                        style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
+                                        style={{ width: '100%', height: 'auto', aspectRatio: 11 / 16 }}
                                         loader={<div style={{ background: '#ededed' }} />}
                                     />
                                     {likedProductIds.includes(product.hmProductId) ? (
@@ -58,7 +60,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                                 e.preventDefault();
                                                 handleLike(product);
                                             }}
-                                            className="absolute top-3 right-4 text-2xl text-red-500 fill-current hover:text-red-600 cursor-pointer"
+                                            className="absolute top-3 right-4 text-2xl text-red-500 hover:text-red-600 cursor-pointer"
                                         />
                                     ) : (
                                         <div className="group">
@@ -74,21 +76,21 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                                     e.preventDefault();
                                                     handleLike(product);
                                                 }}
-                                                className="absolute top-3 right-4 text-2xl text-red-500 cursor-pointer hidden group-hover:block"
+                                                className="absolute top-3 right-4 text-2xl text-red-500 hidden group-hover:block"
                                             />
                                         </div>
                                     )}
-                                    <p className='pt-2 text-[13px]'>{product.name}</p>
+                                    <p className="pt-2 text-[13px]">{product.name}</p>
                                 </Link>
-                                <p>${product.price}</p>
+                                <p className="text-sm">${product.price}</p>
                                 {product.rgbColors && product.rgbColors.length > 0 && (
-                                    <div className="flex items-center space-x-1 h-4">
+                                    <div className="flex items-center space-x-1 h-4 mt-2">
                                         {product.rgbColors.length <= 3 ? (
                                             product.rgbColors.map((color, index) => (
                                                 <div
                                                     key={uuidv4()}
                                                     className="h-2 w-2 border border-black"
-                                                    style={{ backgroundColor: `${color}` }}
+                                                    style={{ backgroundColor: color }}
                                                     title={product.articleColorNames[index]}
                                                 ></div>
                                             ))
@@ -98,25 +100,37 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                                     <div
                                                         key={uuidv4()}
                                                         className="h-2 w-2 border border-black"
-                                                        style={{ backgroundColor: `${color}` }}
+                                                        style={{ backgroundColor: color }}
                                                         title={product.articleColorNames[index]}
                                                     ></div>
                                                 ))}
-                                                <span className="text-[13px] leading-[1]">{`+${product.rgbColors.length - 3}`}</span>
+                                                <span className="text-[13px] leading-[1]">
+                                                    +{product.rgbColors.length - 3}
+                                                </span>
                                             </>
                                         )}
                                     </div>
                                 )}
-                                <button onClick={() => handleOpenSizeMenu(product)} className='border border-gray-700 py-4 text-md mt-4 w-full'>ADD TO BAG</button>
+                                <button
+                                    onClick={() => handleOpenSizeMenu(product)}
+                                    className="border border-gray-700 py-3 text-sm mt-4 w-full hover:bg-gray-100 transition-all duration-300"
+                                >
+                                    ADD TO BAG
+                                </button>
                             </div>
                         ))}
                     </div>
                 </>
             ) : (
-                <div className="flex flex-col items-center justify-center min-h-[300px]">
+                <div className="flex flex-col items-center justify-center min-h-[300px] text-center">
                     <p className="text-lg font-semibold mb-4">Your favourites list is empty</p>
-                    <p className="text-gray-600 mb-6">Browse our collection and add items to your favourites.</p>
-                    <button onClick={shopNow} className="bg-black text-white py-4 w-60 text-center font-semibold hover:bg-gray-900 transition-all duration-300">
+                    <p className="text-gray-600 mb-6">
+                        Browse our collection and add items to your favourites.
+                    </p>
+                    <button
+                        onClick={shopNow}
+                        className="bg-black text-white py-3 px-10 text-sm rounded-full hover:bg-gray-900 transition-all duration-300"
+                    >
                         Explore Products
                     </button>
                 </div>
@@ -130,6 +144,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                 closeMenu={closeSizeMenu}
             />
         </section>
+
 
     )
 }
