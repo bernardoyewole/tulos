@@ -16,7 +16,7 @@ const AccountMenu = ({ selectedMenu, setSelectedMenu, userName }) => {
     ];
 
     return (
-        <div className="p-4 w-full md:w-[40%] bg-white">
+        <div className="p-4 w-full bg-white">
             <h3 className="text-lg font-semibold mb-6">Hi, {userName}</h3>
             <ul>
                 {menuItems.map((item) => (
