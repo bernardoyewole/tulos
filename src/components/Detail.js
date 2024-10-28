@@ -158,7 +158,7 @@ function Detail({ product, currentArticle, changeArticle, addToFavorite, likedPr
                                 e.preventDefault();
                                 handleLike(product);
                             }}
-                            className="text-2xl text-gray-600 group-hover:hidden"
+                            className="text-2xl text-gray-600 md:group-hover:hidden"
                         />
                         <IoMdHeart
                             onClick={(e) => {

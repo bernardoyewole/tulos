@@ -69,7 +69,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                                     e.preventDefault();
                                                     handleLike(product);
                                                 }}
-                                                className="absolute top-3 right-4 text-2xl text-gray-600 group-hover:hidden"
+                                                className="absolute top-3 right-4 text-2xl text-gray-600 md:group-hover:hidden"
                                             />
                                             <IoMdHeart
                                                 onClick={(e) => {

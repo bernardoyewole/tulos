@@ -46,7 +46,7 @@ function CartItem({ item, likedProductIds, likeProduct }) {
                                         e.preventDefault();
                                         handleLike(item);
                                     }}
-                                    className="absolute top-3 right-4 text-xl text-gray-600 group-hover:hidden"
+                                    className="absolute top-3 right-4 text-xl text-gray-600 md:group-hover:hidden"
                                 />
                                 <IoMdHeart
                                     onClick={(e) => {
