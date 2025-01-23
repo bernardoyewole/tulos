@@ -80,49 +80,42 @@ function App() {
     }
   };
 
-  const updateNewArrivals = async (baseApparel, currentPage) => {
+  const updateNewArrivals = async (baseApparel) => {
     const validNewArrivals = [];
-    let index = 0;
 
-    while (validNewArrivals.length < 10 && index < baseApparel.length) {
+    // Collect items marked as "New Arrival"
+    for (let index = 0; index < baseApparel.length; index++) {
       const item = baseApparel[index];
-      try {
-        await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = item.images[0].baseUrl;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-
-        if (item.hasOwnProperty('sellingAttributes') && item.sellingAttributes.includes('New Arrival')) {
-          validNewArrivals.push(item);
-        }
-
-      } catch {
-        console.warn(`Image failed to load for item: ${item.code}, trying next item...`);
+      if (item.sellingAttributes && item.sellingAttributes.includes('New Arrival')) {
+        validNewArrivals.push(item);
       }
-      index++;
     }
 
-    // If we don't have enough new arrivals, fetch more from the next page
-    if (validNewArrivals.length < 10 && currentPage < 5) {
-      const nextPage = currentPage + 1;
-      const moreBaseApparel = await fetchBaseApparel(nextPage);
-      const moreNewArrivals = await updateNewArrivals(moreBaseApparel, nextPage);
-      const remainingCount = 10 - validNewArrivals.length;
-      const remainderNewArrivals = moreNewArrivals.slice(0, remainingCount);
+    // If we don't have enough new arrivals, add items that are not "New Arrival"
+    if (validNewArrivals.length < 10) {
+      const fillers = baseApparel.filter(
+        (item) => !item.sellingAttributes || !item.sellingAttributes.includes('New Arrival')
+      );
 
-      return [...validNewArrivals, ...remainderNewArrivals];
+      let fillerIndex = 0;
+      while (validNewArrivals.length < 10) {
+        // Stop if we run out of fillers
+        if (fillerIndex >= fillers.length) break;
+
+        validNewArrivals.push(fillers[fillerIndex]);
+        fillerIndex++;
+      }
     }
-
 
     return validNewArrivals;
   };
 
+
   useEffect(() => {
     const fetchInitialData = async () => {
       const baseApparel = await fetchBaseApparel();
-      const newArrivals = await updateNewArrivals(baseApparel, 0);
+      const newArrivals = await updateNewArrivals(baseApparel);
+
       setNewArrivals(newArrivals);
       fetchCategories();
     };
