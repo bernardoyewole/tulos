@@ -30,8 +30,8 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
             productcode: productCode
         },
         headers: {
-            'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-            'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+            'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+            'x-rapidapi-host': process.env.REACT_APP_HOST,
         }
     };
 

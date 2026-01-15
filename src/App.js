@@ -150,7 +150,6 @@ function App() {
     const menu = selectedCategory.CatName;
     const category = selectedCategory.CategoriesArray[0].CatName;
     const subcategory = selectedCategory.CategoriesArray[0].CategoriesArray[0].CatName;
-
     if (menu !== undefined && category !== undefined && subcategory !== undefined) {
       navigate(`explore/${menu}/${category}/${subcategory}`);
     }

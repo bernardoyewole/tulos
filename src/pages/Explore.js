@@ -17,7 +17,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
     const [isPageLoading, setIsPageLoading] = useState(true);
     const [isProductsLoading, setIsProductsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
-    const [maxProducts, setMaxProducts] = useState(null);
+    const [maxPages, setMaxPages] = useState(null);
     const [progress, setProgress] = useState(null);
     const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
     const [selectedSortType, setSelectedSortType] = useState('recommended');
@@ -27,21 +27,22 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
 
     const fetchProducts = async (classCode, reset = false) => {
         try {
-            const response = await axios.get('https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list', {
+            const response = await axios.get('https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/v2/list', {
                 params: {
                     country: 'us',
                     lang: 'en',
-                    currentpage: currentPage,
+                    page: currentPage,
                     pagesize: '30',
-                    categories: classCode
+                    categoryId: classCode
                 },
                 headers: {
-                    'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-                    'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+                    'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+                    'x-rapidapi-host': process.env.REACT_APP_API_HOST
                 }
             });
 
-            let results = response.data.results;
+            let results = response.data.plpList.productList;
+            console.log(results);
             if (results.length > 0) {
                 setProducts(reset ? results : [...products, ...results]);
                 reset ?? setProducts(results);
@@ -53,7 +54,8 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
                 });
 
                 setDisplayedProducts(products);
-                setMaxProducts(response.data.pagination.totalNumberOfResults);
+                console.log(response.data)
+                setMaxPages(response.data.pagination.totalPages);
 
                 setTimeout(() => setLoadingMore(false), 1000);
             }
@@ -107,8 +109,8 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
     }, [currentClass, products]);
 
     useEffect(() => {
-        setProgress((products.length / maxProducts) * 100);
-    }, [products, maxProducts]);
+        setProgress((currentPage / maxPages) * 100);
+    }, [currentPage, maxPages]);
 
     useEffect(() => {
         if (products.length > 0) {
@@ -152,7 +154,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
 
     const handleLoadMore = () => {
         setLoadingMore(true);
-        if (products.length < maxProducts) {
+        if (currentPage < maxPages) {
             setCurrentPage(prevPage => prevPage + 1);
         }
     }
@@ -225,17 +227,13 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
                 )
             )}
             <div className="flex flex-col justify-center items-center mt-10">
-                <p className="mb-4 text-sm text-red-600">You've viewed {products.length} of {maxProducts} products</p>
-                <div className="w-[40%] bg-gray-200 h-1 mb-5 mx-auto">
-                    <div className="bg-red-600 h-1" style={{ width: `${progress}%` }}></div>
-                </div>
                 <button
-                    className={`bg-black text-white h-14 w-[11rem] flex justify-center items-center transition-colors ${products.length === maxProducts
+                    className={`bg-black text-white h-14 w-[11rem] flex justify-center items-center transition-colors ${currentPage === maxPages
                         ? 'cursor-not-allowed opacity-70'
                         : 'hover:bg-gray-800'
                         }`}
                     onClick={handleLoadMore}
-                    disabled={products.length === maxProducts}
+                    disabled={currentPage === maxPages}
                 >
                     {loadingMore ? <FaSpinner className="animate-spin mr-2" /> : 'LOAD MORE'}
                 </button>

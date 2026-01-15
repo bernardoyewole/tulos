@@ -16,20 +16,20 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
 
         const productObj = {
             userEmail: email,
-            hmProductId: product.defaultArticle.code,
+            hmProductId: product.id,
             name: product.name,
-            imageUrl: product.images[0].baseUrl,
-            price: product.whitePrice.value,
-            sizeVariants: [...product.variantSizes.map(pr => pr.filterCode)],
-            color: product.defaultArticle.color.text
+            imageUrl: product.modelImage,
+            price: product.prices[0].price,
+            sizeVariants: [...product.sizes.map(pr => pr.label)],
+            color: product.colorName
         };
 
         const response = await addToFavorite(productObj);
 
         if (response === "Product added to favorites") {
-            updateLikedProducts([...likedProductIds, product.defaultArticle.code]);
+            updateLikedProducts([...likedProductIds, product.id]);
         } else if (response === "Favorite removed") {
-            updateLikedProducts(likedProductIds.filter(id => id !== product.defaultArticle.code));
+            updateLikedProducts(likedProductIds.filter(id => id !== product.id));
         }
     };
 
@@ -42,19 +42,19 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-1 gap-y-10 md:gap-x-2">
                 {products.map(product => (
                     <div key={product.code} className="relative">
-                        <Link to={`/product/${product.defaultArticle.code}`} className='relative block cursor-pointer'>
+                        <Link to={`/product/${product.id}`} className='relative block cursor-pointer'>
                             <AsyncImage
-                                src={product.defaultArticle.logoPicture[0].baseUrl}
+                                src={product.modelImage}
                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                 loader={<div style={{ background: '#ededed' }} />}
                                 error={
                                     <AsyncImage
-                                        src={product.defaultArticle.images[0].baseUrl}
+                                        src={product.productImage}
                                         style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                         loader={<div style={{ background: '#ededed' }} />}
                                         error={
                                             <AsyncImage
-                                                src={product.galleryImages?.[0]?.baseUrl || ""}
+                                                src={product.images[0].url || ""}
                                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                                 loader={<div style={{ background: '#ededed' }} />}
                                             />
@@ -62,7 +62,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                                     />
                                 }
                             />
-                            {likedProductIds.includes(product.defaultArticle.code) ? (
+                            {likedProductIds.includes(product.id) ? (
                                 <IoMdHeart
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -90,29 +90,29 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                             )}
                             <p className='pt-2 text-[13px]'>{product.name}</p>
                         </Link>
-                        <p>${product.whitePrice.value}</p>
-                        {product.rgbColors?.length > 0 && (
+                        <p>${product.prices[0].price}</p>
+                        {product.swatches?.length > 0 && (
                             <div className="flex items-center space-x-1 h-4">
-                                {product.rgbColors.length <= 3 ? (
-                                    product.rgbColors.map((color, index) => (
+                                {product.swatches.length <= 3 ? (
+                                    product.swatches.map((color, index) => (
                                         <div
-                                            key={uuidv4()}
+                                            key={product.swatches.articleId}
                                             className="h-2 w-2 border border-black"
-                                            style={{ backgroundColor: `${color}` }}
-                                            title={product.articleColorNames[index]}
+                                            style={{ backgroundColor: `#${color.colorCode}` }}
+                                            title={color.colorName}
                                         ></div>
                                     ))
                                 ) : (
                                     <>
-                                        {product.rgbColors.slice(0, 3).map((color, index) => (
+                                        {product.swatches.slice(0, 3).map((color, index) => (
                                             <div
-                                                key={uuidv4()}
+                                                key={product.swatches.articleId}
                                                 className="h-2 w-2 border border-black"
-                                                style={{ backgroundColor: `${color}` }}
-                                                title={product.articleColorNames[index]}
+                                                style={{ backgroundColor: `#${color.colorCode}` }}
+                                                title={color.colorName}
                                             ></div>
                                         ))}
-                                        <span className="text-[13px] leading-[1]">{`+${product.rgbColors.length - 3}`}</span>
+                                        <span className="text-[13px] leading-[1]">{`+${product.swatches.length - 3}`}</span>
                                     </>
                                 )}
                             </div>
