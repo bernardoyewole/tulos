@@ -80,7 +80,7 @@ function Favorites({ likedProducts, likedProductIds, addToFavorite, onOpenModal,
                                             />
                                         </div>
                                     )}
-                                    <p className="pt-2 text-[13px]">{product.name}</p>
+                                    <p className="pt-2 text-[13px]">{product.productName}</p>
                                 </Link>
                                 <p className="text-sm">${product.price}</p>
                                 {product.rgbColors && product.rgbColors.length > 0 && (

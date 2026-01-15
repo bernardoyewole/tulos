@@ -128,10 +128,10 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
                     }));
                     break;
                 case 'lowestPrice':
-                    setDisplayedProducts([...products].sort((a, b) => a.whitePrice.value - b.whitePrice.value));
+                    setDisplayedProducts([...products].sort((a, b) => a.prices[0].price - b.prices[0].price));
                     break;
                 case 'highestPrice':
-                    setDisplayedProducts([...products].sort((a, b) => b.whitePrice.value - a.whitePrice.value));
+                    setDisplayedProducts([...products].sort((a, b) => b.prices[0].price - a.prices[0].price));
                     break;
                 default: // 'recommended'
                     setDisplayedProducts(products); // Revert to original data

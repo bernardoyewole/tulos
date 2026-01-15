@@ -17,7 +17,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
         const productObj = {
             userEmail: email,
             hmProductId: product.id,
-            name: product.name,
+            name: product.productName,
             imageUrl: product.modelImage,
             price: product.prices[0].price,
             sizeVariants: [...product.sizes.map(pr => pr.label)],
@@ -88,7 +88,7 @@ function ExploreProducts({ products, addToFavorite, likedProductIds, updateLiked
                                     />
                                 </div>
                             )}
-                            <p className='pt-2 text-[13px]'>{product.name}</p>
+                            <p className='pt-2 text-[13px]'>{product.productName}</p>
                         </Link>
                         <p>${product.prices[0].price}</p>
                         {product.swatches?.length > 0 && (

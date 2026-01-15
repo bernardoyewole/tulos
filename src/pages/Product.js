@@ -154,7 +154,7 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
                         <p>
                             <span className="text-sm text-gray-700">{product.customerGroup} / </span>
                             <span className="text-sm text-gray-700">{product.presentationTypes} / </span>
-                            <span className="text-[15px] text-red-600">{product.name}</span>
+                            <span className="text-[15px] text-red-600">{product.productName}</span>
                         </p>
                     </div>
                 </motion.div>
