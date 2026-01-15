@@ -42,10 +42,10 @@ function OthersBought({ OthersBought, addToFavorite, likedProducts, onOpenModal 
 
         const itemObj = {
             userEmail: email,
-            hmProductId: item.defaultArticle.code,
+            hmProductId: item.id,
             name: item.name,
-            imageUrl: item.defaultArticle.images[0].baseUrl || item.galleryImages[0].baseUrl,
-            price: item.whitePrice.price
+            imageUrl: item.modelImage|| item.productImage,
+            price: item.prices[0].price
         }
 
         addToFavorite(itemObj);
@@ -56,21 +56,21 @@ function OthersBought({ OthersBought, addToFavorite, likedProducts, onOpenModal 
             <h2 className="font-semibold text-lg pb-4">Others Also Bought</h2>
             <Slider {...settings}>
                 {OthersBought.map((item) => (
-                    <div key={item.code} className="relative">
-                        <Link to={`/product/${item.defaultArticle.code}`} className='cursor-pointer'>
+                    <div key={item.id} className="relative">
+                        <Link to={`/product/${item.id}`} className='cursor-pointer'>
                             <AsyncImage
-                                src={item.defaultArticle.images[0].baseUrl} alt={item.name}
+                                src={item.modelImage} alt={item.name}
                                 style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                 loader={<div style={{ background: '#ededed' }} />}
                                 error={
                                     <AsyncImage
-                                        src={item.galleryImages[0].baseUrl}
+                                        src={item.images[0].baseUrl}
                                         style={{ width: '100%', height: "auto", aspectRatio: 11 / 16 }}
                                         loader={<div style={{ background: '#ededed' }} />}
                                     />
                                 }
                             />
-                            {likedProducts.includes(item.defaultArticle.code) ? (
+                            {likedProducts.includes(item.id) ? (
                                 <IoMdHeart
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -98,7 +98,7 @@ function OthersBought({ OthersBought, addToFavorite, likedProducts, onOpenModal 
                             )}
                         </Link>
                         <p className='pt-2 text-[13px]'>{item.name}</p>
-                        <p>${item.whitePrice.value}</p>
+                        <p>${item.prices[0].price}</p>
                     </div>
                 ))}
             </Slider>

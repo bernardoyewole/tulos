@@ -34,8 +34,10 @@ function App() {
       params: {
         country: 'ca',
         lang: 'en',
-        currentpage: currentPage,
+        page: currentPage,
         pagesize: '30',
+        sort: 'newProduct',
+        categoryId: 'ladies_newarrivals'
       },
       headers: {
         'x-rapidapi-key': process.env.REACT_APP_API_KEY,
@@ -45,7 +47,7 @@ function App() {
 
     try {
       const response = await axios.request(optionsBaseApparel);
-      const baseApparel = [...response.data.results];
+      const baseApparel = [...response.data.plpList.productList];
       setBaseApparel(prev => [...prev, ...baseApparel]);
       return baseApparel;
     }
@@ -64,8 +66,8 @@ function App() {
         country: 'us'
       },
       headers: {
-        'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-        'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+        'x-rapidapi-key':  process.env.REACT_APP_API_KEY,
+        'x-rapidapi-host': process.env.REACT_APP_API_HOST
       }
     };
 

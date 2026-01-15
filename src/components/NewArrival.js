@@ -11,10 +11,10 @@ function NewArrival({ newArrivals, shopNow }) {
 
             <div className='my-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
                 {newArrivals.map((arrival) => (
-                    <div key={arrival.code} className="relative">
-                        <Link to={`/product/${arrival.articles[0].code}`} className='relative block'>
+                    <div key={arrival.id} className="relative">
+                        <Link to={`/product/${arrival.id}`} className='relative block'>
                             <img
-                                src={arrival.images[0].baseUrl}
+                                src={arrival.modelImage}
                                 alt={arrival.name}
                                 className="cursor-pointer w-full h-auto object-cover"
                             />

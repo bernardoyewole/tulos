@@ -9,6 +9,8 @@ import Gallery from "../components/Gallery";
 import StyleWith from "../components/StyleWith";
 import OthersBought from "../components/OthersBought";
 import { motion } from 'framer-motion';
+import resolveConfig from "tailwindcss/resolveConfig";
+import othersBought from "../components/OthersBought";
 
 function Product({ addToFavorite, likedProductIds, onOpenModal }) {
     const [product, setProduct] = useState(null);
@@ -96,21 +98,21 @@ function Product({ addToFavorite, likedProductIds, onOpenModal }) {
             try {
                 const response = await axios.request({
                     method: 'GET',
-                    url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
+                    url: process.env.REACT_APP_API_URL,
                     params: {
                         country: 'us',
                         lang: 'en',
-                        currentpage: '0',
+                        page: '0',
                         pagesize: '10',
-                        categories: product.mainCategory.code
+                        categoryId: product.mainCategory.code
                     },
                     headers: {
-                        'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-                        'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+                        'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+                        'x-rapidapi-host': process.env.REACT_APP_API_HOST
                     }
                 });
 
-                setOthersBoughtList(response.data.results);
+                setOthersBoughtList(response.data.plpList.productList);
             } catch (error) {
                 console.error(error);
             }
