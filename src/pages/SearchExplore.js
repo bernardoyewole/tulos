@@ -54,119 +54,112 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
         }
     }
 
-    const fetchQueryResult = async ({
-                                        page = currentPage,
-                                        reset = false,
-                                    } = {}) => {
-        try {
-            const options = {
-                method: 'GET',
-                url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/v2/list',
-                params: {
-                    country: 'us',
-                    lang: 'en',
-                    currentpage: page,
-                    pagesize: '30',
-                    query,
-                },
-                headers: {
-                    'x-rapidapi-key': process.env.REACT_APP_API_KEY,
-                    'x-rapidapi-host': process.env.REACT_APP_HOST,
-                },
-            };
-
-            console.log('FETCHING PAGE:', page);
-
-            const response = await axios.request(options);
-console.log(response.data);
-            const products =
-                response?.data?.searchHits?.productList || [];
-
-            if (products.length > 0) {
-                if (reset) {
-                    setQueryResult(products);
-                } else {
-                    setQueryResult((prevResults) => [
-                        ...prevResults,
-                        ...products,
-                    ]);
-                }
-
-                setMaxProducts(
-                    response.data.searchHits.numberOfHits
-                );
-            }
-
-            setLoadingMore(false);
-        } catch (error) {
-            console.error(error);
-            setLoadingMore(false);
-        }
-    };
-
-//     const fetchQueryResult = async (reset = false) => {
+//     const fetchQueryResult = async ({
+//                                         page = currentPage,
+//                                         reset = false,
+//                                     } = {}) => {
 //         try {
-//             console.log(options);
-//             const response = await axios.request(options);
-// console.log(response);
-//             if (response.data.searchHits.productList && response.data.searchHits.productList.length > 0) {
-//                 if (reset) {
-//                     setQueryResult(response.data.searchHits.productList);
-//                 } else {
-//                     console.log('new', response.data.searchHits.productList)
-//                     console.log('old', queryResult)
+//             const options = {
+//                 method: 'GET',
+//                 url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/v2/list',
+//                 params: {
+//                     country: 'us',
+//                     lang: 'en',
+//                     currentpage: page,
+//                     pagesize: '30',
+//                     query,
+//                 },
+//                 headers: {
+//                     'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+//                     'x-rapidapi-host': process.env.REACT_APP_HOST,
+//                 },
+//             };
 //
-//                     setQueryResult((prevResults) => {
-//                         const combinedResults = [...prevResults, ...response.data.searchHits.productList];
-//                         console.log('combinedResults', combinedResults);
-//                         return combinedResults;
-//                         // Ensure uniqueness based on `code`
-//                         // return combinedResults.filter(
-//                         //     (item, index, self) =>
-//                         //         index === self.findIndex(obj => obj.code === item.code)
-//                         // );
-//                     });
+//             console.log('FETCHING PAGE:', page);
+//
+//             const response = await axios.request(options);
+// console.log(response.data);
+//             const products =
+//                 response?.data?.searchHits?.productList || [];
+//
+//             if (products.length > 0) {
+//                 if (reset) {
+//                     setQueryResult(products);
+//                 } else {
+//                     setQueryResult((prevResults) => [
+//                         ...prevResults,
+//                         ...products,
+//                     ]);
 //                 }
 //
-//                 setMaxProducts(response.data.searchHits.numberOfHits);
-//             } else {
-//                 toast.remove();
-//                 toast.custom(
-//                     <div className="flex p-6 gap-4 min-w-[340px] bg-red-200 shadow-md text-balance">
-//                         <p className='text-[15px]'>
-//                             We couldn't find any results for "{query}"
-//                         </p>
-//                     </div>,
-//                     {
-//                         duration: 3000,
-//                         position: 'top-center',
-//                         backgroundColor: 'white'
-//                     }
+//                 setMaxProducts(
+//                     response.data.searchHits.numberOfHits
 //                 );
-//
-//                 shopNow();
 //             }
 //
-//             setTimeout(() => setLoadingMore(false), 1000);
+//             setLoadingMore(false);
 //         } catch (error) {
 //             console.error(error);
+//             setLoadingMore(false);
 //         }
 //     };
 
-    useEffect(() => {
-        setCurrentPage(1);
+    const fetchQueryResult = async (reset = false) => {
+        try {
+            console.log(options);
+            const response = await axios.request(options);
 
-        fetchQueryResult({
-            page: 1,
-            reset: true,
-        });
+            if (response.data.searchHits.productList && response.data.searchHits.productList.length > 0) {
+                if (reset) {
+                    setQueryResult(response.data.searchHits.productList);
+                } else {
+                    console.log('new', response.data.searchHits.productList)
+                    console.log('old', queryResult)
+
+                    setQueryResult((prevResults) => {
+                        const combinedResults = [...prevResults, ...response.data.searchHits.productList];
+                        console.log('combinedResults', combinedResults);
+                        return combinedResults;
+                        // Ensure uniqueness based on `code`
+                        // return combinedResults.filter(
+                        //     (item, index, self) =>
+                        //         index === self.findIndex(obj => obj.code === item.code)
+                        // );
+                    });
+                }
+
+                setMaxProducts(response.data.searchHits.numberOfHits);
+            } else {
+                toast.remove();
+                toast.custom(
+                    <div className="flex p-6 gap-4 min-w-[340px] bg-red-200 shadow-md text-balance">
+                        <p className='text-[15px]'>
+                            We couldn't find any results for "{query}"
+                        </p>
+                    </div>,
+                    {
+                        duration: 3000,
+                        position: 'top-center',
+                        backgroundColor: 'white'
+                    }
+                );
+
+                shopNow();
+            }
+
+            setTimeout(() => setLoadingMore(false), 1000);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchQueryResult(true); // Reset results when the query changes
     }, [query]);
 
     useEffect(() => {
         if (currentPage > 1) {
-            fetchQueryResult({
-                page: currentPage,
-            });
+            fetchQueryResult(); // Fetch additional results when page changes                page: currentPage,
         }
     }, [currentPage]);
 
