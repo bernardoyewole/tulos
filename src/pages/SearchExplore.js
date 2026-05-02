@@ -26,7 +26,7 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
 
     const options = {
         method: 'GET',
-        url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/list',
+        url: 'https://apidojo-hm-hennes-mauritz-v1.p.rapidapi.com/products/v2/list',
         params: {
             country: 'us',
             lang: 'en',
@@ -35,8 +35,8 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
             query: query
         },
         headers: {
-            'x-rapidapi-key': '539f84e7fcmsh4984cab77c02428p1da61ejsnc1e79160e58c',
-            'x-rapidapi-host': 'apidojo-hm-hennes-mauritz-v1.p.rapidapi.com'
+            'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+            'x-rapidapi-host': process.env.REACT_APP_HOST,
         }
     };
 
@@ -47,11 +47,9 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
             return;
         }
 
-        const products = queryResult.filter(item => item.categoryName === currentCategory);
-
+        const products = queryResult.filter(item => item.mainCatCode === currentCategory);
         if (products.length > 0) {
             setCategoryProducts(products);
-            // console.log(categoryProducts);
         }
     }
 
@@ -59,12 +57,12 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
         try {
             const response = await axios.request(options);
 
-            if (response.data.results.length > 0) {
+            if (response.data.searchHits.productList && response.data.searchHits.productList.length > 0) {
                 if (reset) {
-                    setQueryResult(response.data.results);
+                    setQueryResult(response.data.searchHits.productList);
                 } else {
                     setQueryResult((prevResults) => {
-                        const combinedResults = [...prevResults, ...response.data.results];
+                        const combinedResults = [...prevResults, ...response.data.searchHits.productList];
                         // Ensure uniqueness based on `code`
                         return combinedResults.filter(
                             (item, index, self) =>
@@ -73,7 +71,7 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
                     });
                 }
 
-                setMaxProducts(response.data.pagination.totalNumberOfResults);
+                setMaxProducts(response.data.searchHits.numberOfHits);
             } else {
                 toast.remove();
                 toast.custom(
@@ -111,7 +109,7 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
 
     useEffect(() => {
         if (queryResult.length > 0) {
-            setCategories(Array.from((new Set([...queryResult.map(product => product.categoryName)]))));
+            setCategories(Array.from((new Set([...queryResult.map(product => product.mainCatCode)]))));
             updateCategoryProducts();
         }
     }, [queryResult]);
@@ -161,7 +159,7 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
                     setCategoryProducts([...categoryProducts].sort((a, b) => b.whitePrice.value - a.whitePrice.value));
                     break;
                 default: // 'recommended'
-                    currentCategory === 'View All' ? setCategoryProducts(queryResult) : setCategoryProducts(queryResult.filter(res => res.categoryName === currentCategory)); // Revert to original data
+                    currentCategory === 'View All' ? setCategoryProducts(queryResult) : setCategoryProducts(queryResult.filter(res => res.mainCatCode === currentCategory)); // Revert to original data
                     break;
             }
         }
@@ -170,10 +168,6 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
     useEffect(() => {
         setProgress((categoryProducts.length / maxProducts) * 100);
     }, [categoryProducts, maxProducts]);
-
-    useEffect(() => {
-        fetchQueryResult();
-    }, [currentPage]);
 
     const handleLoadMore = () => {
         setLoadingMore(true);
@@ -211,7 +205,7 @@ function SearchExplore({ addToFavorite, likedProductIds, updateLikedProducts, on
                                 className={`px-4 py-1.5 uppercase text-sm font-semibold border-black border whitespace-nowrap ${currentCategory === cat ? 'bg-black text-white' : 'bg-transparent'
                                     }`}
                             >
-                                {cat} [{queryResult.filter(res => res.categoryName === cat).length}]
+                                {cat.replaceAll('_', ' ').replaceAll('ladies', '')} [{queryResult.filter(res => res.mainCatCode === cat).length}]
                             </button>
                         )}
                     </div>

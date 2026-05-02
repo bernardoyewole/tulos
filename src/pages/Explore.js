@@ -42,7 +42,7 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
             });
 
             let results = response.data.plpList.productList;
-            console.log(results);
+
             if (results.length > 0) {
                 setProducts(reset ? results : [...products, ...results]);
                 reset ?? setProducts(results);
@@ -54,7 +54,6 @@ function Explore({ categories, addToFavorite, likedProductIds, updateLikedProduc
                 });
 
                 setDisplayedProducts(products);
-                console.log(response.data)
                 setMaxPages(response.data.pagination.totalPages);
 
                 setTimeout(() => setLoadingMore(false), 1000);
